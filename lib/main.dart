@@ -25,7 +25,11 @@ import 'package:libman/screens/auth/login.dart';
 //   }
 // }
 
-void main()=> runApp(MyApp());
+void main()=> runApp(
+  MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: MyApp(),
+  ));
 
 class MyApp extends StatelessWidget {
  
@@ -38,10 +42,7 @@ class MyApp extends StatelessWidget {
         if(snapshot.hasError){
           return ErrorWidget();
         }else if(snapshot.hasData){
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Login(),
-          );
+          return Login();
         }else{
           return Loading();
         }
