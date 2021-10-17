@@ -47,6 +47,8 @@ android {
         applicationId "com.example.libman"
         minSdkVersion 16
         targetSdkVersion 30
+        multiDexEnabled true
+
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -68,4 +70,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.android.support:multidex:1.0.1'
+
 }
