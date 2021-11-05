@@ -63,6 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Don't have an account?",
+                      style: TextStyle(fontFamily: "RedHat"),
                     ),
                     TextButton(
                         onPressed: () {
@@ -71,7 +72,9 @@ class WelcomeScreen extends StatelessWidget {
                         child: Text(
                           "Sign Up",
                           style: TextStyle(
-                              fontWeight: FontWeight.w800, color: Colors.black),
+                              fontFamily: "RedHat",
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black),
                         ))
                   ],
                 )

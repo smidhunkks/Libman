@@ -85,6 +85,11 @@ flutter:
     - family: Rochester
       fonts:
         - asset: assets/fonts/Rochester-Regular.ttf
+    - family: RedHat
+      fonts:
+        - asset: assets/fonts/red-hat.display.ttf
+        - asset: assets/fonts/red-hat.display-bold.ttf
+          weight: 600
         
         
   #   - family: Trajan Pro
