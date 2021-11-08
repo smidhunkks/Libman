@@ -1,8 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
+import 'package:libman/screens/auth/authservice.dart';
+import 'package:libman/screens/dashboard/dashboard.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -30,6 +36,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final authservice = Provider.of<Authservice>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Background(
@@ -85,10 +92,16 @@ class _LoginState extends State<Login> {
               AuthButton(
                 size: size,
                 label: "Log In",
-                onPress: () {
+                onPress: () async {
                   print("Login Screen");
                   print(email.text);
                   print(password.text);
+                  await authservice.SignInWithEmailandPassword(
+                      email.text, password.text);
+                  Navigator.of(context).pop();
+                  //Dashboard();
+                  //Navigator.push(context,
+                  //   MaterialPageRoute(builder: (context) => Dashboard()));
                 },
                 // onpress: Navigator.of(context).push(
                 //     MaterialPageRoute(builder: (context) => WelcomeScreen())),
