@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:libman/constants.dart';
+import 'package:libman/screens/auth/signup.dart';
 
 class AuthButton extends StatelessWidget {
   final Size size;
@@ -51,7 +52,8 @@ class AuthButton extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                print("signup");
+                Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => SignUp()));
               },
               child: const Text(
                 "Sign Up",
