@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:libman/Components/background.dart';
+import 'package:libman/constants.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
 import 'package:libman/screens/auth/authservice.dart';
 import 'package:provider/provider.dart';
@@ -9,18 +13,23 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authservice = Provider.of<Authservice>(context);
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-            onTap: () async {
-              await authservice.Signout();
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (ctx) => WelcomeScreen()));
-            },
-            child: Icon(Icons.logout_outlined)),
-      ),
-      body: Container(
-        child: Center(child: Text("Logged in.||Dashboard")),
+      body: Background(
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Membership",
+                style: TextStyle(
+                    fontFamily: "RedHat",
+                    fontSize: size.width * .07,
+                    fontWeight: FontWeight.w200),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
