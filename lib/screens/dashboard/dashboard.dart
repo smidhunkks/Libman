@@ -3,6 +3,9 @@ import 'package:libman/screens/Welcome/welcome.dart';
 import 'package:libman/screens/auth/authservice.dart';
 import 'package:provider/provider.dart';
 import 'package:libman/constants.dart';
+import 'package:libman/screens/tabs/inventory.dart';
+import 'package:libman/screens/tabs/membership.dart';
+
 
 
 class Dashboard extends StatefulWidget {
@@ -16,14 +19,8 @@ class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
 
   static const List<Widget> _pages = <Widget>[
-    Icon(
-      Icons.inventory_2,
-      size: 50,
-    ),
-    Icon(
-      Icons.group_add,
-      size: 50,
-    ),
+    Inventory(),
+    Membership(),
     
   ];
 
