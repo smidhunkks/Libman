@@ -44,7 +44,7 @@ class _DashboardState extends State<Dashboard> {
             child: Icon(Icons.logout_outlined)),
       ),
       body: Center(
-        child: _pages.elementAt(_selectedIndex),
+        child: _pages[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
         // selectedFontSize: 15,

@@ -1,41 +1,96 @@
 import 'package:flutter/material.dart';
+import 'package:libman/constants.dart';
+import 'package:libman/screens/tabs/membership.dart';
+import 'package:libman/widgets/reusable_card.dart';
 
 class Inventory extends StatelessWidget {
   const Inventory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-
-margin: const EdgeInsets.symmetric(vertical: 20.0),
-          height: 200.0,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              Container(
-                width: 160.0,
-                color: Colors.red,
+    Size size = MediaQuery.of(context).size;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
+          child: Text(
+            "Inventory",
+            style: TextStyle(
+                fontSize: size.width * .07,
+                fontFamily: "RedHat",
+                color: Colors.black.withOpacity(.5)),
+          ),
+        ),
+        Expanded(
+          child: Row(
+            children: [
+              //SizedBox(height: 150),
+              Expanded(
+                child: ReusableCard(
+                  onTap: () {
+                    print("hi");
+                  },
+                  colour: activeCardColor,
+                  width: size.width * .1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.logout_rounded,
+                        size: 75,
+                        color: kprimarycolor,
+                      ),
+                      Text("Issue")
+                    ],
+                  ),
+                ),
               ),
-              Container(
-                width: 160.0,
-                color: Colors.blue,
-              ),
-              Container(
-                width: 160.0,
-                color: Colors.green,
-              ),
-              Container(
-                width: 160.0,
-                color: Colors.yellow,
-              ),
-              Container(
-                width: 160.0,
-                color: Colors.orange,
+              Expanded(
+                child: ReusableCard(
+                  onTap: () {
+                    print("hi");
+                  },
+                  colour: activeCardColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.login_rounded,
+                        size: 75,
+                        color: kprimarycolor,
+                      ),
+                      const Text("Return")
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
-        
-
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child: ReusableCard(
+              onTap: () {
+                print("hi");
+              },
+              colour: activeCardColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.inventory_rounded,
+                    size: 75,
+                    color: kprimarycolor,
+                  ),
+                  Text("Inventory")
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
