@@ -9,14 +9,13 @@ class Membership extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: Column(
         children: [
           Expanded(
             child: Row(
               children: [
-                SizedBox(height:150),
+                SizedBox(height: 150),
                 Expanded(
                   child: new ReusableCard(
                     colour: activeCardColor,
@@ -35,11 +34,7 @@ class Membership extends StatelessWidget {
               colour: activeCardColor,
             ),
           ),
-          
         ],
-      ),
-        
-      
       ),
     );
   }
