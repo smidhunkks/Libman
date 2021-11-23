@@ -10,6 +10,7 @@ class Member {
   final String bloodgroup;
   final String membergroup;
   final DateTime date;
+  final bool isVerified;
 
   Member(
     this.name,
@@ -23,5 +24,6 @@ class Member {
     this.membergroup,
     this.date,
     this.memId,
+    this.isVerified,
   );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:libman/screens/tabs/membership_fn/addmember.dart';
 import 'package:libman/widgets/reusable_card.dart';
 import 'package:libman/constants.dart';
 
@@ -14,12 +15,13 @@ class Membership extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
+          padding: const EdgeInsets.only(top: 40, left: 15, right: 10),
           child: Text(
             "Membership",
             style: TextStyle(
                 fontSize: size.width * .07,
                 fontFamily: "RedHat",
+                fontWeight: FontWeight.w400,
                 color: Colors.black.withOpacity(.5)),
           ),
         ),
@@ -30,19 +32,23 @@ class Membership extends StatelessWidget {
               Expanded(
                 child: ReusableCard(
                   onTap: () {
-                    print("hi");
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => AddMember()));
                   },
                   colour: activeCardColor,
                   width: size.width * .1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Icon(
-                        Icons.group_add_rounded,
+                        Icons.group_add_outlined,
                         size: 75,
                         color: kprimarycolor,
                       ),
-                      Text("New Member")
+                      Text(
+                        "New Member",
+                        style: kcardtext,
+                      )
                     ],
                   ),
                 ),
@@ -55,13 +61,13 @@ class Membership extends StatelessWidget {
                   colour: activeCardColor,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Icon(
                         Icons.search_off_rounded,
                         size: 75,
                         color: kprimarycolor,
                       ),
-                      const Text("Search Member")
+                      Text("Search Member")
                     ],
                   ),
                 ),
@@ -71,7 +77,7 @@ class Membership extends StatelessWidget {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 20),
             child: ReusableCard(
               onTap: () {
                 print("hi");
@@ -79,9 +85,9 @@ class Membership extends StatelessWidget {
               colour: activeCardColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Icon(
-                    Icons.bloodtype_rounded,
+                    Icons.bloodtype_outlined,
                     size: 75,
                     color: kprimarycolor,
                   ),

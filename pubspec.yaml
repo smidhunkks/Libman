@@ -90,6 +90,8 @@ flutter:
     - family: RedHat
       fonts:
         - asset: assets/fonts/red-hat.display.ttf
+        - asset: assets/fonts/red-hat.display-medium.ttf
+          weight: 400
         - asset: assets/fonts/red-hat.display-bold.ttf
           weight: 600
         
