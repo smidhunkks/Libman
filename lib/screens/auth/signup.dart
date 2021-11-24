@@ -6,7 +6,7 @@ import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
-import 'package:libman/screens/auth/authservice.dart';
+import 'package:libman/services/authservice.dart';
 import 'package:libman/screens/dashboard/dashboard.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +19,6 @@ class _SignUpState extends State<SignUp> {
   TextEditingController email = new TextEditingController();
   TextEditingController password = new TextEditingController();
   TextEditingController conf_password = new TextEditingController();
-  
 
   @override
   void initState() {

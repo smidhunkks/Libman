@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:libman/screens/auth/authservice.dart';
+import 'package:libman/services/authservice.dart';
 import 'package:libman/screens/auth/wrapper.dart';
 
 import 'package:provider/provider.dart';

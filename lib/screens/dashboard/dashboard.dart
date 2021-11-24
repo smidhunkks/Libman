@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
-import 'package:libman/screens/auth/authservice.dart';
+import 'package:libman/services/authservice.dart';
 import 'package:provider/provider.dart';
 
 import 'package:libman/screens/tabs/inventory.dart';

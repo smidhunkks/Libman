@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:libman/Components/model/user.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
-import 'package:libman/screens/auth/authservice.dart';
+import 'package:libman/services/authservice.dart';
 import 'package:libman/screens/dashboard/dashboard.dart';
 import 'package:provider/provider.dart';
 
