@@ -108,8 +108,8 @@ class _SignUpState extends State<SignUp> {
                   print("Sign Up Screen");
                   print(email.text);
                   print(password.text);
-                  await authservice.SignInWithEmailandPassword(
-                      email.text, password.text);
+                  // await authservice.SignInWithEmailandPassword(
+                  //     email.text, password.text);
                   Navigator.of(context).pop();
                   //Dashboard();
                   //Navigator.push(context,

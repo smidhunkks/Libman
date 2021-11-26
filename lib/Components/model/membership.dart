@@ -1,12 +1,12 @@
 class Member {
   final String memId;
   final String name;
-  final String phone;
+  final int phone;
   final String address;
-  final String postoffice;
+  final int postoffice;
   final int wardno;
   final String place;
-  final String dob;
+  final DateTime dob;
   final String bloodgroup;
   final String membergroup;
   final DateTime date;

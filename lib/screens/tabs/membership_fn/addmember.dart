@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
+import 'package:libman/Components/model/membership.dart';
 import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:libman/services/userservice.dart';
 
 class AddMember extends StatefulWidget {
   AddMember({Key? key}) : super(key: key);
@@ -85,6 +87,7 @@ class _AddMemberState extends State<AddMember> {
                     ),
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.phone,
                     controller: phone,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -113,6 +116,7 @@ class _AddMemberState extends State<AddMember> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          keyboardType: TextInputType.number,
                           controller: ward,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -130,6 +134,7 @@ class _AddMemberState extends State<AddMember> {
                       ),
                       Expanded(
                         child: TextFormField(
+                          keyboardType: TextInputType.number,
                           controller: pin,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -225,17 +230,36 @@ class _AddMemberState extends State<AddMember> {
                           ),
                         ],
                       )
-                      // DatePickerDialog(5
-                      //   initialDate: DateTime.now(),
-                      //   firstDate: DateTime(2015),
-                      //   lastDate: DateTime(2050),
-                      // ),
                     ],
                   ),
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         print("mwone set");
+                        UserService()
+                            .addMember(
+                          Member(
+                              name.text,
+                              int.parse(phone.text),
+                              address.text,
+                              int.parse(pin.text),
+                              int.parse(ward.text),
+                              place.text,
+                              _selectedDate,
+                              bloodgroup[selectedbloodgp],
+                              category[selectedcategory],
+                              DateTime.now(),
+                              "VPL0001",
+                              false),
+                        )
+                            .then((value) {
+                          name.clear();
+                          phone.clear();
+                          address.clear();
+                          ward.clear();
+                          place.clear();
+                          Navigator.of(context).pop();
+                        });
                       }
                     },
                     child: Container(
