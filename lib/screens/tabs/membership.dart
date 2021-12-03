@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:libman/screens/tabs/membership_fn/addmember.dart';
 import 'package:libman/screens/tabs/membership_fn/blood_donation.dart';
+import 'package:libman/screens/tabs/membership_fn/search_member.dart';
 import 'package:libman/widgets/reusable_card.dart';
 import 'package:libman/constants.dart';
-
-const activeCardColor = Colors.white;
 
 class Membership extends StatelessWidget {
   const Membership({Key? key}) : super(key: key);
@@ -57,7 +56,11 @@ class Membership extends StatelessWidget {
               Expanded(
                 child: ReusableCard(
                   onTap: () {
-                    print("hi");
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => MemberSearch(),
+                      ),
+                    );
                   },
                   colour: activeCardColor,
                   child: Column(

@@ -1,8 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
+//Colors
 const kprimarycolor = Color(0Xff6159E5);
 const kprimarylightcolor = Color(0xff6C63FF);
+const activeCardColor = Colors.white;
 
+//TextStyle
 const ktitleStyle = TextStyle(
     fontFamily: "Rochester", fontSize: 50, fontWeight: FontWeight.w400);
 
@@ -16,6 +19,8 @@ const kcardtext = TextStyle(
   fontFamily: "RedHat",
   fontWeight: FontWeight.w400,
 );
+
+//Variable Data
 List<String> bloodgroup = [
   "A+ve",
   "A-ve",
