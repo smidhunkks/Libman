@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:libman/screens/tabs/membership_fn/addmember.dart';
+import 'package:libman/screens/tabs/membership_fn/blood_donation.dart';
 import 'package:libman/widgets/reusable_card.dart';
 import 'package:libman/constants.dart';
 
@@ -80,7 +81,11 @@ class Membership extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 20),
             child: ReusableCard(
               onTap: () {
-                print("hi");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => BloodDonorList(),
+                  ),
+                );
               },
               colour: activeCardColor,
               child: Column(

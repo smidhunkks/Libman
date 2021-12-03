@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/tabs/membership.dart';
 import 'package:libman/widgets/reusable_card.dart';
@@ -80,6 +81,10 @@ class Inventory extends StatelessWidget {
             child: ReusableCard(
               onTap: () {
                 print("hi");
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return Scaffold(body: Background(child: Text("data")));
+                }));
               },
               colour: activeCardColor,
               child: Column(

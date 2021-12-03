@@ -19,17 +19,6 @@ class _AddMemberState extends State<AddMember> {
   int selectedcategory = 0;
 
   dynamic _selectedDate = DateTime.now();
-  List<String> bloodgroup = [
-    "A+ve",
-    "A-ve",
-    "B+ve",
-    "B-ve",
-    "AB+ve",
-    "AB-ve",
-    "O+ve",
-    "O-ve"
-  ];
-  List<String> category = ["A", "B", "Deposit"];
 
   TextEditingController _dateController = TextEditingController();
   TextEditingController name = TextEditingController();
