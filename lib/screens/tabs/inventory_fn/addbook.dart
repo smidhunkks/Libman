@@ -12,17 +12,17 @@ class AddBook extends StatefulWidget {
 }
 
 int? _selectedvalue = 0;
+TextEditingController id = TextEditingController();
+TextEditingController bookName = TextEditingController();
+TextEditingController author = TextEditingController();
+TextEditingController publisher = TextEditingController();
+TextEditingController price = TextEditingController();
+TextEditingController shelfno = TextEditingController();
 
 class _AddBookState extends State<AddBook> {
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
-    TextEditingController id = TextEditingController();
-    TextEditingController bookName = TextEditingController();
-    TextEditingController author = TextEditingController();
-    TextEditingController publisher = TextEditingController();
-    TextEditingController price = TextEditingController();
-    TextEditingController shelfno = TextEditingController();
 
     return Scaffold(
       body: Background(

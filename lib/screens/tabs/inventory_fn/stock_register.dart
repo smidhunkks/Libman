@@ -10,6 +10,7 @@ class StockRegister extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bookInfo = FirebaseFirestore.instance.collection("books");
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Background(
         child: SafeArea(
@@ -52,7 +53,8 @@ class StockRegister extends StatelessWidget {
                       return const Text("Something Went Wrong");
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Container(
+                      return const Padding(
+                        padding: EdgeInsets.all(40),
                         child: CircularProgressIndicator(),
                       );
                     }
@@ -65,12 +67,135 @@ class StockRegister extends StatelessWidget {
                           ))
                         : ListView.separated(
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                title:
-                                    Text(snapshot.data.docs[index]["bookname"]),
+                              return Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                padding: const EdgeInsets.all(12),
+                                width: double.infinity,
+                                height: size.height * .2,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 30,
+                                          spreadRadius: 2)
+                                    ]),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            print("pressed edit");
+                                          },
+                                          icon: const Icon(Icons.edit)),
+                                    ),
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 35,
+                                          backgroundColor: kprimarycolor,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "#Id",
+                                                style: kcardtext.copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                "${snapshot.data.docs[index]['bookId']}",
+                                                style: kcardtext.copyWith(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              snapshot.data.docs[index]
+                                                  ["bookname"],
+                                              style: kscreentitle.copyWith(
+                                                  fontSize: 20),
+                                            ),
+                                            Text(
+                                              "Author : ${snapshot.data.docs[index]["bookauthor"]}",
+                                              style: kscreentitle.copyWith(
+                                                  fontSize: 15,
+                                                  color: Colors.black54,
+                                                  fontStyle: FontStyle.italic),
+                                            ),
+                                            Text(
+                                              "Category : ${snapshot.data.docs[index]["bookauthor"]}",
+                                              style: kscreentitle.copyWith(
+                                                  fontSize: 15,
+                                                  color: Colors.black54),
+                                            ),
+                                          ],
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                "Shelf No",
+                                                style: kscreentitle.copyWith(
+                                                    fontSize: 15,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                snapshot.data.docs[index]
+                                                    ["shelfno"],
+                                                style: kscreentitle.copyWith(
+                                                    fontSize: 15,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                "Rs ${snapshot.data.docs[index]["price"]}",
+                                                style: kscreentitle.copyWith(
+                                                    fontSize: 15,
+                                                    color: Colors.black54),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               );
+                              // ListTile(
+                              //   leading: CircleAvatar(
+                              //     radius: 30,
+                              //     backgroundColor: kprimarycolor,
+                              //     child:
+                              //         Text(snapshot.data.docs[index]["bookId"]),
+                              //   ),
+                              //   title:
+                              //       Text(snapshot.data.docs[index]["bookname"]),
+                              // );
                             },
-                            separatorBuilder: (context, index) => SizedBox(
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
                                   height: 20,
                                 ),
                             itemCount: snapshot.data.docs.length);
@@ -90,7 +215,7 @@ class StockRegister extends StatelessWidget {
         ),
         backgroundColor: kprimarycolor,
         tooltip: "Add Book",
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

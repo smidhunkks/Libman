@@ -11,7 +11,7 @@ class BookService {
       "bookauthor": book.bookauthor,
       "price": book.price,
       "bookcategory": book.bookcategory,
-      "shelno": book.shelfno,
+      "shelfno": book.shelfno,
       "timestamp": DateTime.now()
     }).then((value) => print("Book addition success"));
   }
