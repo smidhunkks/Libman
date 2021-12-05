@@ -9,7 +9,9 @@ class StockRegister extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int _bookcount = 0;
     final bookInfo = FirebaseFirestore.instance.collection("books");
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Background(
@@ -41,7 +43,7 @@ class StockRegister extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Center(child: Text("Total Books:1000")),
+                  child: Center(child: Text("Total Books:0")),
                 ),
               ),
               Expanded(
@@ -85,13 +87,55 @@ class StockRegister extends StatelessWidget {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: IconButton(
-                                          onPressed: () {
-                                            print("pressed edit");
-                                          },
-                                          icon: const Icon(Icons.edit)),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              print("pressed edit");
+                                            },
+                                            icon: const Icon(Icons.edit)),
+                                        IconButton(
+                                            onPressed: () async {
+                                              print("pressed edit");
+                                              return await showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                  title:
+                                                      Text("Confirm Delete."),
+                                                  content: Text(
+                                                      "Are you sure you want to Delete?"),
+                                                  actions: [
+                                                    ElevatedButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: Text("Cancel")),
+                                                    ElevatedButton(
+                                                        onPressed: () async {
+                                                          FirebaseFirestore
+                                                              .instance
+                                                              .collection(
+                                                                  "books")
+                                                              .doc(snapshot.data
+                                                                          .docs[
+                                                                      index]
+                                                                  ["bookId"])
+                                                              .delete()
+                                                              .then((value) =>
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop());
+                                                        },
+                                                        child: Text("Confirm")),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                            icon: const Icon(Icons.delete)),
+                                      ],
                                     ),
                                     Row(
                                       children: [

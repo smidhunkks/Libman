@@ -166,6 +166,8 @@ class _AddBookState extends State<AddBook> {
                                   .then((value) {
                                 id.clear();
                                 bookName.clear();
+                                publisher.clear();
+                                _selectedvalue = 0;
                                 author.clear();
                                 price.clear();
                                 shelfno.clear();
