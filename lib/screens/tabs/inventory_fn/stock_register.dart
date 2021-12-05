@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
@@ -8,6 +9,7 @@ class StockRegister extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bookInfo = FirebaseFirestore.instance.collection("books");
     return Scaffold(
       body: Background(
         child: SafeArea(
@@ -38,16 +40,41 @@ class StockRegister extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Center(child: Text("data")),
+                  child: Center(child: Text("Total Books:1000")),
                 ),
               ),
               Expanded(
                 flex: 2,
-                child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.all(10),
-                  color: Colors.amberAccent,
-                  child: Text("data"),
+                child: StreamBuilder(
+                  stream: bookInfo.snapshots(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text("Something Went Wrong");
+                    }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    return snapshot.data!.docs.length == 0
+                        ? const Center(
+                            child: Text(
+                            "No Book found",
+                            // style: kcardlighttext,
+                          ))
+                        : ListView.separated(
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title:
+                                    Text(snapshot.data.docs[index]["bookname"]),
+                              );
+                            },
+                            separatorBuilder: (context, index) => SizedBox(
+                                  height: 20,
+                                ),
+                            itemCount: snapshot.data.docs.length);
+                  },
                 ),
               )
             ],

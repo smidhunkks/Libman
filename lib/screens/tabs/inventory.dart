@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
-import 'package:libman/screens/tabs/inventory_fn/inventory_home.dart';
+import 'package:libman/screens/tabs/inventory_fn/stock_register.dart';
 import 'package:libman/screens/tabs/membership.dart';
 import 'package:libman/widgets/reusable_card.dart';
 

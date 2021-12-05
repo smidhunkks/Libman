@@ -28,7 +28,7 @@ class _AddBookState extends State<AddBook> {
       body: Background(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 60),
+            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
             child: Form(
               key: _formkey,
               child: Column(
