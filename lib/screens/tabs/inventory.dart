@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
+import 'package:libman/screens/tabs/inventory_fn/inventory_home.dart';
 import 'package:libman/screens/tabs/membership.dart';
 import 'package:libman/widgets/reusable_card.dart';
 
@@ -75,34 +76,67 @@ class Inventory extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child: ReusableCard(
-              onTap: () {
-                print("hi");
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) {
-                  return Scaffold(body: Background(child: Text("data")));
-                }));
-              },
-              colour: activeCardColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
-                    Icons.inventory_rounded,
-                    size: 75,
-                    color: kprimarycolor,
+        Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: ReusableCard(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return StockRegister();
+                    }));
+                  },
+                  colour: activeCardColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.book_outlined,
+                        size: 75,
+                        color: kprimarycolor,
+                      ),
+                      Text(
+                        "Stock Register",
+                        style: kcardtext,
+                      )
+                    ],
                   ),
-                  Text(
-                    "Inventory",
-                    style: kcardtext,
-                  )
-                ],
+                ),
               ),
             ),
-          ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: ReusableCard(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return Scaffold(
+                        body: Text("data"),
+                      );
+                    }));
+                  },
+                  colour: activeCardColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.inventory_rounded,
+                        size: 75,
+                        color: kprimarycolor,
+                      ),
+                      Text(
+                        "Inventory",
+                        style: kcardtext,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

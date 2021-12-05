@@ -12,13 +12,7 @@ class UserService {
         .orderBy("mem_id", descending: true)
         .limit(1)
         .get();
-    //print("query doc ${query.docs[0].id}");
 
-    // query.snapshots().forEach(
-    //   (element) {
-    //     memId = int.parse(element.docs[0].id.toString().substring(3)) + 1;
-    //   },
-    // );
     memId =
         query.docs.isEmpty ? 1 : int.parse(query.docs[0].id.substring(3)) + 1;
     print("inside getter:${memId.toString().length}");

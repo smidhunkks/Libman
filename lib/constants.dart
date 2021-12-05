@@ -32,3 +32,20 @@ List<String> bloodgroup = [
   "O-ve"
 ];
 List<String> category = ["A", "B", "Deposit"];
+List<String> bookCateg = [
+  "Poetry",
+  "Story",
+  "Poetry",
+  "Criticism",
+  "Study",
+  "History",
+  "Children's",
+  "Drama",
+  "Travelogue",
+  "Reference",
+  "Complete Works",
+  "Politics",
+  "Autobiography",
+  "biography",
+  "others"
+];

@@ -4,7 +4,7 @@ class Book {
   final String bookauthor;
   final String bookcategory;
   final double price;
-  final int shelfno;
+  final String shelfno;
 
   Book({
     required this.bookId,
