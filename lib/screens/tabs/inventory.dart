@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/tabs/inventory_fn/stock_register.dart';
+import 'package:libman/screens/tabs/inventory_fn/issuebook.dart';
+
 import 'package:libman/screens/tabs/membership.dart';
 import 'package:libman/widgets/reusable_card.dart';
 
@@ -30,9 +32,14 @@ class Inventory extends StatelessWidget {
               //SizedBox(height: 150),
               Expanded(
                 child: ReusableCard(
+
                   onTap: () {
-                    print("hi");
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return Issuebook();
+                    }));
                   },
+                  
                   colour: activeCardColor,
                   width: size.width * .1,
                   child: Column(
