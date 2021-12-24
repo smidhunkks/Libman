@@ -78,7 +78,7 @@ class _IssuebookState extends State<Issuebook> {
                     "Issue a Book",
                     style: kscreentitle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10.0,
                   ),
                   TextFormField(
@@ -99,7 +99,7 @@ class _IssuebookState extends State<Issuebook> {
                             });
                           } else {
                             final snackbar = SnackBar(
-                              content: Text("No User Found"),
+                              content: const Text("No User Found"),
                               action: SnackBarAction(
                                 label: 'dismiss',
                                 onPressed: () {},
@@ -110,7 +110,7 @@ class _IssuebookState extends State<Issuebook> {
                             print("No user found");
                           }
                         },
-                        child: Text("Validate"),
+                        child: const Text("Validate"),
                       ),
                     ),
                   ),
@@ -140,7 +140,7 @@ class _IssuebookState extends State<Issuebook> {
                             });
                           } else {
                             final snackbar = SnackBar(
-                              content: Text("No Book Found"),
+                              content: const Text("No Book Found"),
                               action: SnackBarAction(
                                 label: 'dismiss',
                                 onPressed: () {},
@@ -153,7 +153,7 @@ class _IssuebookState extends State<Issuebook> {
 
                           print("Validated");
                         },
-                        child: Text("Validate"),
+                        child: const Text("Validate"),
                       ),
                     ),
                   ),
@@ -195,7 +195,7 @@ class _IssuebookState extends State<Issuebook> {
                     //TODO taking input to give to db and hinttext label text transition
                     // set different controllers for both date
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15.0,
                   ),
                   TextButton(
