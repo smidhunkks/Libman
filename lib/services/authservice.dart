@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:libman/Components/model/user.dart';
 
 class Authservice {
@@ -20,6 +21,7 @@ class Authservice {
       String email, String password) async {
     final credential = await _firebaseauth.signInWithEmailAndPassword(
         email: email, password: password);
+
     return _userFromFirebase(credential.user);
   }
 

@@ -106,32 +106,35 @@ class Inventory extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: ReusableCard(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
-                      return Scaffold(
-                        body: Text("data"),
-                      );
-                    }));
-                  },
-                  colour: activeCardColor,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.inventory_rounded,
-                        size: 75,
-                        color: kprimarycolor,
-                      ),
-                      Text(
-                        "Inventory",
-                        style: kcardtext,
-                      )
-                    ],
+            Visibility(
+              visible: false,
+              child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: ReusableCard(
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return Scaffold(
+                          body: Text("data"),
+                        );
+                      }));
+                    },
+                    colour: activeCardColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.inventory_rounded,
+                          size: 75,
+                          color: kprimarycolor,
+                        ),
+                        Text(
+                          "Inventory",
+                          style: kcardtext,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

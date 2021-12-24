@@ -1,5 +1,5 @@
 class Book {
-  final String bookId;
+  final int bookId;
   final String bookname;
   final String bookauthor;
   final String bookcategory;

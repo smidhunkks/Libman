@@ -5,7 +5,7 @@ class BookService {
   final _firestore = store.FirebaseFirestore.instance;
 
   Future<void> addBook(Book book) async {
-    await _firestore.collection('books').doc(book.bookId).set({
+    await _firestore.collection('books').doc(book.bookId.toString()).set({
       "bookId": book.bookId,
       "bookname": book.bookname,
       "bookauthor": book.bookauthor,

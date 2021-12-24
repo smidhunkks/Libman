@@ -10,7 +10,8 @@ class StockRegister extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int _bookcount = 0;
-    final bookInfo = FirebaseFirestore.instance.collection("books");
+    final bookInfo =
+        FirebaseFirestore.instance.collection("books").orderBy("bookId");
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -43,7 +44,7 @@ class StockRegister extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Center(child: Text("Total Books:0")),
+                  child: Center(child: Text("Total Books:${_bookcount}")),
                 ),
               ),
               Expanded(

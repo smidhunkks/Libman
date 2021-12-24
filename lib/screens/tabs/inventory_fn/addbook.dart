@@ -28,12 +28,12 @@ class _AddBookState extends State<AddBook> {
       body: Background(
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
             child: Form(
               key: _formkey,
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     "Add Book",
                     style: kscreentitle,
                   ),
@@ -54,7 +54,7 @@ class _AddBookState extends State<AddBook> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Expanded(
@@ -130,55 +130,65 @@ class _AddBookState extends State<AddBook> {
                         style: kcardtext,
                       ),
                       DropdownButton(
-                          value: _selectedvalue,
-                          onChanged: (int? value) {
-                            setState(() {
+                        value: _selectedvalue,
+                        onChanged: (int? value) {
+                          setState(
+                            () {
                               _selectedvalue = value;
-                            });
-                          },
-                          items: List.generate(bookCateg.length, (index) {
+                            },
+                          );
+                        },
+                        items: List.generate(
+                          bookCateg.length,
+                          (index) {
                             return DropdownMenuItem(
                               child: Text(bookCateg[index]),
                               value: index,
                             );
-                          })), //[DropdownMenuItem(child: Text("data"))]),
+                          },
+                        ),
+                      ), //[DropdownMenuItem(child: Text("data"))]),
                     ],
                   ),
                   Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: kprimarycolor,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: TextButton(
-                          onPressed: () async {
-                            if (_formkey.currentState!.validate()) {
-                              await BookService()
-                                  .addBook(
-                                Book(
-                                  bookId: id.text,
-                                  bookname: bookName.text,
-                                  bookauthor: author.text,
-                                  bookcategory: bookCateg[_selectedvalue!],
-                                  price: double.parse(price.text),
-                                  shelfno: shelfno.text,
-                                ),
-                              )
-                                  .then((value) {
-                                id.clear();
-                                bookName.clear();
-                                publisher.clear();
-                                _selectedvalue = 0;
-                                author.clear();
-                                price.clear();
-                                shelfno.clear();
-                                Navigator.of(context).pop();
-                              });
-                            }
-                          },
-                          child: Text(
-                            "Add Book",
-                            style: TextStyle(color: Colors.white),
-                          )))
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: kprimarycolor,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: TextButton(
+                      onPressed: () async {
+                        if (_formkey.currentState!.validate()) {
+                          await BookService()
+                              .addBook(
+                            Book(
+                              bookId: int.parse(id.text),
+                              bookname: bookName.text,
+                              bookauthor: author.text,
+                              bookcategory: bookCateg[_selectedvalue!],
+                              price: double.parse(price.text),
+                              shelfno: shelfno.text,
+                            ),
+                          )
+                              .then(
+                            (value) {
+                              id.clear();
+                              bookName.clear();
+                              publisher.clear();
+                              _selectedvalue = 0;
+                              author.clear();
+                              price.clear();
+                              shelfno.clear();
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        }
+                      },
+                      child: Text(
+                        "Add Book",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
