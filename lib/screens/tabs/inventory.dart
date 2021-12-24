@@ -3,6 +3,7 @@ import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/tabs/inventory_fn/stock_register.dart';
 import 'package:libman/screens/tabs/inventory_fn/issuebook.dart';
+import 'package:libman/screens/tabs/inventory_fn/returnbook.dart';
 
 import 'package:libman/screens/tabs/membership.dart';
 import 'package:libman/widgets/reusable_card.dart';
@@ -61,7 +62,10 @@ class Inventory extends StatelessWidget {
               Expanded(
                 child: ReusableCard(
                   onTap: () {
-                    print("hi");
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return ReturnBook();
+                    }));
                   },
                   colour: activeCardColor,
                   child: Column(

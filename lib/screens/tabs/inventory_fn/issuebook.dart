@@ -17,9 +17,14 @@ class _IssuebookState extends State<Issuebook> {
   final String _setDate = "Choose a date";
   final _issueformKey = GlobalKey<FormState>();
 
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
+  int _counter = 0;
 
   DateTime _selectedDate = DateTime.now();
+  DateTime fromDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime toDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   TextEditingController _dateController = TextEditingController();
   TextEditingController mem_id = TextEditingController();
@@ -28,36 +33,39 @@ class _IssuebookState extends State<Issuebook> {
   TextEditingController _bookname = TextEditingController();
   TextEditingController _duedateController = TextEditingController();
 
-  Future<void> _selectDate(BuildContext context) async {
-    DateTime? datePicker = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(2015),
-      lastDate: DateTime(2050),
-
-      // builder: (BuildContext context, Widget child){
-      //   return Theme(
-      //     data: ThemeData(
-      //       primaryColor:kprimarycolor,
-      //       // primarySwatch accentColor
-      //     ),
-      //     child: child,
-
-      //   );
-
-      // }
-    );
-    if (datePicker != null && datePicker != _selectedDate) {
-      //if the user has selected a date
-      setState(() {
-        // we format the selected date and assign it to the state variable
-        _selectedDate = datePicker;
-        print(
-          formatter.format(_selectedDate).toString(),
-        );
-      });
-    }
+void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
   }
+
+  // Future<DateTime> _selectDate(BuildContext context, DateTime _selectedDate) async {
+  //   DateTime? datePicker = await showDatePicker(
+  //     context: context,
+  //     initialDate: _selectedDate,
+  //     firstDate: DateTime(2015),
+  //     lastDate: DateTime(2050),
+     
+  //   );
+  //   if (datePicker != null && datePicker != _selectedDate) {
+  //     //if the user has selected a date
+  //     setState(() {
+  //       // we format the selected date and assign it to the state variable
+  //       _selectedDate = datePicker;
+        
+  //       print(
+  //         formatter.format(_selectedDate).toString(),
+  //       );
+  //     });
+  //     return(_selectedDate);
+  //   }
+  // }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -167,30 +175,36 @@ class _IssuebookState extends State<Issuebook> {
                   ),
                   TextFormField(
                     controller: _dateController,
-                    onTap: () {
-                      setState(() {
-                        _selectDate(context);
-                      });
+                    onTap: () async {
+                        
+                      // fromDate = await _selectDate(context, fromDate);
+                      // setState(() {});
+                        
+                      // setState(() {
+                      //   _selectDate(context);
+
+
+                      // });
                     },
 
                     decoration: InputDecoration(
                       // labelText: "Issue Date",
-                      hintText: (formatter.format(_selectedDate).toString()),
+                      hintText: (formatter.format(fromDate).toString()),
                     ),
                     //TODO taking input to give to db and hinttext label text transition
                   ),
                   TextFormField(
                     controller: _duedateController,
                     onTap: () {
-                      setState(() {
-                        _selectDate(context);
-                      });
-                      print(_duedateController.text);
+                      // setState(() {
+                      //   _selectDate(context);
+                      // });
+                      // print(_duedateController.text);
                     },
 
                     decoration: InputDecoration(
                       // labelText: "Issue Date",
-                      hintText: (formatter.format(_selectedDate).toString()),
+                      // hintText: (formatter.format(_selectedDate).toString()),
                     ),
                     //TODO taking input to give to db and hinttext label text transition
                     // set different controllers for both date
