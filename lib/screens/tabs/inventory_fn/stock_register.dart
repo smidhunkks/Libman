@@ -120,10 +120,11 @@ class StockRegister extends StatelessWidget {
                                                               .instance
                                                               .collection(
                                                                   "books")
-                                                              .doc(snapshot.data
-                                                                          .docs[
-                                                                      index]
-                                                                  ["bookId"])
+                                                              .doc(snapshot
+                                                                  .data
+                                                                  .docs[index]
+                                                                      ["bookId"]
+                                                                  .toString())
                                                               .delete()
                                                               .then((value) =>
                                                                   Navigator.of(
