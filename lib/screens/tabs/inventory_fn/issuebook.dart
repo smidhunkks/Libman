@@ -39,27 +39,28 @@ void _incrementCounter() {
     });
   }
 
-  // Future<DateTime> _selectDate(BuildContext context, DateTime _selectedDate) async {
-  //   DateTime? datePicker = await showDatePicker(
-  //     context: context,
-  //     initialDate: _selectedDate,
-  //     firstDate: DateTime(2015),
-  //     lastDate: DateTime(2050),
+  Future<DateTime> _selectDate(BuildContext context, DateTime _selectedDate) async {
+    DateTime? datePicker = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2015),
+      lastDate: DateTime(2050),
      
-  //   );
-  //   if (datePicker != null && datePicker != _selectedDate) {
-  //     //if the user has selected a date
-  //     setState(() {
-  //       // we format the selected date and assign it to the state variable
-  //       _selectedDate = datePicker;
+    );
+    if (datePicker != null && datePicker != _selectedDate) {
+      //if the user has selected a date
+      setState(() {
+        // we format the selected date and assign it to the state variable
+        _selectedDate = datePicker;
         
-  //       print(
-  //         formatter.format(_selectedDate).toString(),
-  //       );
-  //     });
-  //     return(_selectedDate);
-  //   }
-  // }
+        print(
+          formatter.format(_selectedDate).toString(),
+        );
+      });
+      
+    }
+    return(_selectedDate);
+  }
 
   @override
   void dispose() {
@@ -177,14 +178,10 @@ void _incrementCounter() {
                     controller: _dateController,
                     onTap: () async {
                         
-                      // fromDate = await _selectDate(context, fromDate);
-                      // setState(() {});
+                      fromDate = await _selectDate(context, fromDate);
+                      setState(() {});
                         
-                      // setState(() {
-                      //   _selectDate(context);
-
-
-                      // });
+                      
                     },
 
                     decoration: InputDecoration(
@@ -195,16 +192,15 @@ void _incrementCounter() {
                   ),
                   TextFormField(
                     controller: _duedateController,
-                    onTap: () {
-                      // setState(() {
-                      //   _selectDate(context);
-                      // });
-                      // print(_duedateController.text);
+                    onTap: () async {
+                      toDate = await _selectDate(context, toDate);
+                      setState(() {});
+                      print(_duedateController.text);
                     },
 
                     decoration: InputDecoration(
                       // labelText: "Issue Date",
-                      // hintText: (formatter.format(_selectedDate).toString()),
+                      hintText: (formatter.format(toDate).toString()),
                     ),
                     //TODO taking input to give to db and hinttext label text transition
                     // set different controllers for both date
