@@ -3,13 +3,15 @@ class Issued {
   final String name;
   final String bookId;
   final String bookName;
-  final DateTime date;
+  final DateTime issueDate;
+  final DateTime returnDate;
 
   Issued(
     this.memId,
     this.name,
     this.bookId,
     this.bookName,
-    this.date,
+    this.issueDate,
+    this.returnDate,
   );
 }

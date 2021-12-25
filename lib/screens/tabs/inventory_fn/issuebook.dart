@@ -4,7 +4,9 @@ import 'package:libman/Components/background.dart';
 import 'package:libman/Components/model/membership.dart';
 import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:libman/Components/model/issued.dart';
 import 'package:libman/services/userservice.dart';
+import 'package:libman/services/issueservice.dart';
 
 class Issuebook extends StatefulWidget {
   Issuebook({Key? key}) : super(key: key);
@@ -212,30 +214,30 @@ void _incrementCounter() {
                     onPressed: () async {
                       if (_issueformKey.currentState!.validate()) {
                         print("mwone set");
-                        // UserService()
-                        //     .addMember(
-                        //   Member(
-                        //       name.text,
-                        //       int.parse(phone.text),
-                        //       address.text,
-                        //       int.parse(pin.text),
-                        //       int.parse(ward.text),
-                        //       place.text,
-                        //       _selectedDate,
-                        //       bloodgroup[selectedbloodgp],
-                        //       category[selectedcategory],
-                        //       DateTime.now(),
-                        //       "VPL0001",
-                        //       false),
-                        // )
-                        //     .then((value) {
-                        //   name.clear();
-                        //   phone.clear();
-                        //   address.clear();
-                        //   ward.clear();
-                        //   place.clear();
-                        //   Navigator.of(context).pop();
-                        // });
+                        await IssueService()
+                            .issueBook(
+                             Issued(
+
+                               mem_id.text,
+                               name.text,
+                               _bookid.text,
+                               _bookname.text,
+                                _dateController.text,
+                                _duedateController.text,
+                         ),
+                        )
+                        .then(
+                            (value) {
+                              mem_id.clear();
+                              name.clear();
+                              _bookid.clear();
+                              
+                              _bookname.clear();
+                              _dateController.clear();
+                              _duedateController.clear();
+                              Navigator.of(context).pop();
+                            },
+                          );
                       }
                     },
                     child: Container(
