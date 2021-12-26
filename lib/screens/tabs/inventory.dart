@@ -33,14 +33,12 @@ class Inventory extends StatelessWidget {
               //SizedBox(height: 150),
               Expanded(
                 child: ReusableCard(
-
                   onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
                       return Issuebook();
                     }));
                   },
-                  
                   colour: activeCardColor,
                   width: size.width * .1,
                   child: Column(

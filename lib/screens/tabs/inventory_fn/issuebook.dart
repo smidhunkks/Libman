@@ -99,26 +99,28 @@ class _IssuebookState extends State<Issuebook> {
                       hintText: "Membership ID",
                       suffixIcon: TextButton(
                         onPressed: () async {
-                          final memdetail = await FirebaseFirestore.instance
-                              .collection('member')
-                              .doc(mem_id.text.toUpperCase())
-                              .get();
+                          if (mem_id.text.isNotEmpty) {
+                            final memdetail = await FirebaseFirestore.instance
+                                .collection('member')
+                                .doc(mem_id.text.toUpperCase())
+                                .get();
 
-                          if (memdetail.exists) {
-                            setState(() {
-                              name.text = memdetail['name'];
-                            });
-                          } else {
-                            final snackbar = SnackBar(
-                              content: const Text("No User Found"),
-                              action: SnackBarAction(
-                                label: 'dismiss',
-                                onPressed: () {},
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackbar);
-                            print("No user found");
+                            if (memdetail.exists) {
+                              setState(() {
+                                name.text = memdetail['name'];
+                              });
+                            } else {
+                              final snackbar = SnackBar(
+                                content: const Text("No User Found"),
+                                action: SnackBarAction(
+                                  label: 'dismiss',
+                                  onPressed: () {},
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackbar);
+                              print("No user found");
+                            }
                           }
                         },
                         child: const Text("Validate"),
@@ -150,29 +152,31 @@ class _IssuebookState extends State<Issuebook> {
                       hintText: "Book ID",
                       suffixIcon: TextButton(
                         onPressed: () async {
-                          final bookdetail = await FirebaseFirestore.instance
-                              .collection('books')
-                              .doc(_bookid.text.toUpperCase())
-                              .get();
+                          if (_bookid.text.isNotEmpty) {
+                            final bookdetail = await FirebaseFirestore.instance
+                                .collection('books')
+                                .doc(_bookid.text.toUpperCase())
+                                .get();
 
-                          if (bookdetail.exists) {
-                            setState(() {
-                              _bookname.text = bookdetail['bookname'];
-                            });
-                          } else {
-                            final snackbar = SnackBar(
-                              content: const Text("No Book Found"),
-                              action: SnackBarAction(
-                                label: 'dismiss',
-                                onPressed: () {},
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackbar);
-                            print("No book found");
+                            if (bookdetail.exists) {
+                              setState(() {
+                                _bookname.text = bookdetail['bookname'];
+                              });
+                            } else {
+                              final snackbar = SnackBar(
+                                content: const Text("No Book Found"),
+                                action: SnackBarAction(
+                                  label: 'dismiss',
+                                  onPressed: () {},
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackbar);
+                              print("No book found");
+                            }
+
+                            print("Validated");
                           }
-
-                          print("Validated");
                         },
                         child: const Text("Validate"),
                       ),
@@ -301,7 +305,21 @@ class _IssuebookState extends State<Issuebook> {
                             _bookname.clear();
                             mem_id.clear();
                             name.clear();
-                            Navigator.of(context).pop();
+                            final snackbar = SnackBar(
+                              backgroundColor: Colors.greenAccent,
+                              content: const Text(
+                                "Issue Successful",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              action: SnackBarAction(
+                                textColor: Colors.black,
+                                label: 'dismiss',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                            //Navigator.of(context).pop();
                           },
                         );
                       }
