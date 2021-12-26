@@ -27,20 +27,16 @@ class _IssuebookState extends State<Issuebook> {
   DateTime fromDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   DateTime toDate =
-      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+          .add(const Duration(days: 15));
+  //DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
   TextEditingController mem_id = TextEditingController();
   TextEditingController name = TextEditingController();
-  TextEditingController _bookid = TextEditingController();
-  TextEditingController _bookname = TextEditingController();
-  TextEditingController _duedateController = TextEditingController();
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final TextEditingController _bookid = TextEditingController();
+  final TextEditingController _bookname = TextEditingController();
+  final TextEditingController _duedateController = TextEditingController();
 
   Future<DateTime> _selectDate(
       BuildContext context, DateTime _selectedDate) async {
@@ -93,6 +89,11 @@ class _IssuebookState extends State<Issuebook> {
                   ),
                   TextFormField(
                     controller: mem_id,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Enter Membership Id";
+                      }
+                    },
                     decoration: InputDecoration(
                       labelText: "Membership ID",
                       hintText: "Membership ID",
@@ -126,6 +127,11 @@ class _IssuebookState extends State<Issuebook> {
                   ),
                   TextFormField(
                     controller: name,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "No member found";
+                      }
+                    },
                     readOnly: true,
                     decoration: const InputDecoration(
                       labelText: "Name",
@@ -134,6 +140,11 @@ class _IssuebookState extends State<Issuebook> {
                   ),
                   TextFormField(
                     controller: _bookid,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Enter Book ID";
+                      }
+                    },
                     decoration: InputDecoration(
                       labelText: "Book ID",
                       hintText: "Book ID",
@@ -169,44 +180,105 @@ class _IssuebookState extends State<Issuebook> {
                   ),
                   TextFormField(
                     controller: _bookname,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "No book found";
+                      }
+                    },
                     readOnly: true,
                     decoration: const InputDecoration(
                       labelText: "Book Name",
                       hintText: "Book Name",
                     ),
                   ),
-                  TextFormField(
-                    controller: _dateController,
-                    onTap: () async {
-                      fromDate = await _selectDate(context, fromDate);
-                      setState(() {
-                        toDate = fromDate.add(Duration(days: 15));
-                        _duedateController.text = toDate.toString();
-                      });
-                      // setState(() {});
-                    },
-
-                    decoration: InputDecoration(
-                      // labelText: "Issue Date",
-                      hintText: (formatter.format(fromDate).toString()),
-                    ),
-                    //TODO taking input to give to db and hinttext label text transition
+                  const SizedBox(
+                    height: 20,
                   ),
-                  TextFormField(
-                    controller: _duedateController,
-                    onTap: () async {
-                      toDate = fromDate.add(Duration(days: 15));
-
-                      print(_duedateController.text);
-                    },
-
-                    decoration: InputDecoration(
-                      // labelText: "Issue Date",
-                      hintText: (formatter.format(toDate).toString()),
-                    ),
-                    //TODO taking input to give to db and hinttext label text transition
-                    // set different controllers for both date
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          fromDate = await _selectDate(context, fromDate);
+                          setState(() {
+                            toDate = fromDate.add(Duration(days: 15));
+                          });
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Issue Date"),
+                            Container(
+                              // margin: EdgeInsets.symmetric(vertical: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              // decoration: BoxDecoration(
+                              //   color: Colors.grey.withOpacity(.7),
+                              //   borderRadius: BorderRadius.circular(10),
+                              // ),
+                              child: Text(
+                                formatter.format(fromDate).toString(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          toDate = await _selectDate(context, toDate);
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Due Date"),
+                            Container(
+                              // margin: EdgeInsets.symmetric(vertical: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              // decoration: BoxDecoration(
+                              //   color: Colors.grey.withOpacity(.7),
+                              //   borderRadius: BorderRadius.circular(10),
+                              // ),
+                              child: Text(
+                                formatter.format(toDate).toString(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+                  // TextFormField(
+                  //   controller: _dateController,
+                  //   onTap: () async {
+                  //     fromDate = await _selectDate(context, fromDate);
+                  //     setState(() {
+                  //       toDate = fromDate.add(Duration(days: 15));
+                  //       _duedateController.text = toDate.toString();
+                  //     });
+                  //     // setState(() {});
+                  //   },
+
+                  //   decoration: InputDecoration(
+                  //     // labelText: "Issue Date",
+                  //     hintText: (formatter.format(fromDate).toString()),
+                  //   ),
+                  //   //TODO taking input to give to db and hinttext label text transition
+                  // ),
+                  // TextFormField(
+                  //   controller: _duedateController,
+
+                  //   onTap: () async {
+                  //     toDate = await _selectDate(context, toDate);
+
+                  //     print(_duedateController.text);
+                  //   },
+
+                  //   decoration: InputDecoration(
+                  //     // labelText: "Issue Date",
+                  //     hintText: (formatter.format(toDate).toString()),
+                  //   ),
+                  //   //TODO taking input to give to db and hinttext label text transition
+                  //   // set different controllers for both date
+                  // ),
                   const SizedBox(
                     height: 15.0,
                   ),
@@ -220,46 +292,25 @@ class _IssuebookState extends State<Issuebook> {
                                 memId: mem_id.text.toUpperCase(),
                                 name: name.text,
                                 date: fromDate))
-                            .then((value) => print(" Issue success"));
-                        print("mwone set");
-                        // UserService()
-                        //     .addMember(
-                        //   Member(
-                        //       name.text,
-                        //       int.parse(phone.text),
-                        //       address.text,
-                        //       int.parse(pin.text),
-                        //       int.parse(ward.text),
-                        //       place.text,
-                        //       _selectedDate,
-                        //       bloodgroup[selectedbloodgp],
-                        //       category[selectedcategory],
-                        //       DateTime.now(),
-                        //       "VPL0001",
-                        //       false),
-                        // )
-                        //     .then((value) {
-                        //   name.clear();
-                        //   phone.clear();
-                        //   address.clear();
-                        //   ward.clear();
-                        //   place.clear();
-                        //   Navigator.of(context).pop();
-                        // });
+                            .then(
+                              (value) => print(" Issue success"),
+                            );
                       }
                     },
                     child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: size.height * .02),
-                        decoration: BoxDecoration(
-                            color: kprimarylightcolor,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: double.infinity,
-                        child: const Center(
-                            child: Text(
+                      padding:
+                          EdgeInsets.symmetric(vertical: size.height * .02),
+                      decoration: BoxDecoration(
+                          color: kprimarylightcolor,
+                          borderRadius: BorderRadius.circular(10)),
+                      width: double.infinity,
+                      child: const Center(
+                        child: Text(
                           "Issue Book",
                           style: TextStyle(color: Colors.white),
-                        ))),
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ),
