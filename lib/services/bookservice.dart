@@ -22,13 +22,13 @@ class BookService {
         .collection('issue')
         .doc(issue.memId)
         .collection('active')
-        .doc()
+        .doc(issue.bookId)
         .set({
           "bookId": issue.bookId,
           "bookName": issue.bookName,
           "memId": issue.memId,
           "issuedate": issue.date,
-          "timestamp": DateTime.now(),
+          "timestamp": issue.date,
           "duedate": issue.duedate
         })
         .then(

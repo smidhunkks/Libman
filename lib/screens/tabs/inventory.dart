@@ -75,7 +75,7 @@ class Inventory extends StatelessWidget {
                         color: kprimarycolor,
                       ),
                       Text(
-                        "Return Book",
+                        "Return/Renew",
                         style: kcardtext,
                       )
                     ],

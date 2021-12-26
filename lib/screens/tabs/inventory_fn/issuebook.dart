@@ -299,7 +299,21 @@ class _IssuebookState extends State<Issuebook> {
                               date: fromDate,
                               duedate: toDate),
                         )
-                            .then(
+                            .onError((error, stackTrace) {
+                          final snackbar = SnackBar(
+                            backgroundColor: Colors.redAccent,
+                            content: const Text(
+                              "Issue Failed",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            action: SnackBarAction(
+                              textColor: Colors.white,
+                              label: 'dismiss',
+                              onPressed: () {},
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        }).then(
                           (value) {
                             _bookid.clear();
                             _bookname.clear();
