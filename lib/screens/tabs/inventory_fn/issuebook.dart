@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
+import 'package:libman/Components/model/issued.dart';
 import 'package:libman/Components/model/membership.dart';
 import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:libman/screens/tabs/inventory_fn/addbook.dart';
+import 'package:libman/services/bookservice.dart';
 import 'package:libman/services/userservice.dart';
 
 class Issuebook extends StatefulWidget {
@@ -33,40 +36,38 @@ class _IssuebookState extends State<Issuebook> {
   TextEditingController _bookname = TextEditingController();
   TextEditingController _duedateController = TextEditingController();
 
-void _incrementCounter() {
+  void _incrementCounter() {
     setState(() {
       _counter++;
     });
   }
 
-  Future<DateTime> _selectDate(BuildContext context, DateTime _selectedDate) async {
+  Future<DateTime> _selectDate(
+      BuildContext context, DateTime _selectedDate) async {
     DateTime? datePicker = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
       firstDate: DateTime(2015),
       lastDate: DateTime(2050),
-     
     );
     if (datePicker != null && datePicker != _selectedDate) {
       //if the user has selected a date
       setState(() {
         // we format the selected date and assign it to the state variable
         _selectedDate = datePicker;
-        
+
         print(
           formatter.format(_selectedDate).toString(),
         );
       });
-      
     }
-    return(_selectedDate);
+    return (_selectedDate);
   }
 
   @override
   void dispose() {
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -177,11 +178,12 @@ void _incrementCounter() {
                   TextFormField(
                     controller: _dateController,
                     onTap: () async {
-                        
                       fromDate = await _selectDate(context, fromDate);
-                      setState(() {});
-                        
-                      
+                      setState(() {
+                        toDate = fromDate.add(Duration(days: 15));
+                        _duedateController.text = toDate.toString();
+                      });
+                      // setState(() {});
                     },
 
                     decoration: InputDecoration(
@@ -193,8 +195,8 @@ void _incrementCounter() {
                   TextFormField(
                     controller: _duedateController,
                     onTap: () async {
-                      toDate = await _selectDate(context, toDate);
-                      setState(() {});
+                      toDate = fromDate.add(Duration(days: 15));
+
                       print(_duedateController.text);
                     },
 
@@ -211,6 +213,14 @@ void _incrementCounter() {
                   TextButton(
                     onPressed: () async {
                       if (_issueformKey.currentState!.validate()) {
+                        await BookService()
+                            .issueBook(Issued(
+                                bookId: _bookid.text,
+                                bookName: _bookname.text,
+                                memId: mem_id.text.toUpperCase(),
+                                name: name.text,
+                                date: fromDate))
+                            .then((value) => print(" Issue success"));
                         print("mwone set");
                         // UserService()
                         //     .addMember(

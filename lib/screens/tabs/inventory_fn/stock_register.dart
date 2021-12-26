@@ -103,9 +103,9 @@ class StockRegister extends StatelessWidget {
                                                 context: context,
                                                 builder: (context) =>
                                                     AlertDialog(
-                                                  title:
-                                                      Text("Confirm Delete."),
-                                                  content: Text(
+                                                  title: const Text(
+                                                      "Confirm Delete."),
+                                                  content: const Text(
                                                       "Are you sure you want to Delete?"),
                                                   actions: [
                                                     ElevatedButton(
@@ -113,7 +113,8 @@ class StockRegister extends StatelessWidget {
                                                           Navigator.of(context)
                                                               .pop();
                                                         },
-                                                        child: Text("Cancel")),
+                                                        child: const Text(
+                                                            "Cancel")),
                                                     ElevatedButton(
                                                         onPressed: () async {
                                                           FirebaseFirestore
@@ -131,7 +132,8 @@ class StockRegister extends StatelessWidget {
                                                                           context)
                                                                       .pop());
                                                         },
-                                                        child: Text("Confirm")),
+                                                        child: const Text(
+                                                            "Confirm")),
                                                   ],
                                                 ),
                                               );
