@@ -286,15 +286,24 @@ class _IssuebookState extends State<Issuebook> {
                     onPressed: () async {
                       if (_issueformKey.currentState!.validate()) {
                         await BookService()
-                            .issueBook(Issued(
-                                bookId: _bookid.text,
-                                bookName: _bookname.text,
-                                memId: mem_id.text.toUpperCase(),
-                                name: name.text,
-                                date: fromDate))
+                            .issueBook(
+                          Issued(
+                              bookId: _bookid.text,
+                              bookName: _bookname.text,
+                              memId: mem_id.text.toUpperCase(),
+                              name: name.text,
+                              date: fromDate,
+                              duedate: toDate),
+                        )
                             .then(
-                              (value) => print(" Issue success"),
-                            );
+                          (value) {
+                            _bookid.clear();
+                            _bookname.clear();
+                            mem_id.clear();
+                            name.clear();
+                            Navigator.of(context).pop();
+                          },
+                        );
                       }
                     },
                     child: Container(

@@ -28,7 +28,8 @@ class BookService {
           "bookName": issue.bookName,
           "memId": issue.memId,
           "issuedate": issue.date,
-          "timestamp": DateTime.now()
+          "timestamp": DateTime.now(),
+          "duedate": issue.duedate
         })
         .then(
           (value) => print("Issue Success"),
