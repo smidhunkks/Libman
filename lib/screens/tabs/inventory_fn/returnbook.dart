@@ -6,6 +6,7 @@ import 'package:libman/Components/model/issued.dart';
 import 'package:libman/Components/model/membership.dart';
 import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:libman/screens/tabs/inventory_fn/issuedetails.dart';
 import 'package:libman/services/userservice.dart';
 
 class ReturnBook extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ReturnBookState extends State<ReturnBook> {
     return Scaffold(
       body: Background(
         child: Padding(
-          padding: EdgeInsets.only(left: 16, right: 16, top: size.height * .19),
+          padding: EdgeInsets.only(left: 16, right: 16, top: size.height * .13),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -55,9 +56,24 @@ class _ReturnBookState extends State<ReturnBook> {
                             .doc(_memid.text.toUpperCase())
                             .collection('active')
                             .get();
-                        setState(() {
-                          issueList = issuesnap.docs.toList();
-                        });
+
+                        if (issuesnap.docs.isNotEmpty) {
+                          setState(() {
+                            issueList = issuesnap.docs.toList();
+                          });
+                        } else {
+                          setState(() {
+                            issueList = [0];
+                          });
+                          final snackbar = SnackBar(
+                            content: const Text("No Active Issues Found"),
+                            action: SnackBarAction(
+                              label: 'dismiss',
+                              onPressed: () {},
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        }
                       }
                     },
                     child: const Text("Validate"),
@@ -69,17 +85,23 @@ class _ReturnBookState extends State<ReturnBook> {
                   : Expanded(
                       child: ListView.builder(
                         itemCount: issueList.length,
-                        itemBuilder: (context, index) => Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          padding: EdgeInsets.all(12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  DateTime.now()
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => Issuedetails(
+                                  memId: issueList[index].id,
+                                  bookname: issueList[index]["bookName"],
+                                  bookId: issueList[index]["bookId"],
+                                  issuedate: formatter
+                                      .format(issueList[index]['issuedate']
+                                          .toDate())
+                                      .toString(),
+                                  duedate: formatter
+                                      .format(
+                                          issueList[index]['duedate'].toDate())
+                                      .toString(),
+                                  status: DateTime.now()
                                               .difference(issueList[index]
                                                       ['timestamp']
                                                   .toDate())
@@ -88,61 +110,105 @@ class _ReturnBookState extends State<ReturnBook> {
                                       ? Text(
                                           "Due by ${(15 - DateTime.now().difference(issueList[index]['timestamp'].toDate()).inDays).abs()} days",
                                           style: kcardtext.copyWith(
-                                              color: Colors.redAccent),
+                                            color: Colors.redAccent,
+                                            fontSize: 20,
+                                          ),
                                         )
                                       : Text(
                                           "Active",
                                           style: kcardtext.copyWith(
-                                              color: Colors.green),
+                                            color: Colors.green,
+                                            fontSize: 20,
+                                          ),
                                         ),
-                                  Text(
-                                    "#${issueList[index]['bookId']}",
-                                    style: kcardtext.copyWith(fontSize: 18),
-                                  ),
-                                  Text(
-                                    issueList[index]['bookName'],
-                                    style: kscreentitle.copyWith(fontSize: 20),
-                                  ),
-                                ],
+                                  memname: issueList[index]['memberName'],
+                                ),
                               ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Issued",
-                                    style: kcardtext.copyWith(fontSize: 18),
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    DateTime.now()
+                                                .difference(issueList[index]
+                                                        ['timestamp']
+                                                    .toDate())
+                                                .inDays >
+                                            14
+                                        ? Text(
+                                            "Due by ${(15 - DateTime.now().difference(issueList[index]['timestamp'].toDate()).inDays).abs()} days",
+                                            style: kcardtext.copyWith(
+                                                color: Colors.redAccent),
+                                          )
+                                        : Text(
+                                            "Active",
+                                            style: kcardtext.copyWith(
+                                                color: Colors.green),
+                                          ),
+                                    Text(
+                                      "#${issueList[index]['bookId']}",
+                                      style: kcardtext.copyWith(fontSize: 18),
+                                    ),
+                                    Text(
+                                      issueList[index]['bookName'],
+                                      style:
+                                          kscreentitle.copyWith(fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Text(
+                                    "Tap to view details",
+                                    style: kcardtext.copyWith(
+                                        color: Colors.black87),
                                   ),
-                                  Text(
-                                    formatter
-                                        .format(issueList[index]['issuedate']
-                                            .toDate())
-                                        .toString(),
-                                    style: kscreentitle.copyWith(fontSize: 15),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Issued",
+                                      style: kcardtext.copyWith(fontSize: 18),
+                                    ),
+                                    Text(
+                                      formatter
+                                          .format(issueList[index]['issuedate']
+                                              .toDate())
+                                          .toString(),
+                                      style:
+                                          kscreentitle.copyWith(fontSize: 15),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            height: size.height * .15,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.white54,
+                                    blurRadius: 20,
+                                    offset: Offset(1, -1),
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 20,
+                                    offset: Offset(-1, 1),
                                   )
                                 ],
-                              )
-                            ],
+                                borderRadius: BorderRadius.circular(8)),
                           ),
-                          height: size.height * .15,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.white54,
-                                  blurRadius: 20,
-                                  offset: Offset(1, -1),
-                                ),
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 20,
-                                  offset: Offset(-1, 1),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(8)),
                         ),
                       ),
                     )

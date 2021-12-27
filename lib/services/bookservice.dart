@@ -26,6 +26,7 @@ class BookService {
         .set({
           "bookId": issue.bookId,
           "bookName": issue.bookName,
+          "memberName": issue.name,
           "memId": issue.memId,
           "issuedate": issue.date,
           "timestamp": issue.date,
