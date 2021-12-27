@@ -90,7 +90,7 @@ class _ReturnBookState extends State<ReturnBook> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (ctx) => Issuedetails(
-                                  memId: issueList[index].id,
+                                  memId: issueList[index]['memId'],
                                   bookname: issueList[index]["bookName"],
                                   bookId: issueList[index]["bookId"],
                                   issuedate: formatter

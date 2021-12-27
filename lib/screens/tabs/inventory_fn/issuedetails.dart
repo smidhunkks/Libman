@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
@@ -101,7 +102,45 @@ class Issuedetails extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await FirebaseFirestore.instance
+                        .collection('issue')
+                        .doc(memId)
+                        .collection('active')
+                        .doc(bookId)
+                        .update(
+                      {
+                        'duedate': DateTime.now().add(
+                          const Duration(days: 14),
+                        ),
+                        'timestamp': DateTime.now()
+                      },
+                    ).then((value) {
+                      final snackbar = SnackBar(
+                        content: const Text(
+                          "Renew Successful",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        backgroundColor: Colors.greenAccent,
+                        action: SnackBarAction(
+                          label: 'dismiss',
+                          textColor: Colors.black,
+                          onPressed: () {},
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      Navigator.of(context).pop();
+                    }).onError((error, stackTrace) {
+                      final snackbar = SnackBar(
+                        content: const Text("Error Occured while Renewing"),
+                        action: SnackBarAction(
+                          label: 'dismiss',
+                          onPressed: () {},
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    });
+                  },
                   child: Text(
                     "Renew",
                     style: kcardtext.copyWith(
