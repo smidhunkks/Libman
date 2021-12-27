@@ -177,12 +177,12 @@ class _ReturnBookState extends State<ReturnBook> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Issued",
+                                      "Due",
                                       style: kcardtext.copyWith(fontSize: 18),
                                     ),
                                     Text(
                                       formatter
-                                          .format(issueList[index]['issuedate']
+                                          .format(issueList[index]['duedate']
                                               .toDate())
                                           .toString(),
                                       style:
