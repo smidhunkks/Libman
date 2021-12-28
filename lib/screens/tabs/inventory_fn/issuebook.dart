@@ -204,6 +204,10 @@ class _IssuebookState extends State<Issuebook> {
                       InkWell(
                         onTap: () async {
                           fromDate = await _selectDate(context, fromDate);
+                          fromDate =
+                              DateTime.now().difference(fromDate).inDays < 0
+                                  ? DateTime.now()
+                                  : fromDate;
                           setState(() {
                             toDate = fromDate.add(Duration(days: 15));
                           });
