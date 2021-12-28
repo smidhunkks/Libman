@@ -169,14 +169,21 @@ class Issuedetails extends StatelessWidget {
                         .collection('active')
                         .doc(bookId)
                         .get();
-                    print(tempIssue.data());
 
                     await FirebaseFirestore.instance
                         .collection('issue')
                         .doc(memId)
                         .collection('history')
-                        .doc(bookId)
-                        .set({"history": tempIssue.data()}).then((value) {
+                        .doc()
+                        .set({
+                      "bookId": tempIssue.data()!['bookId'],
+                      "bookName": tempIssue.data()!['bookName'],
+                      "memId": tempIssue.data()!['memId'],
+                      "memberName": tempIssue.data()!['memberName'],
+                      "issuedate": tempIssue.data()!['issuedate'],
+                      "duedate": tempIssue.data()!['duedate'],
+                      "returndate": DateTime.now()
+                    }).then((value) {
                       FirebaseFirestore.instance
                           .collection('issue')
                           .doc(memId)
