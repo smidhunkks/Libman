@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
@@ -160,8 +161,30 @@ class Issuedetails extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextButton(
-                  onPressed: () {
+                  onPressed: () async {
                     print("Return");
+                    final tempIssue = await FirebaseFirestore.instance
+                        .collection('issue')
+                        .doc(memId)
+                        .collection('active')
+                        .doc(bookId)
+                        .get();
+                    print(tempIssue.data());
+
+                    await FirebaseFirestore.instance
+                        .collection('issue')
+                        .doc(memId)
+                        .collection('history')
+                        .doc(bookId)
+                        .set({"history": tempIssue.data()}).then((value) {
+                      FirebaseFirestore.instance
+                          .collection('issue')
+                          .doc(memId)
+                          .collection('active')
+                          .doc(bookId)
+                          .delete()
+                          .then((value) => Navigator.of(context).pop());
+                    });
                   },
                   child: Text(
                     "Return",
