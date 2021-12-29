@@ -54,9 +54,14 @@ class _ReturnBookState extends State<ReturnBook> {
                       if (_memid.text.isNotEmpty) {
                         final issuesnap = await FirebaseFirestore.instance
                             .collection('issue')
-                            .doc(_memid.text.toUpperCase())
-                            .collection('active')
+                            .where('memId',
+                                isEqualTo: _memid.text.toUpperCase())
                             .get();
+                        // await FirebaseFirestore.instance
+                        // .collection('issue')
+                        // .doc(_memid.text.toUpperCase())
+                        // .collection('active')
+                        // .get();
 
                         if (issuesnap.docs.isNotEmpty) {
                           setState(() {
@@ -87,8 +92,8 @@ class _ReturnBookState extends State<ReturnBook> {
                       child: StreamBuilder<Object>(
                           stream: FirebaseFirestore.instance
                               .collection('issue')
-                              .doc(_memid.text.toUpperCase())
-                              .collection('active')
+                              .where('memId',
+                                  isEqualTo: _memid.text.toUpperCase())
                               .snapshots(),
                           builder: (context, AsyncSnapshot snapshot) {
                             if (snapshot.hasError) {
@@ -112,6 +117,8 @@ class _ReturnBookState extends State<ReturnBook> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (ctx) => Issuedetails(
+                                              docId:
+                                                  snapshot.data.docs[index].id,
                                               memId: snapshot.data.docs[index]
                                                   ['memId'],
                                               bookname: snapshot

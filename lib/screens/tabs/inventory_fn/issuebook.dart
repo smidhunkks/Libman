@@ -233,6 +233,12 @@ class _IssuebookState extends State<Issuebook> {
                       InkWell(
                         onTap: () async {
                           toDate = await _selectDate(context, toDate);
+                          setState(() {
+                            toDate =
+                                DateTime.now().difference(toDate).inDays > 0
+                                    ? DateTime.now().add(Duration(days: 14))
+                                    : toDate;
+                          });
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,7 +299,7 @@ class _IssuebookState extends State<Issuebook> {
                   TextButton(
                     onPressed: () async {
                       if (_issueformKey.currentState!.validate()) {
-                        await BookService()
+                        bool? issuestatus = await BookService()
                             .issueBook(
                           Issued(
                               bookId: _bookid.text,
@@ -303,7 +309,26 @@ class _IssuebookState extends State<Issuebook> {
                               date: fromDate,
                               duedate: toDate),
                         )
-                            .onError((error, stackTrace) {
+                            .then((value) {
+                          _bookid.clear();
+                          _bookname.clear();
+                          mem_id.clear();
+                          name.clear();
+                          final snackbar = SnackBar(
+                            backgroundColor: Colors.greenAccent,
+                            content: const Text(
+                              "Issue Successful",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            action: SnackBarAction(
+                              textColor: Colors.black,
+                              label: 'dismiss',
+                              onPressed: () {},
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                          //Navigator.of(context).pop();
+                        }).onError((error, stackTrace) {
                           final snackbar = SnackBar(
                             backgroundColor: Colors.redAccent,
                             content: const Text(
@@ -317,29 +342,7 @@ class _IssuebookState extends State<Issuebook> {
                             ),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                        }).then(
-                          (value) {
-                            _bookid.clear();
-                            _bookname.clear();
-                            mem_id.clear();
-                            name.clear();
-                            final snackbar = SnackBar(
-                              backgroundColor: Colors.greenAccent,
-                              content: const Text(
-                                "Issue Successful",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              action: SnackBarAction(
-                                textColor: Colors.black,
-                                label: 'dismiss',
-                                onPressed: () {},
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackbar);
-                            //Navigator.of(context).pop();
-                          },
-                        );
+                        });
                       }
                     },
                     child: Container(

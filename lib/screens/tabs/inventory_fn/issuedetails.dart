@@ -6,6 +6,7 @@ import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 
 class Issuedetails extends StatelessWidget {
+  final String? docId;
   final String? memId;
   final String? bookId;
   final String? bookname;
@@ -21,7 +22,8 @@ class Issuedetails extends StatelessWidget {
       this.issuedate,
       this.duedate,
       this.status,
-      this.memname})
+      this.memname,
+      this.docId})
       : super(key: key);
 
   @override
@@ -104,43 +106,61 @@ class Issuedetails extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () async {
-                    await FirebaseFirestore.instance
+// await FirebaseFirestore.instance
+//                         .collection('issue')
+//                         .doc(memId)
+//                         .collection('active')
+//                         .doc(bookId)
+//                         .update(
+//                       {
+//                         'duedate': DateTime.now().add(
+//                           const Duration(days: 14),
+//                         ),
+//                         'timestamp': DateTime.now()
+//                       },
+
+                    final renewfetch = await FirebaseFirestore.instance
                         .collection('issue')
-                        .doc(memId)
-                        .collection('active')
-                        .doc(bookId)
-                        .update(
-                      {
-                        'duedate': DateTime.now().add(
-                          const Duration(days: 14),
-                        ),
-                        'timestamp': DateTime.now()
-                      },
-                    ).then((value) {
-                      final snackbar = SnackBar(
-                        content: const Text(
-                          "Renew Successful",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        backgroundColor: Colors.greenAccent,
-                        action: SnackBarAction(
-                          label: 'dismiss',
-                          textColor: Colors.black,
-                          onPressed: () {},
-                        ),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                      Navigator.of(context).pop();
-                    }).onError((error, stackTrace) {
-                      final snackbar = SnackBar(
-                        content: const Text("Error Occured while Renewing"),
-                        action: SnackBarAction(
-                          label: 'dismiss',
-                          onPressed: () {},
-                        ),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                    });
+                        .where("memId", isEqualTo: memId)
+                        .where('bookId', isEqualTo: bookId)
+                        .get();
+                    if (renewfetch.docs.isNotEmpty) {
+                      await FirebaseFirestore.instance
+                          .collection('issue')
+                          .doc(renewfetch.docs.toList()[0].id)
+                          .update(
+                        {
+                          'duedate': DateTime.now().add(
+                            const Duration(days: 14),
+                          ),
+                          'timestamp': DateTime.now()
+                        },
+                      ).then((value) {
+                        final snackbar = SnackBar(
+                          content: const Text(
+                            "Renew Successful",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          backgroundColor: Colors.greenAccent,
+                          action: SnackBarAction(
+                            label: 'dismiss',
+                            textColor: Colors.black,
+                            onPressed: () {},
+                          ),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        Navigator.of(context).pop();
+                      }).onError((error, stackTrace) {
+                        final snackbar = SnackBar(
+                          content: const Text("Error Occured while Renewing"),
+                          action: SnackBarAction(
+                            label: 'dismiss',
+                            onPressed: () {},
+                          ),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      });
+                    }
                   },
                   child: Text(
                     "Renew",
@@ -165,17 +185,12 @@ class Issuedetails extends StatelessWidget {
                     print("Return");
                     final tempIssue = await FirebaseFirestore.instance
                         .collection('issue')
-                        .doc(memId)
-                        .collection('active')
-                        .doc(bookId)
+                        .doc(docId)
                         .get();
 
                     await FirebaseFirestore.instance
-                        .collection('issue')
-                        .doc(memId)
-                        .collection('history')
-                        .doc()
-                        .set({
+                        .collection('issue-history')
+                        .add({
                       "bookId": tempIssue.data()!['bookId'],
                       "bookName": tempIssue.data()!['bookName'],
                       "memId": tempIssue.data()!['memId'],
@@ -186,9 +201,7 @@ class Issuedetails extends StatelessWidget {
                     }).then((value) {
                       FirebaseFirestore.instance
                           .collection('issue')
-                          .doc(memId)
-                          .collection('active')
-                          .doc(bookId)
+                          .doc(docId)
                           .delete()
                           .then((value) => Navigator.of(context).pop());
                     });

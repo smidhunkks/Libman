@@ -17,26 +17,74 @@ class BookService {
     }).then((value) => print("Book addition success"));
   }
 
-  Future<void> issueBook(Issued issue) async {
-    await _firestore
+  Future<bool?> issueBook(Issued issue) async {
+    final issuecheck = await _firestore
         .collection('issue')
-        .doc(issue.memId)
-        .collection('active')
-        .doc(issue.bookId)
-        .set({
-          "bookId": issue.bookId,
-          "bookName": issue.bookName,
-          "memberName": issue.name,
-          "memId": issue.memId,
-          "issuedate": issue.date,
-          "timestamp": issue.date,
-          "duedate": issue.duedate
-        })
-        .then(
-          (value) => print("Issue Success"),
-        )
-        .onError(
-          (error, stackTrace) => print("error"),
-        );
+        .where('bookId', isEqualTo: issue.bookId)
+        .get();
+    if (issuecheck.docs.isEmpty) {
+      await _firestore.collection('issue').add({
+        "bookId": issue.bookId,
+        "bookName": issue.bookName,
+        "memberName": issue.name,
+        "memId": issue.memId,
+        "issuedate": issue.date,
+        "timestamp": DateTime.now(),
+        "duedate": issue.duedate
+      }).then(
+        (value) {
+          print("issue success");
+          return true;
+        },
+      ).onError(
+        (error, stackTrace) {
+          print("issue error");
+          return false;
+        },
+      );
+    } else {
+      await _firestore
+          .collection('issue')
+          .doc(issuecheck.docs.toList()[0].id)
+          .update({
+        "bookId": issue.bookId,
+        "bookName": issue.bookName,
+        "memberName": issue.name,
+        "memId": issue.memId,
+        "issuedate": issue.date,
+        "timestamp": DateTime.now(),
+        "duedate": issue.duedate
+      }).then(
+        (value) {
+          print("update success");
+          return true;
+        },
+      ).onError(
+        (error, stackTrace) {
+          print("issue update error");
+          return false;
+        },
+      );
+    }
+    // await _firestore
+    // .collection('issue')
+    // .doc(issue.memId)
+    // .collection('active')
+    // .doc(issue.bookId)
+    // .set({
+    //   "bookId": issue.bookId,
+    //   "bookName": issue.bookName,
+    //   "memberName": issue.name,
+    //   "memId": issue.memId,
+    //   "issuedate": issue.date,
+    //   "timestamp": issue.date,
+    //   "duedate": issue.duedate
+    // })
+    // .then(
+    //   (value) => print("Issue Success"),
+    // )
+    // .onError(
+    //   (error, stackTrace) => print("error"),
+    // );
   }
 }
