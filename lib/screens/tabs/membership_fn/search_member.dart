@@ -4,6 +4,8 @@ import 'package:libman/Components/model/membership.dart';
 import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:libman/services/userservice.dart';
+import 'package:libman/services/searchservice.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MemberSearch extends StatefulWidget {
   MemberSearch({Key? key}) : super(key: key);
@@ -13,11 +15,27 @@ class MemberSearch extends StatefulWidget {
 }
 
 class _MemberSearchState extends State<MemberSearch> {
+
+
+  
   final _searchformKey = GlobalKey<FormState>();
   
   TextEditingController name = TextEditingController();
- 
+   Map <String,dynamic> userMap={};
+   void onSearch() async{
 
+     FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+     await _firestore.collection('member').where("name", isEqualTo:name.text)
+     .get().then((value){
+       setState((){
+          userMap=value.docs[0].data();
+       });
+     print(userMap);
+     }
+     );
+
+   }
   
 
   @override
@@ -38,19 +56,42 @@ class _MemberSearchState extends State<MemberSearch> {
                     "Search Member",
                     style: kscreentitle,
                   ),
-                  TextFormField(
+                  
+                  TextField(
                     controller: name,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Enter Name";
-                      }
-                    },
+                   
                     decoration: const InputDecoration(
                       labelText: "Name",
                       hintText: "Name",
                     ),
                   ),
-                 
+                 TextButton(
+                    onPressed: onSearch,
+                    child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: size.height * .02),
+                        decoration: BoxDecoration(
+                            color: kprimarylightcolor,
+                            borderRadius: BorderRadius.circular(8)),
+                        width: double.infinity,
+                        child: const Center(
+                            child: Text(
+                          "Search Member",
+                          style: TextStyle(color: Colors.white),
+                        ))),
+                  ),
+                  userMap != null 
+                  ? ListTile(
+                    onTap:(){
+
+                    },
+                    leading: Icon(
+                      Icons.account_box,
+                    ),
+                    title: Text(userMap['name']),
+                    subtitle: Text(userMap['address']),
+                  )
+                  : Container(),
                   
                 ],
               ),
@@ -60,4 +101,5 @@ class _MemberSearchState extends State<MemberSearch> {
       ),
     );
   }
+  
 }
