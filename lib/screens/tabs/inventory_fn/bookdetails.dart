@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/tabs/inventory_fn/addbook.dart';
+import 'package:libman/screens/tabs/inventory_fn/issuehistory.dart';
 
 class Booketails extends StatefulWidget {
   Booketails(
@@ -57,7 +58,19 @@ class _BooketailsState extends State<Booketails> {
                     style: kscreentitle.copyWith(color: Colors.grey),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final issuehistory = await FirebaseFirestore.instance
+                          .collection('issue-history')
+                          .where('bookId', isEqualTo: widget.Id)
+                          .get();
+                      if (issuehistory.docs.isNotEmpty)
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (ctx) => IssueHistory(
+                                  Id: widget.Id,
+                                  activeIssue: status,
+                                  issuehistory: issuehistory.docs.toList(),
+                                )));
+                    },
                     icon: Icon(
                       Icons.history,
                       size: 30,
