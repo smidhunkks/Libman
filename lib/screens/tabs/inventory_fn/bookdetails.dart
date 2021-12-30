@@ -29,7 +29,6 @@ class _BooketailsState extends State<Booketails> {
   Map<String, dynamic> status = {"status": false};
   @override
   void initState() {
-    // TODO: implement initState
     Future.delayed(Duration.zero, () async {
       status = await statusCheck(widget.Id);
       setState(() {
