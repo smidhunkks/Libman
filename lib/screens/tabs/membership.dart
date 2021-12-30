@@ -72,7 +72,7 @@ class Membership extends StatelessWidget {
                         size: 75,
                         color: kprimarycolor,
                       ),
-                      Text("Search Member")
+                      Text("View Members")
                     ],
                   ),
                 ),
