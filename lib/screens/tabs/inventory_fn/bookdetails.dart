@@ -26,7 +26,7 @@ class Booketails extends StatefulWidget {
 }
 
 class _BooketailsState extends State<Booketails> {
-  Map status = {"status": false};
+  Map<String, dynamic> status = {"status": false};
   @override
   void initState() {
     // TODO: implement initState
@@ -63,13 +63,32 @@ class _BooketailsState extends State<Booketails> {
                           .collection('issue-history')
                           .where('bookId', isEqualTo: widget.Id)
                           .get();
-                      if (issuehistory.docs.isNotEmpty)
-                        Navigator.of(context).push(MaterialPageRoute(
+                      if (issuehistory.docs.isNotEmpty) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
                             builder: (ctx) => IssueHistory(
-                                  Id: widget.Id,
-                                  activeIssue: status,
-                                  issuehistory: issuehistory.docs.toList(),
-                                )));
+                              Id: widget.Id,
+                              activeIssue: status,
+                              issuehistory: issuehistory.docs.toList(),
+                              bookName: widget.bookName,
+                            ),
+                          ),
+                        );
+                      } else {
+                        final snackbar = SnackBar(
+                          backgroundColor: Colors.redAccent,
+                          content: const Text(
+                            "No issue hsitory found",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          action: SnackBarAction(
+                            textColor: Colors.white,
+                            label: 'dismiss',
+                            onPressed: () {},
+                          ),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      }
                     },
                     icon: Icon(
                       Icons.history,
@@ -182,10 +201,12 @@ class _BooketailsState extends State<Booketails> {
                               child: const Text("Cancel")),
                           ElevatedButton(
                               onPressed: () async {
-                                FirebaseFirestore.instance
+                                await FirebaseFirestore.instance
                                     .collection("books")
                                     .doc(widget.Id)
                                     .delete()
+                                    .then(
+                                        (value) => Navigator.of(context).pop())
                                     .then(
                                         (value) => Navigator.of(context).pop());
                               },
@@ -211,7 +232,7 @@ class _BooketailsState extends State<Booketails> {
   }
 }
 
-Future<Map> statusCheck(String? Id) async {
+Future<Map<String, dynamic>> statusCheck(String? Id) async {
   final statuscheck = await FirebaseFirestore.instance
       .collection('issue')
       .where('bookId', isEqualTo: Id)

@@ -100,9 +100,10 @@ class _StockRegisterState extends State<StockRegister> {
                                 child: Container(
                                   margin:
                                       const EdgeInsets.symmetric(horizontal: 8),
-                                  padding: const EdgeInsets.all(12),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 16),
                                   width: double.infinity,
-                                  height: size.height * .2,
+                                  //height: size.height * .18,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
@@ -113,64 +114,8 @@ class _StockRegisterState extends State<StockRegister> {
                                             spreadRadius: 2)
                                       ]),
                                   child: Column(
-                                    mainAxisSize: MainAxisSize.max,
+                                    //mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          IconButton(
-                                              onPressed: () {
-                                                print("pressed edit");
-                                              },
-                                              icon: const Icon(Icons.edit)),
-                                          IconButton(
-                                              onPressed: () async {
-                                                print("pressed edit");
-                                                return await showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                    title: const Text(
-                                                        "Confirm Delete."),
-                                                    content: const Text(
-                                                        "Are you sure you want to Delete?"),
-                                                    actions: [
-                                                      ElevatedButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          child: const Text(
-                                                              "Cancel")),
-                                                      ElevatedButton(
-                                                          onPressed: () async {
-                                                            FirebaseFirestore
-                                                                .instance
-                                                                .collection(
-                                                                    "books")
-                                                                .doc(snapshot
-                                                                    .data
-                                                                    .docs[index]
-                                                                        [
-                                                                        "bookId"]
-                                                                    .toString())
-                                                                .delete()
-                                                                .then((value) =>
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop());
-                                                          },
-                                                          child: const Text(
-                                                              "Confirm")),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                              icon: const Icon(Icons.delete)),
-                                        ],
-                                      ),
                                       Row(
                                         children: [
                                           CircleAvatar(
@@ -246,14 +191,14 @@ class _StockRegisterState extends State<StockRegister> {
                                                       ["shelfno"],
                                                   style: kscreentitle.copyWith(
                                                       fontSize: 15,
-                                                      color: Colors.black54),
+                                                      color: Colors.redAccent),
                                                 ),
-                                                Text(
-                                                  "Rs ${snapshot.data.docs[index]["price"]}",
-                                                  style: kscreentitle.copyWith(
-                                                      fontSize: 15,
-                                                      color: Colors.black54),
-                                                ),
+                                                // Text(
+                                                //   "Rs ${snapshot.data.docs[index]["price"]}",
+                                                //   style: kscreentitle.copyWith(
+                                                //       fontSize: 15,
+                                                //       color: Colors.black54),
+                                                // ),
                                               ],
                                             ),
                                           )
