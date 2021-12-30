@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
+import 'package:libman/screens/tabs/membership_fn/memberdetails.dart';
 
 class FilterSearch extends StatefulWidget {
   @override
@@ -80,11 +81,11 @@ class _HomeScreenState extends State<FilterSearch> {
   }
 
   Widget _searchBox() {
-    return new Container(
+    return Container(
       //decoration: BoxDecoration(border: Border.all(width: 1.0)),
-      child: new TextFormField(
+      child: TextFormField(
         controller: _searchEdit,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           prefixIcon: Icon(Icons.search),
           hintText: "Search",
           //hintStyle: new TextStyle(color: Colors.grey[300]),
@@ -104,58 +105,77 @@ class _HomeScreenState extends State<FilterSearch> {
     );
   }
 
-  Container MemberlistCard(int index, List<dynamic> _socialListItems) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      //color: Colors.cyan[50],
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: const [
-            BoxShadow(color: Colors.black26, blurRadius: 30, spreadRadius: 2)
-          ]),
-      //elevation: 5.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                " ${_socialListItems[index]['name']}",
-                style: kcardtext.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                    color: Colors.black87),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.home,
-                    color: Colors.black54,
-                  ),
-                  Text(
-                    "${_socialListItems[index]['address']}",
-                    style: kcardtext.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black54,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Text(
-            '${_socialListItems[index].id}',
-            style: kcardtext.copyWith(
-              fontSize: 18,
-              color: kprimarylightcolor,
+  GestureDetector MemberlistCard(int index, List<dynamic> _socialListItems) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) => MemberDetails(
+              memberData: _socialListItems[index],
             ),
-          )
-        ],
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        //color: Colors.cyan[50],
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: const [
+              BoxShadow(color: Colors.black26, blurRadius: 30, spreadRadius: 2)
+            ]),
+        //elevation: 5.0,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      " ${_socialListItems[index]['name']}",
+                      style: kcardtext.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          color: Colors.black87),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.home,
+                          color: Colors.black54,
+                        ),
+                        Text(
+                          "${_socialListItems[index]['address']}",
+                          style: kcardtext.copyWith(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Text(
+                  '${_socialListItems[index].id}',
+                  style: kcardtext.copyWith(
+                    fontSize: 18,
+                    color: kprimarylightcolor,
+                  ),
+                )
+              ],
+            ),
+            const Text(
+              "Tap to view details",
+              style: kcardtext,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -170,22 +190,5 @@ class _HomeScreenState extends State<FilterSearch> {
       }
     }
     return _listView(_searchListItems);
-  }
-
-  Widget _searchAddList() {
-    return Flexible(
-      child: ListView.builder(
-          itemCount: _searchListItems.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Card(
-              color: Colors.cyan[100],
-              elevation: 5.0,
-              child: Container(
-                margin: EdgeInsets.all(15.0),
-                child: Text("${_searchListItems[index]['name']}"),
-              ),
-            );
-          }),
-    );
   }
 }

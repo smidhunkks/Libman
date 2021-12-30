@@ -27,7 +27,7 @@ class UserService {
     // store.Query query =
     //     collectionRef.orderBy("mem_id", descending: true).limit(1);
     String? idString = await idGen;
-    print("inside addmem:$idString");
+
     await _firestore.collection("member").doc(idString).set(
       {
         "name": member.name,
