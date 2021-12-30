@@ -15,28 +15,24 @@ class MemberSearch extends StatefulWidget {
 }
 
 class _MemberSearchState extends State<MemberSearch> {
-
-
-  
   final _searchformKey = GlobalKey<FormState>();
-  
+
   TextEditingController name = TextEditingController();
-   Map <String,dynamic> userMap={};
-   void onSearch() async{
+  Map<String, dynamic> userMap = {};
+  void onSearch() async {
+    FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-     FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-     await _firestore.collection('member').where("name", isEqualTo:name.text)
-     .get().then((value){
-       setState((){
-          userMap=value.docs[0].data();
-       });
-     print(userMap);
-     }
-     );
-
-   }
-  
+    await _firestore
+        .collection('member')
+        .where("name", isEqualTo: name.text.toUpperCase())
+        .get()
+        .then((value) {
+      setState(() {
+        userMap = value.docs[0].data();
+      });
+      print(userMap);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +52,14 @@ class _MemberSearchState extends State<MemberSearch> {
                     "Search Member",
                     style: kscreentitle,
                   ),
-                  
                   TextField(
                     controller: name,
-                   
                     decoration: const InputDecoration(
                       labelText: "Name",
                       hintText: "Name",
                     ),
                   ),
-                 TextButton(
+                  TextButton(
                     onPressed: onSearch,
                     child: Container(
                         padding:
@@ -80,19 +74,16 @@ class _MemberSearchState extends State<MemberSearch> {
                           style: TextStyle(color: Colors.white),
                         ))),
                   ),
-                  userMap != null 
-                  ? ListTile(
-                    onTap:(){
-
-                    },
-                    leading: Icon(
-                      Icons.account_box,
-                    ),
-                    title: Text(userMap['name']),
-                    subtitle: Text(userMap['address']),
-                  )
-                  : Container(),
-                  
+                  userMap.isNotEmpty
+                      ? ListTile(
+                          onTap: () {},
+                          leading: Icon(
+                            Icons.account_box,
+                          ),
+                          title: Text(userMap['name']),
+                          subtitle: Text(userMap['address']),
+                        )
+                      : Container(),
                 ],
               ),
             ),
@@ -101,5 +92,4 @@ class _MemberSearchState extends State<MemberSearch> {
       ),
     );
   }
-  
 }
