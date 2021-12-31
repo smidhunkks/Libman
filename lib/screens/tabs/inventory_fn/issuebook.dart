@@ -186,7 +186,7 @@ class _IssuebookState extends State<Issuebook> {
 
                             if (bookdetail.exists) {
                               setState(() {
-                                _bookname.text = bookdetail['bookname'];
+                                _bookname.text = bookdetail['bookName'];
                               });
                             } else {
                               final snackbar = SnackBar(
