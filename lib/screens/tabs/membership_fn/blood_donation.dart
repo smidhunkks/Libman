@@ -65,7 +65,7 @@ class BloodDonorList extends StatelessWidget {
                                     icon: Icon(Icons.call),
                                     onPressed: () {
                                       launch(
-                                          'tel://${snapshot.data.docs[index]["phone"]}');
+                                          'tel:${snapshot.data.docs[index]["phone"]}');
                                     },
                                   ),
                                 ),

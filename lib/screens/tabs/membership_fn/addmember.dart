@@ -33,7 +33,7 @@ class _AddMemberState extends State<AddMember> {
       //we wait for the dialog to return
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2015),
+      firstDate: DateTime(1949),
       lastDate: DateTime(2050),
     );
     if (d != null) {

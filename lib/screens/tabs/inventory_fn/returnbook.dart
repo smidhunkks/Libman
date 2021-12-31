@@ -21,7 +21,7 @@ class _ReturnBookState extends State<ReturnBook> {
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
   TextEditingController _bookid = TextEditingController();
-  TextEditingController _memid = TextEditingController();
+  TextEditingController _memid = TextEditingController(text: "VPL");
   TextEditingController _bookname = TextEditingController();
   TextEditingController _dateController = TextEditingController();
 

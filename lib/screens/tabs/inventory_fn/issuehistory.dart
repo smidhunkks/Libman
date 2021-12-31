@@ -33,7 +33,7 @@ class IssueHistory extends StatelessWidget {
                   "Issue History : $bookName",
                   style: kscreentitle.copyWith(color: Colors.grey),
                 ),
-                Divider(
+                const Divider(
                   color: Colors.black87,
                   endIndent: 15,
                 ),

@@ -40,6 +40,7 @@ List<String> bookCateg = [
   "Study",
   "History",
   "Children's",
+  "Novel",
   "Drama",
   "Travelogue",
   "Reference",

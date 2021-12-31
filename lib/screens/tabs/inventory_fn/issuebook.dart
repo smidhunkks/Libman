@@ -32,7 +32,7 @@ class _IssuebookState extends State<Issuebook> {
   //DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   final TextEditingController _dateController = TextEditingController();
-  TextEditingController mem_id = TextEditingController();
+  TextEditingController mem_id = TextEditingController(text: "VPL");
   TextEditingController name = TextEditingController();
   final TextEditingController _bookid = TextEditingController();
   final TextEditingController _bookname = TextEditingController();
@@ -310,29 +310,51 @@ class _IssuebookState extends State<Issuebook> {
                               duedate: toDate),
                         )
                             .then((value) {
-                          _bookid.clear();
-                          _bookname.clear();
-                          mem_id.clear();
-                          name.clear();
-                          final snackbar = SnackBar(
-                            backgroundColor: Colors.greenAccent,
-                            content: const Text(
-                              "Issue Successful",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            action: SnackBarAction(
-                              textColor: Colors.black,
-                              label: 'dismiss',
-                              onPressed: () {},
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                          if (value == true) {
+                            _bookid.clear();
+                            _bookname.clear();
+                            mem_id.clear();
+                            name.clear();
+                            final snackbar = SnackBar(
+                              backgroundColor: Colors.greenAccent,
+                              content: const Text(
+                                "Issue Successful",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              action: SnackBarAction(
+                                textColor: Colors.black,
+                                label: 'dismiss',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                          } else {
+                            _bookid.clear();
+                            _bookname.clear();
+                            mem_id.clear();
+                            name.clear();
+                            final snackbar = SnackBar(
+                              backgroundColor: Colors.redAccent
+                              content: const Text(
+                                "Issue Failed: Book already issued",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              action: SnackBarAction(
+                                textColor: Colors.white,
+                                label: 'dismiss',
+                                onPressed: () {},
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackbar);
+                          }
                           //Navigator.of(context).pop();
                         }).onError((error, stackTrace) {
                           final snackbar = SnackBar(
                             backgroundColor: Colors.redAccent,
                             content: const Text(
-                              "Issue Failed",
+                              "Issue Failed : Book already issued",
                               style: TextStyle(color: Colors.white),
                             ),
                             action: SnackBarAction(

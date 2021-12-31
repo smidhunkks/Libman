@@ -158,7 +158,7 @@ class _AddBookState extends State<AddBook> {
                     child: TextButton(
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
-                          await BookService()
+                          final addResponse = await BookService()
                               .addBook(
                             Book(
                               bookId: int.parse(id.text),
@@ -171,14 +171,31 @@ class _AddBookState extends State<AddBook> {
                           )
                               .then(
                             (value) {
-                              id.clear();
-                              bookName.clear();
-                              publisher.clear();
-                              _selectedvalue = 0;
-                              author.clear();
-                              price.clear();
-                              shelfno.clear();
-                              Navigator.of(context).pop();
+                              if (value == true) {
+                                id.clear();
+                                bookName.clear();
+                                publisher.clear();
+                                _selectedvalue = 0;
+                                author.clear();
+                                price.clear();
+                                shelfno.clear();
+                                Navigator.of(context).pop();
+                              } else {
+                                id.clear();
+                                final snackbar = SnackBar(
+                                  backgroundColor: Colors.redAccent,
+                                  content: const Text(
+                                    "Book Id already in use",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  action: SnackBarAction(
+                                    label: 'dismiss',
+                                    onPressed: () {},
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              }
                             },
                           );
                         }

@@ -93,6 +93,8 @@ class _StockRegisterState extends State<StockRegister> {
                                             ['price'],
                                         shelfno: snapshot.data.docs[index]
                                             ['shelfno'],
+                                        category: snapshot.data.docs[index]
+                                            ["bookcategory"],
                                       ),
                                     ),
                                   );
@@ -166,7 +168,7 @@ class _StockRegisterState extends State<StockRegister> {
                                                         FontStyle.italic),
                                               ),
                                               Text(
-                                                "Category : ${snapshot.data.docs[index]["bookauthor"]}",
+                                                "Category : ${snapshot.data.docs[index]["bookcategory"]}",
                                                 style: kscreentitle.copyWith(
                                                     fontSize: 15,
                                                     color: Colors.black54),

@@ -12,7 +12,8 @@ class Booketails extends StatefulWidget {
       this.bookName,
       this.bookauthor,
       this.price,
-      this.shelfno})
+      this.shelfno,
+      this.category})
       : super(key: key);
 
   final String? Id;
@@ -20,6 +21,7 @@ class Booketails extends StatefulWidget {
   final String? bookauthor;
   final double? price;
   final String? shelfno;
+  final String? category;
 
   @override
   State<Booketails> createState() => _BooketailsState();
@@ -129,6 +131,10 @@ class _BooketailsState extends State<Booketails> {
               ),
               Text(
                 "Shelf No : ${widget.shelfno} ",
+                style: kcardtext.copyWith(fontSize: 18),
+              ),
+              Text(
+                "Category : ${widget.category} ",
                 style: kcardtext.copyWith(fontSize: 18),
               ),
               Row(
