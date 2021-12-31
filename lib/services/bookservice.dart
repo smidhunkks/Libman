@@ -7,9 +7,10 @@ class BookService {
 
   Future<bool> addBook(Book book) async {
     final addcheck = await _firestore
-        .collection('book')
+        .collection('books')
         .where('bookId', isEqualTo: book.bookId)
         .get();
+    print(addcheck.docs);
     if (addcheck.docs.isEmpty) {
       await _firestore.collection('books').doc(book.bookId.toString()).set({
         "bookId": book.bookId,
