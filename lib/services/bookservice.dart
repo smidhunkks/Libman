@@ -11,7 +11,7 @@ class BookService {
         .where('bookId', isEqualTo: book.bookId)
         .get();
     if (addcheck.docs.isEmpty) {
-      await _firestore.collection('books').doc(book.bookId.toString()).set({
+      _firestore.collection('books').doc(book.bookId.toString()).set({
         "bookId": book.bookId,
         "bookname": book.bookname,
         "bookauthor": book.bookauthor,
@@ -21,6 +21,7 @@ class BookService {
         "timestamp": DateTime.now()
       }).then((value) => true);
     }
+
     return false;
   }
 
@@ -30,7 +31,7 @@ class BookService {
         .where('bookId', isEqualTo: issue.bookId)
         .get();
     if (issuecheck.docs.isEmpty) {
-      await _firestore.collection('issue').add({
+      await _firestore.collection('issue').doc().set({
         "bookId": issue.bookId,
         "bookName": issue.bookName,
         "memberName": issue.name,
@@ -38,33 +39,9 @@ class BookService {
         "issuedate": issue.date,
         "timestamp": DateTime.now(),
         "duedate": issue.duedate
-      }).then(
-        (value) => true,
-      );
+      });
       return true;
-    } else {
-      return false;
     }
-
-    // await _firestore
-    // .collection('issue')
-    // .doc(issue.memId)
-    // .collection('active')
-    // .doc(issue.bookId)
-    // .set({
-    //   "bookId": issue.bookId,
-    //   "bookName": issue.bookName,
-    //   "memberName": issue.name,
-    //   "memId": issue.memId,
-    //   "issuedate": issue.date,
-    //   "timestamp": issue.date,
-    //   "duedate": issue.duedate
-    // })
-    // .then(
-    //   (value) => print("Issue Success"),
-    // )
-    // .onError(
-    //   (error, stackTrace) => print("error"),
-    // );
+    return false;
   }
 }

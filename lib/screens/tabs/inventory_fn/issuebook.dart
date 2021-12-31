@@ -299,73 +299,77 @@ class _IssuebookState extends State<Issuebook> {
                   TextButton(
                     onPressed: () async {
                       if (_issueformKey.currentState!.validate()) {
-                        await BookService()
+                        final issuestatus = await BookService()
                             .issueBook(
                           Issued(
-                              bookId: _bookid.text,
-                              bookName: _bookname.text,
-                              memId: mem_id.text.toUpperCase(),
-                              name: name.text,
-                              date: fromDate,
-                              duedate: toDate),
+                            bookId: _bookid.text,
+                            bookName: _bookname.text,
+                            memId: mem_id.text.toUpperCase(),
+                            name: name.text,
+                            date: fromDate,
+                            duedate: toDate,
+                          ),
                         )
-                            .then((value) {
-                          print(value);
-                          if (value == true) {
-                            _bookid.clear();
-                            _bookname.clear();
-                            mem_id.clear();
-                            name.clear();
-                            final snackbar = SnackBar(
-                              backgroundColor: Colors.greenAccent,
-                              content: const Text(
-                                "Issue Successful",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              action: SnackBarAction(
-                                textColor: Colors.black,
-                                label: 'dismiss',
-                                onPressed: () {},
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackbar);
-                          } else {
-                            _bookid.clear();
-                            _bookname.clear();
-                            mem_id.clear();
-                            name.clear();
-                            final snackbar = SnackBar(
-                              backgroundColor: Colors.redAccent,
-                              content: const Text(
-                                "Issue Failed: Book already issued",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              action: SnackBarAction(
-                                textColor: Colors.white,
-                                label: 'dismiss',
-                                onPressed: () {},
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackbar);
-                          }
-                          //Navigator.of(context).pop();
-                        }).onError((error, stackTrace) {
-                          final snackbar = SnackBar(
-                            backgroundColor: Colors.redAccent,
-                            content: const Text(
-                              "Issue Failed : Book already issued",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            action: SnackBarAction(
-                              textColor: Colors.white,
-                              label: 'dismiss',
-                              onPressed: () {},
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                        });
+                            .then(
+                          (value) {
+                            print(value);
+                            if (value == true) {
+                              _bookid.clear();
+                              _bookname.clear();
+                              mem_id.clear();
+                              name.clear();
+                              final snackbar = SnackBar(
+                                backgroundColor: Colors.greenAccent,
+                                content: const Text(
+                                  "Issue Successful",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                action: SnackBarAction(
+                                  textColor: Colors.black,
+                                  label: 'dismiss',
+                                  onPressed: () {},
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackbar);
+                            } else {
+                              _bookid.clear();
+                              _bookname.clear();
+                              mem_id.clear();
+                              name.clear();
+                              final snackbar = SnackBar(
+                                backgroundColor: Colors.redAccent,
+                                content: const Text(
+                                  "Issue Failed: Book already issued",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                action: SnackBarAction(
+                                  textColor: Colors.white,
+                                  label: 'dismiss',
+                                  onPressed: () {},
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackbar);
+                            }
+                            //Navigator.of(context).pop();
+                          },
+                        );
+                        // ).onError((error, stackTrace) {
+                        //   final snackbar = SnackBar(
+                        //     backgroundColor: Colors.redAccent,
+                        //     content: const Text(
+                        //       "Issue Failed : Book already issued",
+                        //       style: TextStyle(color: Colors.white),
+                        //     ),
+                        //     action: SnackBarAction(
+                        //       textColor: Colors.white,
+                        //       label: 'dismiss',
+                        //       onPressed: () {},
+                        //     ),
+                        //   );
+                        //   ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                        // });
                       }
                     },
                     child: Container(
