@@ -195,12 +195,6 @@ class _StockRegisterState extends State<StockRegister> {
                                                       fontSize: 15,
                                                       color: Colors.redAccent),
                                                 ),
-                                                // Text(
-                                                //   "Rs ${snapshot.data.docs[index]["price"]}",
-                                                //   style: kscreentitle.copyWith(
-                                                //       fontSize: 15,
-                                                //       color: Colors.black54),
-                                                // ),
                                               ],
                                             ),
                                           )
@@ -210,16 +204,6 @@ class _StockRegisterState extends State<StockRegister> {
                                   ),
                                 ),
                               );
-                              // ListTile(
-                              //   leading: CircleAvatar(
-                              //     radius: 30,
-                              //     backgroundColor: kprimarycolor,
-                              //     child:
-                              //         Text(snapshot.data.docs[index]["bookId"]),
-                              //   ),
-                              //   title:
-                              //       Text(snapshot.data.docs[index]["bookname"]),
-                              // );
                             },
                             separatorBuilder: (context, index) =>
                                 const SizedBox(
@@ -237,7 +221,7 @@ class _StockRegisterState extends State<StockRegister> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => AddBook(),
+            builder: (context) => const AddBook(),
           ),
         ),
         backgroundColor: kprimarycolor,

@@ -21,7 +21,7 @@ class _IssuebookState extends State<Issuebook> {
   final _issueformKey = GlobalKey<FormState>();
 
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
-  int _counter = 0;
+  int issue_counter = 0;
 
   DateTime _selectedDate = DateTime.now();
   DateTime fromDate =
@@ -104,12 +104,23 @@ class _IssuebookState extends State<Issuebook> {
                                 .collection('member')
                                 .doc(mem_id.text.toUpperCase())
                                 .get();
+                            final tempissuecount = await FirebaseFirestore
+                                .instance
+                                .collection('issue')
+                                .where('memId',
+                                    isEqualTo: mem_id.text.toUpperCase())
+                                .get();
 
+                            //print("issue count ${tempissuecount.docs.length}");
                             if (memdetail.exists) {
                               setState(() {
                                 name.text = memdetail['name'];
+                                issue_counter = tempissuecount.docs.length;
                               });
                             } else {
+                              setState(() {
+                                issue_counter = 0;
+                              });
                               final snackbar = SnackBar(
                                 content: const Text("No User Found"),
                                 action: SnackBarAction(
@@ -131,7 +142,7 @@ class _IssuebookState extends State<Issuebook> {
                     controller: name,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "No member found";
+                        return "Enter member name";
                       }
                     },
                     readOnly: true,
@@ -140,6 +151,21 @@ class _IssuebookState extends State<Issuebook> {
                       hintText: "Name",
                     ),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Visibility(
+                      visible: issue_counter != 0,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Active Issues : $issue_counter",
+                          style: kcardtext.copyWith(
+                              color: Colors.redAccent,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      )),
+
                   TextFormField(
                     controller: _bookid,
                     validator: (value) {
@@ -316,7 +342,7 @@ class _IssuebookState extends State<Issuebook> {
                             if (value == true) {
                               _bookid.clear();
                               _bookname.clear();
-                              mem_id.clear();
+                              mem_id.text = "VPL";
                               name.clear();
                               final snackbar = SnackBar(
                                 backgroundColor: Colors.greenAccent,
