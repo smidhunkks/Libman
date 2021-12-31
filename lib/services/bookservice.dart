@@ -11,7 +11,7 @@ class BookService {
         .where('bookId', isEqualTo: book.bookId)
         .get();
     if (addcheck.docs.isEmpty) {
-      _firestore.collection('books').doc(book.bookId.toString()).set({
+      await _firestore.collection('books').doc(book.bookId.toString()).set({
         "bookId": book.bookId,
         "bookname": book.bookname,
         "bookauthor": book.bookauthor,
@@ -19,7 +19,8 @@ class BookService {
         "bookcategory": book.bookcategory,
         "shelfno": book.shelfno,
         "timestamp": DateTime.now()
-      }).then((value) => true);
+      });
+      return true;
     }
 
     return false;
