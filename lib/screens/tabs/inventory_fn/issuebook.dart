@@ -299,7 +299,7 @@ class _IssuebookState extends State<Issuebook> {
                   TextButton(
                     onPressed: () async {
                       if (_issueformKey.currentState!.validate()) {
-                        bool? issuestatus = await BookService()
+                        await BookService()
                             .issueBook(
                           Issued(
                               bookId: _bookid.text,
@@ -310,6 +310,7 @@ class _IssuebookState extends State<Issuebook> {
                               duedate: toDate),
                         )
                             .then((value) {
+                          print(value);
                           if (value == true) {
                             _bookid.clear();
                             _bookname.clear();
@@ -335,7 +336,7 @@ class _IssuebookState extends State<Issuebook> {
                             mem_id.clear();
                             name.clear();
                             final snackbar = SnackBar(
-                              backgroundColor: Colors.redAccent
+                              backgroundColor: Colors.redAccent,
                               content: const Text(
                                 "Issue Failed: Book already issued",
                                 style: TextStyle(color: Colors.white),

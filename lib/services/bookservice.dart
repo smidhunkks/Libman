@@ -24,7 +24,7 @@ class BookService {
     return false;
   }
 
-  Future<bool?> issueBook(Issued issue) async {
+  Future<bool> issueBook(Issued issue) async {
     final issuecheck = await _firestore
         .collection('issue')
         .where('bookId', isEqualTo: issue.bookId)
@@ -39,41 +39,13 @@ class BookService {
         "timestamp": DateTime.now(),
         "duedate": issue.duedate
       }).then(
-        (value) {
-          print("issue success");
-          return true;
-        },
-      ).onError(
-        (error, stackTrace) {
-          print("issue error");
-          return false;
-        },
+        (value) => true,
       );
+      return true;
     } else {
       return false;
-      // await _firestore
-      //     .collection('issue')
-      //     .doc(issuecheck.docs.toList()[0].id)
-      //     .update({
-      //   "bookId": issue.bookId,
-      //   "bookName": issue.bookName,
-      //   "memberName": issue.name,
-      //   "memId": issue.memId,
-      //   "issuedate": issue.date,
-      //   "timestamp": DateTime.now(),
-      //   "duedate": issue.duedate
-      // }).then(
-      //   (value) {
-      //     print("update success");
-      //     return true;
-      //   },
-      // ).onError(
-      //   (error, stackTrace) {
-      //     print("issue update error");
-      //     return false;
-      //   },
-      // );
     }
+
     // await _firestore
     // .collection('issue')
     // .doc(issue.memId)

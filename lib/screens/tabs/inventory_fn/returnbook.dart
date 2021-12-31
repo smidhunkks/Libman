@@ -168,48 +168,82 @@ class _ReturnBookState extends State<ReturnBook> {
                                             vertical: 10),
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 20, vertical: 12),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                        child: Column(
                                           children: [
-                                            Column(
+                                            Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                DateTime.now()
-                                                            .difference(snapshot
-                                                                .data
-                                                                .docs[index]
-                                                                    ['duedate']
-                                                                .toDate())
-                                                            .inDays >
-                                                        0
-                                                    ? Text(
-                                                        "Due by ${(DateTime.now().difference(snapshot.data.docs[index]['duedate'].toDate()).inDays)} days",
-                                                        style:
-                                                            kcardtext.copyWith(
-                                                                color: Colors
-                                                                    .redAccent),
-                                                      )
-                                                    : Text(
-                                                        "Active",
-                                                        style:
-                                                            kcardtext.copyWith(
-                                                                color: Colors
-                                                                    .green),
-                                                      ),
-                                                Text(
-                                                  "#${snapshot.data.docs[index]['bookId']}",
-                                                  style: kcardtext.copyWith(
-                                                      fontSize: 18),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    DateTime.now()
+                                                                .difference(snapshot
+                                                                    .data
+                                                                    .docs[index]
+                                                                        [
+                                                                        'duedate']
+                                                                    .toDate())
+                                                                .inDays >
+                                                            0
+                                                        ? Text(
+                                                            "Due by ${(DateTime.now().difference(snapshot.data.docs[index]['duedate'].toDate()).inDays)} days",
+                                                            style: kcardtext
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .redAccent),
+                                                          )
+                                                        : Text(
+                                                            "Active",
+                                                            style: kcardtext
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .green),
+                                                          ),
+                                                    Text(
+                                                      "#${snapshot.data.docs[index]['bookId']}",
+                                                      style: kcardtext.copyWith(
+                                                          fontSize: 18),
+                                                    ),
+                                                    Text(
+                                                      snapshot.data.docs[index]
+                                                          ['bookName'],
+                                                      style:
+                                                          kscreentitle.copyWith(
+                                                              fontSize: 20),
+                                                      overflow:
+                                                          TextOverflow.fade,
+                                                    ),
+                                                  ],
                                                 ),
-                                                Text(
-                                                  snapshot.data.docs[index]
-                                                      ['bookName'],
-                                                  style: kscreentitle.copyWith(
-                                                      fontSize: 20),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Due",
+                                                      style: kcardtext.copyWith(
+                                                          fontSize: 18),
+                                                    ),
+                                                    Text(
+                                                      formatter
+                                                          .format(snapshot
+                                                              .data
+                                                              .docs[index]
+                                                                  ['duedate']
+                                                              .toDate())
+                                                          .toString(),
+                                                      style:
+                                                          kscreentitle.copyWith(
+                                                              fontSize: 15),
+                                                    )
+                                                  ],
                                                 ),
                                               ],
                                             ),
@@ -220,30 +254,6 @@ class _ReturnBookState extends State<ReturnBook> {
                                                 style: kcardtext.copyWith(
                                                     color: Colors.black87),
                                               ),
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Due",
-                                                  style: kcardtext.copyWith(
-                                                      fontSize: 18),
-                                                ),
-                                                Text(
-                                                  formatter
-                                                      .format(snapshot
-                                                          .data
-                                                          .docs[index]
-                                                              ['duedate']
-                                                          .toDate())
-                                                      .toString(),
-                                                  style: kscreentitle.copyWith(
-                                                      fontSize: 15),
-                                                )
-                                              ],
                                             ),
                                           ],
                                         ),
