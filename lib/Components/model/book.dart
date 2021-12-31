@@ -1,6 +1,6 @@
 class Book {
   final int bookId;
-  final String bookname;
+  final String bookName;
   final String bookauthor;
   final String bookcategory;
   final double price;
@@ -8,7 +8,7 @@ class Book {
 
   Book({
     required this.bookId,
-    required this.bookname,
+    required this.bookName,
     required this.bookauthor,
     required this.bookcategory,
     required this.price,

@@ -162,7 +162,7 @@ class _AddBookState extends State<AddBook> {
                               .addBook(
                             Book(
                               bookId: int.parse(id.text),
-                              bookname: bookName.text,
+                              bookName: bookName.text,
                               bookauthor: author.text,
                               bookcategory: bookCateg[_selectedvalue!],
                               price: double.parse(price.text),

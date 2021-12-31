@@ -19,7 +19,6 @@ class _StockRegisterState extends State<StockRegister> {
   dynamic issueList = [];
   @override
   void initState() {
-    super.initState();
     Future.delayed(Duration.zero, () async {
       final issueListTemp =
           await FirebaseFirestore.instance.collection('issue').get();
@@ -28,6 +27,7 @@ class _StockRegisterState extends State<StockRegister> {
         issueList = issueListTemp.docs.toList();
       });
     });
+    super.initState();
   }
 
   @override
@@ -57,7 +57,11 @@ class _StockRegisterState extends State<StockRegister> {
                   SizedBox(
                     width: 10,
                   ),
-                  !togglevalue ? Text("Stock in") : Text("Stock out"),
+                  !togglevalue
+                      ? Text("Stock in",
+                          style: kcardtext.copyWith(fontSize: 20))
+                      : Text("Stock out",
+                          style: kcardtext.copyWith(fontSize: 20)),
                   Switch(
                       value: togglevalue,
                       onChanged: (value) {
@@ -112,20 +116,29 @@ class _StockRegisterState extends State<StockRegister> {
 
   Widget stockOut(AsyncSnapshot<dynamic> snapshot, bool mode) {
     List filteredList = [];
-    if (!mode) {
-      return stockList(snapshot.data.docs);
-    } else if (issueList.length != 0) {
+    if (mode) {
       for (var snapitem in snapshot.data.docs) {
-        bool flag = false;
-
         for (var item in issueList) {
           if (snapitem['bookId'].toString() == item['bookId']) {
-            flag = true;
-            break;
+            filteredList.add(snapitem);
           }
         }
-        if (flag == false) {
-          filteredList.add(snapitem);
+      }
+      return stockList(filteredList);
+    } else {
+      if (issueList.length != 0) {
+        for (var snapitem in snapshot.data.docs) {
+          bool flag = false;
+
+          for (var item in issueList) {
+            if (snapitem['bookId'].toString() == item['bookId']) {
+              flag = true;
+              break;
+            }
+          }
+          if (flag == false) {
+            filteredList.add(snapitem);
+          }
         }
       }
     }
@@ -143,7 +156,7 @@ class _StockRegisterState extends State<StockRegister> {
                     MaterialPageRoute(
                       builder: (ctx) => Booketails(
                         Id: snapshot[index].id,
-                        bookName: snapshot[index]['bookname'],
+                        bookName: snapshot[index]['bookName'],
                         bookauthor: snapshot[index]['bookauthor'],
                         price: snapshot[index]['price'],
                         shelfno: snapshot[index]['shelfno'],
@@ -201,7 +214,7 @@ class _StockRegisterState extends State<StockRegister> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                snapshot[index]["bookname"],
+                                snapshot[index]["bookName"],
                                 style: kscreentitle.copyWith(fontSize: 20),
                               ),
                               Text(
@@ -237,6 +250,12 @@ class _StockRegisterState extends State<StockRegister> {
                             ),
                           )
                         ],
+                      ),
+                      Text(
+                        "Tap to view",
+                        style: kcardtext.copyWith(
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
                     ],
                   ),
