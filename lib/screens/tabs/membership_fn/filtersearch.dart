@@ -21,6 +21,7 @@ class _HomeScreenState extends State<FilterSearch> {
   @override
   void initState() {
     super.initState();
+
     _socialListItems = [];
     Future.delayed(Duration.zero, () async {
       final memfetch =
@@ -34,19 +35,25 @@ class _HomeScreenState extends State<FilterSearch> {
   }
 
   _HomeScreenState() {
-    _searchEdit.addListener(() {
-      if (_searchEdit.text.isEmpty) {
-        setState(() {
-          _isSearch = true;
-          _searchText = "";
-        });
-      } else {
-        setState(() {
-          _isSearch = false;
-          _searchText = _searchEdit.text;
-        });
-      }
-    });
+    _searchEdit.addListener(
+      () {
+        if (_searchEdit.text.isEmpty) {
+          setState(
+            () {
+              _isSearch = true;
+              _searchText = "";
+            },
+          );
+        } else {
+          setState(
+            () {
+              _isSearch = false;
+              _searchText = _searchEdit.text;
+            },
+          );
+        }
+      },
+    );
   }
 
   @override
