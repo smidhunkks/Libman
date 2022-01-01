@@ -155,7 +155,7 @@ class Inventory extends StatelessWidget {
                                 color: kprimarycolor,
                               ),
                               Text(
-                                "Inventory",
+                                "Programmes",
                                 style: kcardtext,
                               )
                             ],
