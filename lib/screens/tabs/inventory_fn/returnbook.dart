@@ -28,7 +28,6 @@ class _ReturnBookState extends State<ReturnBook> {
   List issueList = [0];
   late QuerySnapshot gissuesnap;
 
-  void fetchIssues(String memId) {}
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
