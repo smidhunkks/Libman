@@ -107,7 +107,9 @@ class _HomeScreenState extends State<FilterSearch> {
       child: ListView.builder(
           itemCount: _socialListItems.length,
           itemBuilder: (BuildContext context, int index) {
-            return MemberlistCard(index, _socialListItems);
+            return _socialListItems[index]['isVerified']
+                ? MemberlistCard(index, _socialListItems)
+                : Container();
           }),
     );
   }
@@ -191,9 +193,10 @@ class _HomeScreenState extends State<FilterSearch> {
     _searchListItems = [];
     for (int i = 0; i < _socialListItems.length; i++) {
       var item = _socialListItems[i];
-
-      if (item['name'].toLowerCase().contains(_searchText.toLowerCase())) {
-        _searchListItems.add(item);
+      if (item['isVerified']) {
+        if (item['name'].toLowerCase().contains(_searchText.toLowerCase())) {
+          _searchListItems.add(item);
+        }
       }
     }
     return _listView(_searchListItems);
