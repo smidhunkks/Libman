@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:libman/Components/model/user.dart';
 
 class Authservice {
@@ -13,6 +15,15 @@ class Authservice {
     }
   }
 
+  String get role {
+    final user = FirebaseFirestore.instance
+        .collection('users')
+        .doc(auth.FirebaseAuth.instance.currentUser!.email)
+        .snapshots();
+    print(user.first);
+    return "hi";
+  }
+
   Stream<User?>? get user {
     return _firebaseauth.authStateChanges().map(_userFromFirebase);
   }
@@ -21,6 +32,19 @@ class Authservice {
       String email, String password) async {
     final credential = await _firebaseauth.signInWithEmailAndPassword(
         email: email, password: password);
+
+    return _userFromFirebase(credential.user);
+  }
+
+  Future<User?> SignUpWithEmailandPassword(
+      String email, String password) async {
+    final credential = await _firebaseauth.createUserWithEmailAndPassword(
+        email: email, password: password);
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(email)
+        .set({"email": email, "role": "user"});
 
     return _userFromFirebase(credential.user);
   }

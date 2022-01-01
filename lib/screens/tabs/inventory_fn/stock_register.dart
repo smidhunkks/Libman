@@ -54,7 +54,7 @@ class _StockRegisterState extends State<StockRegister> {
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   !togglevalue

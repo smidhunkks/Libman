@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
@@ -6,7 +10,9 @@ import 'package:libman/screens/tabs/inventory_fn/issuebook.dart';
 import 'package:libman/screens/tabs/inventory_fn/returnbook.dart';
 
 import 'package:libman/screens/tabs/membership.dart';
+import 'package:libman/services/authservice.dart';
 import 'package:libman/widgets/reusable_card.dart';
+import 'package:provider/provider.dart';
 
 class Inventory extends StatelessWidget {
   const Inventory({Key? key}) : super(key: key);
@@ -115,39 +121,50 @@ class Inventory extends StatelessWidget {
                 ),
               ),
             ),
-            Visibility(
-              visible: false,
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: ReusableCard(
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return Scaffold(
-                          body: Text("data"),
-                        );
-                      }));
-                    },
-                    colour: activeCardColor,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(
-                          Icons.inventory_rounded,
-                          size: 75,
-                          color: kprimarycolor,
+            StreamBuilder<Object>(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser!.email)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  print("stream : ${snapshot.data}");
+
+                  return Visibility(
+                    visible: snapshot.hasData || snapshot.hasError
+                        ? snapshot.data!['role'] == 'Admin'
+                        : false, // snapshot.data.d['role'] == 'Admin',
+                    child: Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: ReusableCard(
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return Scaffold(
+                                body: Text("data"),
+                              );
+                            }));
+                          },
+                          colour: activeCardColor,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.inventory_rounded,
+                                size: 75,
+                                color: kprimarycolor,
+                              ),
+                              Text(
+                                "Inventory",
+                                style: kcardtext,
+                              )
+                            ],
+                          ),
                         ),
-                        Text(
-                          "Inventory",
-                          style: kcardtext,
-                        )
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
+                  );
+                }),
           ],
         ),
       ],

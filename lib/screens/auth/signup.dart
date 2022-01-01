@@ -105,18 +105,12 @@ class _SignUpState extends State<SignUp> {
                 size: size,
                 label: "Sign Up",
                 onPress: () async {
-                  print("Sign Up Screen");
-                  print(email.text);
-                  print(password.text);
-                  // await authservice.SignInWithEmailandPassword(
-                  //     email.text, password.text);
+                  if (password.text == conf_password.text) {
+                    final user = await authservice.SignUpWithEmailandPassword(
+                        email.text, password.text);
+                  }
                   Navigator.of(context).pop();
-                  //Dashboard();
-                  //Navigator.push(context,
-                  //   MaterialPageRoute(builder: (context) => Dashboard()));
                 },
-                // onpress: Navigator.of(context).push(
-                //     MaterialPageRoute(builder: (context) => WelcomeScreen())),
               )
             ],
           ),
