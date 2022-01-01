@@ -14,7 +14,7 @@ class BookService {
     if (addcheck.docs.isEmpty) {
       await _firestore.collection('books').doc(book.bookId.toString()).set({
         "bookId": book.bookId,
-        "bookname": book.bookName,
+        "bookName": book.bookName,
         "bookauthor": book.bookauthor,
         "price": book.price,
         "bookcategory": book.bookcategory,
