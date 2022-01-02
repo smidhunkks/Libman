@@ -1,18 +1,15 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:libman/Components/background.dart';
+
 import 'package:libman/constants.dart';
+import 'package:libman/screens/tabs/inventory_fn/programmes.dart';
+
 import 'package:libman/screens/tabs/inventory_fn/stock_register.dart';
 import 'package:libman/screens/tabs/inventory_fn/issuebook.dart';
 import 'package:libman/screens/tabs/inventory_fn/returnbook.dart';
 
-import 'package:libman/screens/tabs/membership.dart';
-import 'package:libman/services/authservice.dart';
 import 'package:libman/widgets/reusable_card.dart';
-import 'package:provider/provider.dart';
 
 class Inventory extends StatelessWidget {
   const Inventory({Key? key}) : super(key: key);
@@ -138,12 +135,11 @@ class Inventory extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 20),
                         child: ReusableCard(
                           onTap: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (context) {
-                              return const Scaffold(
-                                body: Text("data"),
-                              );
-                            }));
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Programs(),
+                              ),
+                            );
                           },
                           colour: activeCardColor,
                           child: Column(
