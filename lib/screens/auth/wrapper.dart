@@ -15,17 +15,24 @@ class Wrapper extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: authservice.user,
       builder: (_, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          return snapshot.data == null
-              ? WelcomeScreen()
-              : Dashboard(
-                  email: snapshot.data.email,
-                );
-        } else {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+        try {
+          if (snapshot.connectionState == ConnectionState.active) {
+            return snapshot.data == null
+                ? WelcomeScreen()
+                : Dashboard(
+                    email: snapshot.data.email,
+                  );
+          } else {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        } catch (e) {
+          print(e);
+          return Center(
+            child: Text("error"),
           );
         }
       },

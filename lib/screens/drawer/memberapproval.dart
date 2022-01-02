@@ -26,28 +26,31 @@ class ApprovalList extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('member')
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text("Something Went Wrong");
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Padding(
-                          padding: EdgeInsets.all(40),
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      return snapshot.data!.docs.length == 0
-                          ? const Center(
-                              child: Text(
-                              "No Pending Membership Found",
-                              style: kcardtext,
-                            ))
-                          : Expanded(child: pendingFilter(snapshot));
-                    })
+                Expanded(
+                  child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('member')
+                          .snapshots(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text("Something Went Wrong");
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Padding(
+                            padding: EdgeInsets.all(40),
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        return snapshot.data!.docs.length == 0
+                            ? const Center(
+                                child: Text(
+                                "No Pending Membership Found",
+                                style: kcardtext,
+                              ))
+                            : pendingFilter(snapshot);
+                      }),
+                )
               ],
             ),
           ),
