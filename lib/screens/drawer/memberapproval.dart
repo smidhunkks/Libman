@@ -20,7 +20,7 @@ class ApprovalList extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Stock Register",
+                  "Pending Approvals",
                   style: kscreentitle.copyWith(color: Colors.black45),
                 ),
                 SizedBox(
@@ -75,7 +75,7 @@ class ApprovalList extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (ctx) => MemberDetails(
-                    approve: Container(
+                    action: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: kprimarycolor,

@@ -4,11 +4,11 @@ import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
 
 class MemberDetails extends StatelessWidget {
-  const MemberDetails({Key? key, this.memberData, this.approve})
+  const MemberDetails({Key? key, this.memberData, this.action})
       : super(key: key);
 
   final dynamic memberData;
-  final Widget? approve;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
@@ -181,10 +181,10 @@ class MemberDetails extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
-                "Status :  ",
-                style: kcardtext.copyWith(fontSize: 18),
-              ),
+              // Text(
+              //   "Status :  ",
+              //   style: kcardtext.copyWith(fontSize: 18),
+              // ),
 
               const SizedBox(
                 height: 40,
@@ -210,7 +210,8 @@ class MemberDetails extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              approve ?? approve!,
+              action != null ? action! : Container(),
+              // approve ?? approve!,
             ],
           ),
         ),

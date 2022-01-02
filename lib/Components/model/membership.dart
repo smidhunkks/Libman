@@ -9,7 +9,8 @@ class Member {
   final DateTime dob;
   final String bloodgroup;
   final String membergroup;
-  final DateTime date;
+  final DateTime joindate;
+  final DateTime lastrenewdate;
   final bool isVerified;
 
   Member(
@@ -22,8 +23,9 @@ class Member {
     this.dob,
     this.bloodgroup,
     this.membergroup,
-    this.date,
+    this.joindate,
     this.memId,
     this.isVerified,
+    this.lastrenewdate,
   );
 }

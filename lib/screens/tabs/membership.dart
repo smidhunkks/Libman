@@ -37,7 +37,7 @@ class Membership extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => AddMember()));
                   },
                   colour: activeCardColor,
-                  width: size.width * .1,
+                  width: size.width * 0.1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [

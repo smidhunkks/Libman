@@ -11,28 +11,28 @@ class FilterSearch extends StatefulWidget {
 
 class _HomeScreenState extends State<FilterSearch> {
   final _searchEdit = TextEditingController();
-
-  bool _isSearch = true;
+  bool togglevalue = false;
+  bool _isSearch = false;
   String _searchText = "";
 
   List _socialListItems = [];
   List _searchListItems = [];
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _socialListItems = [];
-    Future.delayed(Duration.zero, () async {
-      final memfetch =
-          await FirebaseFirestore.instance.collection('member').get();
-      setState(() {
-        _socialListItems = memfetch.docs.toList();
-      });
-    });
+  //   _socialListItems = [];
+  //   // Future.delayed(Duration.zero, () async {
+  //   //   final memfetch =
+  //   //       await FirebaseFirestore.instance.collection('member').get();
+  //   //   setState(() {
+  //   //     _socialListItems = memfetch.docs.toList();
+  //   //   });
+  //   // });
 
-    _socialListItems.sort();
-  }
+  //   _socialListItems.sort();
+  // }
 
   _HomeScreenState() {
     _searchEdit.addListener(
@@ -40,14 +40,14 @@ class _HomeScreenState extends State<FilterSearch> {
         if (_searchEdit.text.isEmpty) {
           setState(
             () {
-              _isSearch = true;
+              _isSearch = false;
               _searchText = "";
             },
           );
         } else {
           setState(
             () {
-              _isSearch = false;
+              _isSearch = true;
               _searchText = _searchEdit.text;
             },
           );
@@ -62,7 +62,8 @@ class _HomeScreenState extends State<FilterSearch> {
       body: Background(
         child: SafeArea(
           child: Container(
-            margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 30.0),
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,11 +75,54 @@ class _HomeScreenState extends State<FilterSearch> {
                 const SizedBox(
                   height: 20,
                 ),
-                _searchBox(),
+                Row(
+                  children: [
+                    Expanded(child: _searchBox()),
+                    !togglevalue
+                        ? Text("Active",
+                            style: kcardtext.copyWith(fontSize: 15))
+                        : Text("Expired",
+                            style: kcardtext.copyWith(fontSize: 15)),
+                    Switch(
+                        value: togglevalue,
+                        onChanged: (value) {
+                          setState(() {
+                            togglevalue = value;
+                          });
+                        }),
+                  ],
+                ),
                 const SizedBox(
                   height: 20,
                 ),
-                _isSearch ? _listView(_socialListItems) : _searchListView()
+                Expanded(
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('member')
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasError) {
+                        return const Text("Something Went Wrong");
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Padding(
+                          padding: EdgeInsets.all(40),
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      return snapshot.data!.docs.length == 0
+                          ? const Center(
+                              child: Text(
+                              "No Member found",
+                              style: kcardtext,
+                            ))
+                          : _isSearch
+                              ? _searchListView()
+                              : expireActivetoggler(snapshot, togglevalue);
+                    },
+                  ),
+                )
               ],
             ),
           ),
@@ -88,30 +132,30 @@ class _HomeScreenState extends State<FilterSearch> {
   }
 
   Widget _searchBox() {
-    return Container(
-      //decoration: BoxDecoration(border: Border.all(width: 1.0)),
-      child: TextFormField(
-        controller: _searchEdit,
-        decoration: const InputDecoration(
-          prefixIcon: Icon(Icons.search),
-          hintText: "Search",
-          //hintStyle: new TextStyle(color: Colors.grey[300]),
-        ),
-        textAlign: TextAlign.center,
+    return TextFormField(
+      controller: _searchEdit,
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.search),
+        hintText: "Search",
+        //hintStyle: new TextStyle(color: Colors.grey[300]),
       ),
+      textAlign: TextAlign.center,
     );
   }
 
   Widget _listView(dynamic _socialListItems) {
-    return Flexible(
-      child: ListView.builder(
-          itemCount: _socialListItems.length,
-          itemBuilder: (BuildContext context, int index) {
-            return _socialListItems[index]['isVerified']
-                ? MemberlistCard(index, _socialListItems)
-                : Container();
-          }),
-    );
+    return _socialListItems.length != 0
+        ? ListView.builder(
+            itemCount: _socialListItems.length,
+            itemBuilder: (BuildContext context, int index) {
+              return MemberlistCard(index, _socialListItems);
+              // return _socialListItems[index]['isVerified']
+              //     ? MemberlistCard(index, _socialListItems)
+              //     : Container(); //Uncomment this code to display verified members only
+            })
+        : const Center(
+            child: Text("No Expired Members Found"),
+          );
   }
 
   GestureDetector MemberlistCard(int index, List<dynamic> _socialListItems) {
@@ -121,6 +165,32 @@ class _HomeScreenState extends State<FilterSearch> {
           MaterialPageRoute(
             builder: (ctx) => MemberDetails(
               memberData: _socialListItems[index],
+              action: togglevalue
+                  ? Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: kprimarycolor,
+                        //border: Border.all(width: 2, color: kprimarycolor),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: TextButton(
+                        onPressed: () async {
+                          FirebaseFirestore.instance
+                              .collection('member')
+                              .doc(_socialListItems[index].id)
+                              .update({"lastrenew": DateTime.now()}).then(
+                                  (value) => Navigator.of(context).pop());
+                        },
+                        child: Text(
+                          "Approve",
+                          style: kcardtext.copyWith(
+                            color: Colors.white,
+                            fontSize: 17,
+                          ),
+                        ),
+                      ),
+                    )
+                  : null,
             ),
           ),
         );
@@ -193,12 +263,37 @@ class _HomeScreenState extends State<FilterSearch> {
     _searchListItems = [];
     for (int i = 0; i < _socialListItems.length; i++) {
       var item = _socialListItems[i];
-      if (item['isVerified']) {
-        if (item['name'].toLowerCase().contains(_searchText.toLowerCase())) {
-          _searchListItems.add(item);
-        }
+      //if (item['isVerified']) {
+      if (item['name'].toLowerCase().contains(_searchText.toLowerCase())) {
+        _searchListItems.add(item);
       }
+      // }
     }
     return _listView(_searchListItems);
+  }
+
+  Widget expireActivetoggler(AsyncSnapshot<dynamic> snapshot, bool mode) {
+    List filteredList = [];
+    print(mode);
+    if (mode) {
+      // print(mode);
+      for (var snapitem in snapshot.data.docs) {
+        if (DateTime.now().difference(snapitem["lastrenew"].toDate()).inDays >
+            365) {
+          filteredList.add(snapitem);
+        }
+      }
+      print(filteredList);
+      return _listView(filteredList);
+    } else {
+      for (var snapitem in snapshot.data.docs) {
+        if (DateTime.now().difference(snapitem["lastrenew"].toDate()).inDays <=
+            365) {
+          filteredList.add(snapitem);
+        }
+      }
+      print(filteredList);
+      return _listView(filteredList);
+    }
   }
 }

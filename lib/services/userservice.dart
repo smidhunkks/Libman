@@ -39,9 +39,11 @@ class UserService {
         "dob": member.dob,
         "bloodgroup": member.bloodgroup,
         "membergroup": member.membergroup,
-        "date": member.date,
+        "joindate": member.joindate,
         "isVerified": false,
-        "mem_id": int.parse(idString!.substring(3))
+        "mem_id": int.parse(idString!.substring(3)),
+        "lastrenew": member.lastrenewdate,
+        "timestamp": DateTime.now()
       },
     ).then((value) => print("set"));
   }

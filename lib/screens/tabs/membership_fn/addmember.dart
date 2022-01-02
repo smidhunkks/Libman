@@ -14,11 +14,12 @@ class AddMember extends StatefulWidget {
 
 class _AddMemberState extends State<AddMember> {
   final _formKey = GlobalKey<FormState>();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd-MM-yyyy');
   int selectedbloodgp = 0;
   int selectedcategory = 0;
 
   dynamic _selectedDate = DateTime.now();
+  dynamic _joiningDate = DateTime.now();
 
   TextEditingController _dateController = TextEditingController();
   TextEditingController name = TextEditingController();
@@ -28,7 +29,7 @@ class _AddMemberState extends State<AddMember> {
   TextEditingController pin = TextEditingController();
   TextEditingController place = TextEditingController();
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<DateTime> _selectDate(BuildContext context) async {
     final DateTime? d = await showDatePicker(
       //we wait for the dialog to return
       context: context,
@@ -38,10 +39,13 @@ class _AddMemberState extends State<AddMember> {
     );
     if (d != null) {
       //if the user has selected a date
-      setState(() {
-        // we format the selected date and assign it to the state variable
-        _selectedDate = d;
-      });
+      return d;
+      // setState(() {
+      //   // we format the selected date and assign it to the state variable
+      //   _selectedDate = d;
+      // });
+    } else {
+      return DateTime.now();
     }
   }
 
@@ -138,17 +142,61 @@ class _AddMemberState extends State<AddMember> {
                       ),
                     ],
                   ),
-                  TextFormField(
-                    controller: place,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Enter Place";
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      labelText: "Place",
-                      hintText: "Place",
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //scrossAxisAlignment: CrossAxisAlignment.baseline,
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: TextFormField(
+                          controller: place,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Enter Place";
+                            }
+                          },
+                          decoration: const InputDecoration(
+                            labelText: "Place",
+                            hintText: "Place",
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: InkWell(
+                          onTap: () async {
+                            final tempJoin = await _selectDate(context);
+                            setState(() {
+                              _joiningDate = tempJoin;
+                            });
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              const Text("Join Date"),
+                              Container(
+                                // margin: EdgeInsets.symmetric(vertical: 20),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                // decoration: BoxDecoration(
+                                //   color: Colors.grey.withOpacity(.7),
+                                //   borderRadius: BorderRadius.circular(10),
+                                // ),
+                                child: Text(
+                                  formatter.format(_joiningDate).toString(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 20,
@@ -157,8 +205,11 @@ class _AddMemberState extends State<AddMember> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       InkWell(
-                        onTap: () {
-                          _selectDate(context);
+                        onTap: () async {
+                          final tempDob = await _selectDate(context);
+                          setState(() {
+                            _selectedDate = tempDob;
+                          });
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,9 +288,10 @@ class _AddMemberState extends State<AddMember> {
                               _selectedDate,
                               bloodgroup[selectedbloodgp],
                               category[selectedcategory],
-                              DateTime.now(),
+                              _joiningDate,
                               "VPL0001",
-                              false),
+                              false,
+                              _joiningDate),
                         )
                             .then((value) {
                           name.clear();
