@@ -40,6 +40,7 @@ class _HomeScreenState extends State<FilterSearch> {
         if (_searchEdit.text.isEmpty) {
           setState(
             () {
+              //togglevalue = false;
               _isSearch = false;
               _searchText = "";
             },
@@ -47,6 +48,7 @@ class _HomeScreenState extends State<FilterSearch> {
         } else {
           setState(
             () {
+              //togglevalue = false;
               _isSearch = true;
               _searchText = _searchEdit.text;
             },
@@ -59,71 +61,84 @@ class _HomeScreenState extends State<FilterSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Background(
-        child: SafeArea(
-          child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Member List",
-                  style: kscreentitle.copyWith(color: Colors.grey),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  children: [
-                    Expanded(child: _searchBox()),
-                    !togglevalue
-                        ? Text("Active",
-                            style: kcardtext.copyWith(fontSize: 15))
-                        : Text("Expired",
-                            style: kcardtext.copyWith(fontSize: 15)),
-                    Switch(
-                        value: togglevalue,
-                        onChanged: (value) {
-                          setState(() {
-                            togglevalue = value;
-                          });
-                        }),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('member')
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text("Something Went Wrong");
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Padding(
-                          padding: EdgeInsets.all(40),
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+      body: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
 
-                      return snapshot.data!.docs.length == 0
-                          ? const Center(
-                              child: Text(
-                              "No Member found",
-                              style: kcardtext,
-                            ))
-                          : _isSearch
-                              ? _searchListView()
-                              : expireActivetoggler(snapshot, togglevalue);
-                    },
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+            setState(() {
+              _isSearch = false;
+            });
+          }
+        },
+        child: Background(
+          child: SafeArea(
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Member List",
+                    style: kscreentitle.copyWith(color: Colors.grey),
                   ),
-                )
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: _searchBox()),
+                      !togglevalue
+                          ? Text("Active",
+                              style: kcardtext.copyWith(fontSize: 15))
+                          : Text("Expired",
+                              style: kcardtext.copyWith(fontSize: 15)),
+                      Switch(
+                          value: togglevalue,
+                          onChanged: (value) {
+                            setState(() {
+                              togglevalue = value;
+                            });
+                          }),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('member')
+                          .snapshots(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text("Something Went Wrong");
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Padding(
+                            padding: EdgeInsets.all(40),
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        return snapshot.data!.docs.length == 0
+                            ? const Center(
+                                child: Text(
+                                "No Member found",
+                                style: kcardtext,
+                              ))
+                            : _isSearch
+                                ? _searchListView(snapshot)
+                                : expireActivetoggler(snapshot);
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -154,7 +169,7 @@ class _HomeScreenState extends State<FilterSearch> {
               //     : Container(); //Uncomment this code to display verified members only
             })
         : const Center(
-            child: Text("No Expired Members Found"),
+            child: Text("No Members Found"),
           );
   }
 
@@ -259,23 +274,24 @@ class _HomeScreenState extends State<FilterSearch> {
     );
   }
 
-  Widget _searchListView() {
+  Widget _searchListView(AsyncSnapshot<dynamic> snapshot) {
     _searchListItems = [];
-    for (int i = 0; i < _socialListItems.length; i++) {
-      var item = _socialListItems[i];
+    for (var item in snapshot.data.docs) {
+      //var item = _socialListItems[i];
       //if (item['isVerified']) {
       if (item['name'].toLowerCase().contains(_searchText.toLowerCase())) {
         _searchListItems.add(item);
       }
       // }
     }
+    print("searchlist item : ${_searchListItems} searchtext $_searchText");
     return _listView(_searchListItems);
   }
 
-  Widget expireActivetoggler(AsyncSnapshot<dynamic> snapshot, bool mode) {
+  Widget expireActivetoggler(AsyncSnapshot<dynamic> snapshot) {
     List filteredList = [];
-    print(mode);
-    if (mode) {
+
+    if (togglevalue) {
       // print(mode);
       for (var snapitem in snapshot.data.docs) {
         if (DateTime.now().difference(snapitem["lastrenew"].toDate()).inDays >

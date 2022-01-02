@@ -16,7 +16,7 @@ class StockRegister extends StatefulWidget {
 class _StockRegisterState extends State<StockRegister> {
   final _searchEdit = TextEditingController();
 
-  bool _isSearch = true;
+  bool _isSearch = false;
   String _searchText = "";
 
   List _searchListItems = [];
@@ -38,7 +38,7 @@ class _StockRegisterState extends State<StockRegister> {
   }
 
   _SearchTextHandle() {
-    print(_searchEdit.text.isEmpty);
+    //print(_searchEdit.text.isEmpty);
     if (_searchEdit.text.isEmpty) {
       setState(() {
         _isSearch = false;
@@ -58,70 +58,82 @@ class _StockRegisterState extends State<StockRegister> {
         FirebaseFirestore.instance.collection("books").orderBy("bookId");
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Background(
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text(
-                  "Stock Register",
-                  style: kscreentitle.copyWith(color: Colors.black45),
-                ),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              _searchBox(),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  !togglevalue
-                      ? Text("Stock in",
-                          style: kcardtext.copyWith(fontSize: 20))
-                      : Text("Stock out",
-                          style: kcardtext.copyWith(fontSize: 20)),
-                  Switch(
-                      value: togglevalue,
-                      onChanged: (value) {
-                        setState(() {
-                          togglevalue = value;
-                        });
-                      }),
-                ],
-              ),
-              Expanded(
-                flex: 2,
-                child: StreamBuilder(
-                  stream: bookInfo.snapshots(),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasError) {
-                      return const Text("Something Went Wrong");
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Padding(
-                        padding: EdgeInsets.all(40),
-                        child: CircularProgressIndicator(),
-                      );
-                    }
+      body: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
 
-                    return snapshot.data!.docs.length == 0
-                        ? const Center(
-                            child: Text(
-                            "No Book found",
-                            style: kcardtext,
-                          ))
-                        : _isSearch
-                            ? _searchListView(snapshot.data.docs)
-                            : stockOut(snapshot, togglevalue);
-                  },
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+            setState(() {
+              _isSearch = false;
+            });
+          }
+        },
+        child: Background(
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    "Stock Register",
+                    style: kscreentitle.copyWith(color: Colors.black45),
+                  ),
                 ),
-              )
-            ],
+                const SizedBox(
+                  height: 40,
+                ),
+                _searchBox(),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    !togglevalue
+                        ? Text("Stock in",
+                            style: kcardtext.copyWith(fontSize: 20))
+                        : Text("Stock out",
+                            style: kcardtext.copyWith(fontSize: 20)),
+                    Switch(
+                        value: togglevalue,
+                        onChanged: (value) {
+                          setState(() {
+                            togglevalue = value;
+                          });
+                        }),
+                  ],
+                ),
+                Expanded(
+                  flex: 2,
+                  child: StreamBuilder(
+                    stream: bookInfo.snapshots(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasError) {
+                        return const Text("Something Went Wrong");
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Padding(
+                          padding: EdgeInsets.all(40),
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      return snapshot.data!.docs.length == 0
+                          ? const Center(
+                              child: Text(
+                              "No Book found",
+                              style: kcardtext,
+                            ))
+                          : _isSearch
+                              ? _searchListView(snapshot)
+                              : stockOut(snapshot);
+                    },
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -139,13 +151,15 @@ class _StockRegisterState extends State<StockRegister> {
     );
   }
 
-  Widget stockOut(AsyncSnapshot<dynamic> snapshot, bool mode) {
+  Widget stockOut(AsyncSnapshot<dynamic> snapshot) {
     List filteredList = [];
-    if (mode) {
+    if (togglevalue) {
       for (var snapitem in snapshot.data.docs) {
-        for (var item in issueList) {
-          if (snapitem['bookId'].toString() == item['bookId']) {
-            filteredList.add(snapitem);
+        if (issueList.length != 0) {
+          for (var item in issueList) {
+            if (snapitem['bookId'].toString() == item['bookId']) {
+              filteredList.add(snapitem);
+            }
           }
         }
       }
@@ -165,6 +179,8 @@ class _StockRegisterState extends State<StockRegister> {
             filteredList.add(snapitem);
           }
         }
+      } else {
+        filteredList = snapshot.data.docs;
       }
     }
     //print(filteredList);
@@ -311,10 +327,10 @@ class _StockRegisterState extends State<StockRegister> {
     );
   }
 
-  Widget _searchListView(_socialListItems) {
+  Widget _searchListView(AsyncSnapshot snapshot) {
     _searchListItems = [];
-    for (int i = 0; i < _socialListItems.length; i++) {
-      var item = _socialListItems[i];
+    for (var item in snapshot.data.docs) {
+      // var item = _socialListItems[i];
       print("search text${_searchEdit.text.toLowerCase()}");
       if (item['bookName'].toLowerCase().contains(_searchText.toLowerCase())) {
         _searchListItems.add(item);
@@ -323,7 +339,7 @@ class _StockRegisterState extends State<StockRegister> {
     // for (var item in _searchListItems) {
     // print(item['bookName']);
     // }
-
+    print("Search list item : ${_searchListItems}");
     return stockList(_searchListItems);
   }
 }
