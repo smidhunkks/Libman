@@ -5,6 +5,7 @@ class Book {
   final String bookcategory;
   final double price;
   final String shelfno;
+  final String? publisher;
 
   Book({
     required this.bookId,
@@ -13,5 +14,6 @@ class Book {
     required this.bookcategory,
     required this.price,
     required this.shelfno,
+    this.publisher,
   });
 }

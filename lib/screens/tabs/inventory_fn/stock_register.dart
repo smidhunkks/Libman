@@ -202,6 +202,7 @@ class _StockRegisterState extends State<StockRegister> {
                         price: snapshot[index]['price'],
                         shelfno: snapshot[index]['shelfno'],
                         category: snapshot[index]["bookcategory"],
+                        publisher: snapshot[index]["publisher"],
                       ),
                     ),
                   );

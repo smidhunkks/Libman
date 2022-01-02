@@ -47,4 +47,29 @@ class UserService {
       },
     ).then((value) => print("set"));
   }
+
+  Future updateMember(Member member) async {
+    // store.CollectionReference collectionRef = _firestore.collection("member");
+    // store.Query query =
+    //     collectionRef.orderBy("mem_id", descending: true).limit(1);
+    //String? idString = await idGen;
+
+    await _firestore.collection("member").doc(member.memId).update(
+      {
+        "name": member.name,
+        "phone": member.phone,
+        "address": member.address,
+        "postoffice": member.postoffice,
+        "wardno": member.wardno,
+        "place": member.place,
+        "dob": member.dob,
+        "bloodgroup": member.bloodgroup,
+        "membergroup": member.membergroup,
+        "joindate": member.joindate,
+        "isVerified": false,
+        "lastrenew": member.lastrenewdate,
+        "timestamp": DateTime.now()
+      },
+    ).then((value) => print("set"));
+  }
 }

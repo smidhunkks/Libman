@@ -19,12 +19,27 @@ class BookService {
         "price": book.price,
         "bookcategory": book.bookcategory,
         "shelfno": book.shelfno,
+        "publisher": book.publisher,
         "timestamp": DateTime.now()
       });
       return true;
     }
 
     return false;
+  }
+
+  Future<bool> editBook(Book book) async {
+    await _firestore.collection('books').doc(book.bookId.toString()).update({
+      "bookId": book.bookId,
+      "bookName": book.bookName,
+      "bookauthor": book.bookauthor,
+      "price": book.price,
+      "bookcategory": book.bookcategory,
+      "shelfno": book.shelfno,
+      "timestamp": DateTime.now(),
+      "publisher": book.publisher,
+    });
+    return true;
   }
 
   Future<bool> issueBook(Issued issue) async {

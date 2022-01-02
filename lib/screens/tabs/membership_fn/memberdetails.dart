@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:libman/screens/tabs/membership_fn/editmember.dart';
 
 class MemberDetails extends StatelessWidget {
   const MemberDetails({Key? key, this.memberData, this.action})
@@ -197,7 +198,25 @@ class MemberDetails extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => EditMember(
+                          pin: memberData['postoffice'],
+                          ward: memberData['wardno'],
+                          phone: memberData['phone'],
+                          name: memberData['name'],
+                          address: memberData['address'],
+                          dob: memberData['dob'].toDate(),
+                          bloodgroup: memberData['bloodgroup'],
+                          place: memberData['place'],
+                          category: memberData['membergroup'],
+                          joindate: memberData['joindate'].toDate(),
+                          id: memberData.id,
+                        ),
+                      ),
+                    );
+                  },
                   child: Text(
                     "Edit",
                     style: kcardtext.copyWith(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/tabs/inventory_fn/addbook.dart';
+import 'package:libman/screens/tabs/inventory_fn/editbook.dart';
 import 'package:libman/screens/tabs/inventory_fn/issuehistory.dart';
 
 class Booketails extends StatefulWidget {
@@ -13,7 +14,8 @@ class Booketails extends StatefulWidget {
       this.bookauthor,
       this.price,
       this.shelfno,
-      this.category})
+      this.category,
+      this.publisher})
       : super(key: key);
 
   final String? Id;
@@ -22,6 +24,7 @@ class Booketails extends StatefulWidget {
   final double? price;
   final String? shelfno;
   final String? category;
+  final String? publisher;
 
   @override
   State<Booketails> createState() => _BooketailsState();
@@ -171,7 +174,21 @@ class _BooketailsState extends State<Booketails> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: TextButton(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => EditBook(
+                          id: widget.Id,
+                          author: widget.bookauthor,
+                          bookName: widget.bookName,
+                          category: widget.category,
+                          price: widget.price,
+                          shelfno: widget.shelfno,
+                          publisher: widget.publisher,
+                        ),
+                      ),
+                    );
+                  },
                   child: Text(
                     "Edit",
                     style: kcardtext.copyWith(

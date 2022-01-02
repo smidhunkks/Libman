@@ -4,11 +4,27 @@ import 'package:libman/Components/model/book.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/services/bookservice.dart';
 
-class AddBook extends StatefulWidget {
-  const AddBook({Key? key}) : super(key: key);
+class EditBook extends StatefulWidget {
+  const EditBook(
+      {Key? key,
+      this.id,
+      this.bookName,
+      this.author,
+      this.publisher,
+      this.price,
+      this.shelfno,
+      this.category})
+      : super(key: key);
+  final String? id;
+  final String? bookName;
+  final String? author;
+  final String? publisher;
+  final double? price;
+  final String? shelfno;
+  final String? category;
 
   @override
-  State<AddBook> createState() => _AddBookState();
+  State<EditBook> createState() => _EditBookState();
 }
 
 int? _selectedvalue = 0;
@@ -19,11 +35,17 @@ TextEditingController publisher = TextEditingController();
 TextEditingController price = TextEditingController();
 TextEditingController shelfno = TextEditingController();
 
-class _AddBookState extends State<AddBook> {
+class _EditBookState extends State<EditBook> {
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
-
+    id.text = widget.id!;
+    bookName.text = widget.bookName!;
+    author.text = widget.author!;
+    publisher.text = widget.publisher!;
+    price.text = widget.price.toString();
+    shelfno.text = widget.shelfno!;
+    _selectedvalue = bookCateg.indexOf(widget.category!);
     return Scaffold(
       body: Background(
         child: SafeArea(
@@ -41,6 +63,7 @@ class _AddBookState extends State<AddBook> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          readOnly: true,
                           keyboardType: TextInputType.number,
                           controller: id,
                           validator: (value) {
@@ -159,7 +182,7 @@ class _AddBookState extends State<AddBook> {
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
                           final addResponse = await BookService()
-                              .addBook(
+                              .editBook(
                             Book(
                                 bookId: int.parse(id.text),
                                 bookName: bookName.text,
@@ -201,7 +224,7 @@ class _AddBookState extends State<AddBook> {
                         }
                       },
                       child: Text(
-                        "Add Book",
+                        "Update",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
