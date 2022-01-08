@@ -1,13 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
-import 'package:libman/screens/Welcome/welcome.dart';
+
 import 'package:libman/services/authservice.dart';
-import 'package:libman/screens/dashboard/dashboard.dart';
+
 import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
@@ -16,9 +13,9 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  TextEditingController email = new TextEditingController();
-  TextEditingController password = new TextEditingController();
-  TextEditingController conf_password = new TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController conf_password = TextEditingController();
 
   @override
   void initState() {
@@ -46,7 +43,7 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Libman",
                 style: ktitleStyle,
               ),
@@ -72,7 +69,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     TextField(
                       controller: email,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "Email",
                           prefixIcon: Icon(Icons.email_outlined)),
                     ),
@@ -82,7 +79,7 @@ class _SignUpState extends State<SignUp> {
                     TextField(
                       obscureText: true,
                       controller: password,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Password",
                         prefixIcon: Icon(Icons.password_outlined),
                       ),
@@ -93,7 +90,7 @@ class _SignUpState extends State<SignUp> {
                     TextField(
                       obscureText: true,
                       controller: conf_password,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Confirm Password",
                         prefixIcon: Icon(Icons.password_outlined),
                       ),
@@ -106,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                 label: "Sign Up",
                 onPress: () async {
                   if (password.text == conf_password.text) {
-                    final user = await authservice.SignUpWithEmailandPassword(
+                    await authservice.SignUpWithEmailandPassword(
                         email.text, password.text);
                   }
                   Navigator.of(context).pop();

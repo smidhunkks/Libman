@@ -154,7 +154,7 @@ class _EditBookState extends State<EditBook> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         "Book Category",
                         style: kcardtext,
                       ),
@@ -187,7 +187,7 @@ class _EditBookState extends State<EditBook> {
                     child: TextButton(
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
-                          final addResponse = await BookService()
+                          BookService()
                               .editBook(
                             Book(
                                 bookId: int.parse(id.text),
@@ -229,7 +229,7 @@ class _EditBookState extends State<EditBook> {
                           );
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         "Update",
                         style: TextStyle(color: Colors.white),
                       ),

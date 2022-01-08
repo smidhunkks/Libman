@@ -26,13 +26,14 @@ class Programs extends StatelessWidget {
                   style: kscreentitle.copyWith(color: Colors.black45),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Expanded(
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('programs')
+                      .orderBy('Date')
                       .snapshots(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasError) {
@@ -54,8 +55,6 @@ class Programs extends StatelessWidget {
                             //physics: BouncingScrollPhysics(),
                             itemCount: snapshot.data.docs.length,
                             itemBuilder: (context, index) {
-                              print(
-                                  "${snapshot.data.docs[index]['programname'].length}");
                               return Container(
                                 padding:
                                     const EdgeInsets.only(bottom: 10, left: 1),
@@ -127,6 +126,8 @@ class Programs extends StatelessWidget {
                                                             .doc(snapshot.data
                                                                 .docs[index].id)
                                                             .delete();
+                                                        Navigator.of(context)
+                                                            .pop();
                                                       },
                                                       child: const Text(
                                                           "Confirm")),
@@ -192,12 +193,12 @@ class Programs extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (_) => AddProgram(),
+              builder: (_) => const AddProgram(),
             ),
           );
         },
         backgroundColor: kprimarycolor,
-        child: Icon(
+        child: const Icon(
           Icons.add,
         ),
       ),

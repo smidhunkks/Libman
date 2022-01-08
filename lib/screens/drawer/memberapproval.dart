@@ -23,7 +23,7 @@ class ApprovalList extends StatelessWidget {
                   "Pending Approvals",
                   style: kscreentitle.copyWith(color: Colors.black45),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Expanded(

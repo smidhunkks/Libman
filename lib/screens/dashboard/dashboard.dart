@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
 import 'package:libman/screens/drawer/memberapproval.dart';
@@ -95,7 +92,7 @@ class _DashboardState extends State<Dashboard> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (_) => ApprovalList(),
+                            builder: (_) => const ApprovalList(),
                           ),
                         );
                       },
@@ -146,7 +143,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         // selectedFontSize: 15,
-        selectedIconTheme: IconThemeData(color: kprimarycolor, size: 30),
+        selectedIconTheme: const IconThemeData(color: kprimarycolor, size: 30),
         selectedItemColor: kprimarycolor,
 
         items: const <BottomNavigationBarItem>[

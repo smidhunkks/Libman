@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
-import 'package:libman/screens/tabs/inventory_fn/addbook.dart';
 import 'package:libman/screens/tabs/inventory_fn/editbook.dart';
 import 'package:libman/screens/tabs/inventory_fn/issuehistory.dart';
 
 class Booketails extends StatefulWidget {
-  Booketails(
+  const Booketails(
       {Key? key,
       this.Id,
       this.bookName,
@@ -94,7 +93,7 @@ class _BooketailsState extends State<Booketails> {
                         ScaffoldMessenger.of(context).showSnackBar(snackbar);
                       }
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.history,
                       size: 30,
                     ),
@@ -209,7 +208,6 @@ class _BooketailsState extends State<Booketails> {
                 ),
                 child: TextButton(
                   onPressed: () async {
-                    print("pressed edit");
                     return await showDialog(
                       context: context,
                       builder: (context) => AlertDialog(

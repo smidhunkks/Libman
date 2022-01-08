@@ -193,7 +193,7 @@ class _AddProgramState extends State<AddProgram> {
                       },
                       child: Text(
                         isEdit ? "Update program" : "Add Program",
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   )

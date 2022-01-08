@@ -2,28 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/Components/model/issued.dart';
-import 'package:libman/Components/model/membership.dart';
 import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
-import 'package:libman/screens/tabs/inventory_fn/addbook.dart';
 import 'package:libman/services/bookservice.dart';
-import 'package:libman/services/userservice.dart';
 
 class Issuebook extends StatefulWidget {
-  Issuebook({Key? key}) : super(key: key);
+  const Issuebook({Key? key}) : super(key: key);
 
   @override
   _IssuebookState createState() => _IssuebookState();
 }
 
 class _IssuebookState extends State<Issuebook> {
-  final String _setDate = "Choose a date";
   final _issueformKey = GlobalKey<FormState>();
 
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
   int issue_counter = 0;
 
-  DateTime _selectedDate = DateTime.now();
   DateTime fromDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   DateTime toDate =
@@ -31,12 +26,10 @@ class _IssuebookState extends State<Issuebook> {
           .add(const Duration(days: 15));
   //DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
-  final TextEditingController _dateController = TextEditingController();
   TextEditingController mem_id = TextEditingController(text: "VPL");
   TextEditingController name = TextEditingController();
   final TextEditingController _bookid = TextEditingController();
   final TextEditingController _bookname = TextEditingController();
-  final TextEditingController _duedateController = TextEditingController();
 
   Future<DateTime> _selectDate(
       BuildContext context, DateTime _selectedDate) async {
@@ -51,10 +44,6 @@ class _IssuebookState extends State<Issuebook> {
       setState(() {
         // we format the selected date and assign it to the state variable
         _selectedDate = datePicker;
-
-        print(
-          formatter.format(_selectedDate).toString(),
-        );
       });
     }
     return (_selectedDate);
@@ -130,7 +119,6 @@ class _IssuebookState extends State<Issuebook> {
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackbar);
-                              print("No user found");
                             }
                           }
                         },
@@ -198,10 +186,7 @@ class _IssuebookState extends State<Issuebook> {
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackbar);
-                              print("No book found");
                             }
-
-                            print("Validated");
                           }
                         },
                         child: const Text("Validate"),
@@ -235,7 +220,7 @@ class _IssuebookState extends State<Issuebook> {
                                   ? DateTime.now()
                                   : fromDate;
                           setState(() {
-                            toDate = fromDate.add(Duration(days: 15));
+                            toDate = fromDate.add(const Duration(days: 15));
                           });
                         },
                         child: Column(
@@ -260,10 +245,10 @@ class _IssuebookState extends State<Issuebook> {
                         onTap: () async {
                           toDate = await _selectDate(context, toDate);
                           setState(() {
-                            toDate =
-                                DateTime.now().difference(toDate).inDays > 0
-                                    ? DateTime.now().add(Duration(days: 14))
-                                    : toDate;
+                            toDate = DateTime.now().difference(toDate).inDays >
+                                    0
+                                ? DateTime.now().add(const Duration(days: 14))
+                                : toDate;
                           });
                         },
                         child: Column(
@@ -301,7 +286,7 @@ class _IssuebookState extends State<Issuebook> {
                   //     // labelText: "Issue Date",
                   //     hintText: (formatter.format(fromDate).toString()),
                   //   ),
-                  //   //TODO taking input to give to db and hinttext label text transition
+                  //
                   // ),
                   // TextFormField(
                   //   controller: _duedateController,
@@ -316,7 +301,7 @@ class _IssuebookState extends State<Issuebook> {
                   //     // labelText: "Issue Date",
                   //     hintText: (formatter.format(toDate).toString()),
                   //   ),
-                  //   //TODO taking input to give to db and hinttext label text transition
+                  //
                   //   // set different controllers for both date
                   // ),
                   const SizedBox(
@@ -325,7 +310,7 @@ class _IssuebookState extends State<Issuebook> {
                   TextButton(
                     onPressed: () async {
                       if (_issueformKey.currentState!.validate()) {
-                        final issuestatus = await BookService()
+                        BookService()
                             .issueBook(
                           Issued(
                             bookId: _bookid.text,
@@ -338,7 +323,6 @@ class _IssuebookState extends State<Issuebook> {
                         )
                             .then(
                           (value) {
-                            print(value);
                             if (value == true) {
                               _bookid.clear();
                               _bookname.clear();

@@ -20,7 +20,7 @@ class Authservice {
         .collection('users')
         .doc(auth.FirebaseAuth.instance.currentUser!.email)
         .snapshots();
-    print(user.first);
+
     return "hi";
   }
 

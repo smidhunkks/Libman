@@ -18,7 +18,7 @@ class Wrapper extends StatelessWidget {
         try {
           if (snapshot.connectionState == ConnectionState.active) {
             return snapshot.data == null
-                ? WelcomeScreen()
+                ? const WelcomeScreen()
                 : Dashboard(
                     email: snapshot.data.email,
                   );
@@ -30,8 +30,7 @@ class Wrapper extends StatelessWidget {
             );
           }
         } catch (e) {
-          print(e);
-          return Center(
+          return const Center(
             child: Text("error"),
           );
         }

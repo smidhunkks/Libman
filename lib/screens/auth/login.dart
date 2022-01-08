@@ -1,13 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
-import 'package:libman/screens/Welcome/welcome.dart';
+
 import 'package:libman/services/authservice.dart';
-import 'package:libman/screens/dashboard/dashboard.dart';
+
 import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
@@ -16,8 +13,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController email = new TextEditingController();
-  TextEditingController password = new TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
   void initState() {
@@ -45,7 +42,7 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Libman",
                 style: ktitleStyle,
               ),
@@ -71,7 +68,7 @@ class _LoginState extends State<Login> {
                     ),
                     TextField(
                       controller: email,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: "Email",
                           prefixIcon: Icon(Icons.email_outlined)),
                     ),
@@ -81,7 +78,7 @@ class _LoginState extends State<Login> {
                     TextField(
                       obscureText: true,
                       controller: password,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Password",
                         prefixIcon: Icon(Icons.password_outlined),
                       ),
@@ -93,9 +90,6 @@ class _LoginState extends State<Login> {
                 size: size,
                 label: "Log In",
                 onPress: () async {
-                  print("Login Screen");
-                  print(email.text);
-                  print(password.text);
                   await authservice.SignInWithEmailandPassword(
                       email.text, password.text);
                   Navigator.of(context).pop();

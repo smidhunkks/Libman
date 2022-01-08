@@ -1,23 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
-import 'package:libman/Components/model/issued.dart';
-import 'package:libman/Components/model/membership.dart';
+
 import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:libman/screens/tabs/inventory_fn/issuedetails.dart';
-import 'package:libman/services/userservice.dart';
 
 class ReturnBook extends StatefulWidget {
-  ReturnBook({Key? key}) : super(key: key);
+  const ReturnBook({Key? key}) : super(key: key);
 
   @override
   _ReturnBookState createState() => _ReturnBookState();
 }
 
 class _ReturnBookState extends State<ReturnBook> {
-  final _returnformKey = GlobalKey<FormState>();
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
   TextEditingController _bookid = TextEditingController();

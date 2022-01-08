@@ -4,15 +4,12 @@ import 'package:libman/screens/auth/wrapper.dart';
 
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:libman/screens/Welcome/welcome.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:libman/screens/auth/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-    MyApp(),
+    const MyApp(),
   );
 }
 
@@ -43,7 +40,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [Provider<Authservice>(create: (_) => Authservice())],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SafeArea(
           child: Wrapper(),
@@ -59,7 +56,7 @@ class ErrorWidget extends StatelessWidget {
     return Scaffold(
         body: Center(
       child: Column(
-        children: [Icon(Icons.error), Text("Something went Wrong")],
+        children: const [Icon(Icons.error), Text("Something went Wrong")],
       ),
     ));
   }
