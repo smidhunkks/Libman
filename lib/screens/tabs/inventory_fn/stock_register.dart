@@ -256,7 +256,7 @@ class _StockRegisterState extends State<StockRegister> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                snapshot[index]["bookName"],
+                                "${snapshot[index]["bookName"].length > 15 ? snapshot[index]["bookName"].substring(0, 14) + "..." : snapshot[index]["bookName"]}",
                                 style: kscreentitle.copyWith(fontSize: 20),
                               ),
                               Text(

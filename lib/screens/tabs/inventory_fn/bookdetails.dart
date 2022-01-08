@@ -175,7 +175,7 @@ class _BooketailsState extends State<Booketails> {
                 ),
                 child: TextButton(
                   onPressed: () async {
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (ctx) => EditBook(
                           id: widget.Id,

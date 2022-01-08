@@ -37,8 +37,7 @@ TextEditingController shelfno = TextEditingController();
 
 class _EditBookState extends State<EditBook> {
   @override
-  Widget build(BuildContext context) {
-    final _formkey = GlobalKey<FormState>();
+  void initState() {
     id.text = widget.id!;
     bookName.text = widget.bookName!;
     author.text = widget.author!;
@@ -46,6 +45,13 @@ class _EditBookState extends State<EditBook> {
     price.text = widget.price.toString();
     shelfno.text = widget.shelfno!;
     _selectedvalue = bookCateg.indexOf(widget.category!);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final _formkey = GlobalKey<FormState>();
+
     return Scaffold(
       body: Background(
         child: SafeArea(

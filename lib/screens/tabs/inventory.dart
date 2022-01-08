@@ -1,14 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
 import 'package:libman/constants.dart';
 import 'package:libman/screens/tabs/inventory_fn/programmes.dart';
-
 import 'package:libman/screens/tabs/inventory_fn/stock_register.dart';
 import 'package:libman/screens/tabs/inventory_fn/issuebook.dart';
 import 'package:libman/screens/tabs/inventory_fn/returnbook.dart';
-
 import 'package:libman/widgets/reusable_card.dart';
 
 class Inventory extends StatelessWidget {
@@ -128,7 +125,7 @@ class Inventory extends StatelessWidget {
                       return const Text("Something Went Wrong");
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Padding(
+                      return const Padding(
                         padding: EdgeInsets.all(40),
                         child: CircularProgressIndicator(),
                       );

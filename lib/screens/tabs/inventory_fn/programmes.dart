@@ -47,16 +47,21 @@ class Programs extends StatelessWidget {
                     return snapshot.data!.docs.length == 0
                         ? const Center(
                             child: Text(
-                            "No Book found",
+                            "No Programmes found",
                             style: kcardtext,
                           ))
                         : ListView.builder(
+                            //physics: BouncingScrollPhysics(),
                             itemCount: snapshot.data.docs.length,
                             itemBuilder: (context, index) {
+                              print(
+                                  "${snapshot.data.docs[index]['programname'].length}");
                               return Container(
-                                height: size.height * .1,
-                                margin: EdgeInsets.only(
-                                    left: 10, top: 10, bottom: 5, right: 10),
+                                padding:
+                                    const EdgeInsets.only(bottom: 10, left: 1),
+                                //height: size.height * .1,
+                                margin: const EdgeInsets.only(
+                                    left: 8, top: 10, bottom: 5, right: 8),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
@@ -66,42 +71,112 @@ class Programs extends StatelessWidget {
                                           blurRadius: 30,
                                           spreadRadius: 2)
                                     ]),
-                                child: ListTile(
-                                  title: Text(
-                                    "${snapshot.data.docs[index]['programname']}",
-                                    style: kcardtext.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 23,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (ctx) => AddProgram(
+                                                  id: snapshot
+                                                      .data.docs[index].id,
+                                                  programname:
+                                                      snapshot.data.docs[index]
+                                                          ['programname'],
+                                                  programcategory:
+                                                      snapshot.data.docs[index]
+                                                          ['programcategory'],
+                                                  participantcount:
+                                                      snapshot.data.docs[index]
+                                                          ['participantcount'],
+                                                  date: snapshot
+                                                      .data.docs[index]['Date']
+                                                      .toDate(),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          icon: const Icon(Icons.edit),
+                                        ),
+                                        IconButton(
+                                          onPressed: () async {
+                                            return await showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title: const Text(
+                                                    "Confirm Delete."),
+                                                content: const Text(
+                                                    "Are you sure you want to Delete?"),
+                                                actions: [
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child:
+                                                          const Text("Cancel")),
+                                                  ElevatedButton(
+                                                      onPressed: () async {
+                                                        await FirebaseFirestore
+                                                            .instance
+                                                            .collection(
+                                                                "programs")
+                                                            .doc(snapshot.data
+                                                                .docs[index].id)
+                                                            .delete();
+                                                      },
+                                                      child: const Text(
+                                                          "Confirm")),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          icon: const Icon(Icons.delete),
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                  subtitle: Text(
-                                    "Category : ${snapshot.data.docs[index]['programcategory']}",
-                                    style: kcardtext.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  trailing: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Participant Count : ${snapshot.data.docs[index]['participantcount']}",
+                                    ListTile(
+                                      title: Text(
+                                        "${snapshot.data.docs[index]['programname'].length > 16 ? snapshot.data.docs[index]['programname'].substring(0, 16) : snapshot.data.docs[index]['programname']}",
                                         style: kcardtext.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 23,
                                         ),
                                       ),
-                                      Text(
-                                        "Program Date : ${formatter.format(snapshot.data.docs[index]['Date'].toDate())}",
+                                      subtitle: Text(
+                                        "Category : ${snapshot.data.docs[index]['programcategory']}",
                                         style: kcardtext.copyWith(
                                           fontWeight: FontWeight.w500,
-                                          fontSize: 14,
+                                          fontSize: 15,
                                         ),
-                                      )
-                                    ],
-                                  ),
+                                      ),
+                                      trailing: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Participant Count : ${snapshot.data.docs[index]['participantcount']}",
+                                            style: kcardtext.copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          Text(
+                                            "Program Date : ${formatter.format(snapshot.data.docs[index]['Date'].toDate())}",
+                                            style: kcardtext.copyWith(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             });

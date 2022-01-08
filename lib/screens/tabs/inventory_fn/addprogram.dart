@@ -5,7 +5,19 @@ import 'package:libman/constants.dart';
 import 'package:intl/intl.dart';
 
 class AddProgram extends StatefulWidget {
-  const AddProgram({Key? key}) : super(key: key);
+  const AddProgram(
+      {Key? key,
+      this.programname,
+      this.programcategory,
+      this.participantcount,
+      this.date,
+      this.id})
+      : super(key: key);
+  final String? programname;
+  final String? programcategory;
+  final String? participantcount;
+  final DateTime? date;
+  final String? id;
 
   @override
   State<AddProgram> createState() => _AddProgramState();
@@ -15,6 +27,7 @@ class _AddProgramState extends State<AddProgram> {
   TextEditingController programname = TextEditingController();
   TextEditingController programcategory = TextEditingController();
   TextEditingController participantcount = TextEditingController();
+  bool isEdit = false;
 
   final DateFormat formatter = DateFormat('dd-MM-yyyy');
 
@@ -38,6 +51,18 @@ class _AddProgramState extends State<AddProgram> {
     } else {
       return DateTime.now();
     }
+  }
+
+  @override
+  void initState() {
+    programname.text = widget.programname == null ? "" : widget.programname!;
+    programcategory.text =
+        widget.programcategory == null ? "" : widget.programcategory!;
+    participantcount.text =
+        widget.participantcount == null ? "" : widget.participantcount!;
+    _programDate = widget.date == null ? DateTime.now() : widget.date!;
+    isEdit = widget.programname == null ? false : true;
+    super.initState();
   }
 
   @override
@@ -101,9 +126,11 @@ class _AddProgramState extends State<AddProgram> {
                     child: InkWell(
                       onTap: () async {
                         final tempDob = await _selectDate(context);
-                        setState(() {
-                          _programDate = tempDob;
-                        });
+                        setState(
+                          () {
+                            _programDate = tempDob;
+                          },
+                        );
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -135,22 +162,37 @@ class _AddProgramState extends State<AddProgram> {
                     child: TextButton(
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
-                          FirebaseFirestore.instance
-                              .collection('programs')
-                              .doc()
-                              .set({
-                            "programname": programname.text,
-                            "programcategory": programcategory.text,
-                            "participantcount": participantcount.text,
-                            "Date": _programDate,
-                            "timestamp": DateTime.now()
-                          }).then(
-                            (value) => Navigator.of(context).pop(),
-                          );
+                          if (isEdit) {
+                            FirebaseFirestore.instance
+                                .collection('programs')
+                                .doc(widget.id)
+                                .update({
+                              "programname": programname.text,
+                              "programcategory": programcategory.text,
+                              "participantcount": participantcount.text,
+                              "Date": _programDate,
+                              "timestamp": DateTime.now()
+                            }).then(
+                              (value) => Navigator.of(context).pop(),
+                            );
+                          } else {
+                            FirebaseFirestore.instance
+                                .collection('programs')
+                                .doc()
+                                .set({
+                              "programname": programname.text,
+                              "programcategory": programcategory.text,
+                              "participantcount": participantcount.text,
+                              "Date": _programDate,
+                              "timestamp": DateTime.now()
+                            }).then(
+                              (value) => Navigator.of(context).pop(),
+                            );
+                          }
                         }
                       },
                       child: Text(
-                        "Add Program",
+                        isEdit ? "Update program" : "Add Program",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
