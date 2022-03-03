@@ -7,16 +7,19 @@ const activeCardColor = Colors.white;
 
 //TextStyle
 const ktitleStyle = TextStyle(
-    fontFamily: "Rochester", fontSize: 50, fontWeight: FontWeight.w400);
+  fontFamily: "Manjari",
+  fontSize: 25,
+  fontWeight: FontWeight.w700,
+);
 
 const kscreentitle = TextStyle(
-  fontFamily: "RedHat",
+  fontFamily: "Manjari",
   fontSize: 25,
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w400,
 );
 
 const kcardtext = TextStyle(
-  fontFamily: "RedHat",
+  fontFamily: "Manjari",
   fontWeight: FontWeight.w400,
 );
 

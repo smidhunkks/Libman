@@ -20,7 +20,7 @@ class IssueHistory extends StatelessWidget {
       body: Background(
         child: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             width: double.infinity,
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,

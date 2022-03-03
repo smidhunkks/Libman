@@ -42,6 +42,7 @@ class ApprovalList extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           );
                         }
+                        print("Pending Approval ${snapshot.data!.docs.length}");
                         return snapshot.data!.docs.length == 0
                             ? const Center(
                                 child: Text(
@@ -66,7 +67,13 @@ class ApprovalList extends StatelessWidget {
         pendingList.add(item);
       }
     }
-    return MemberlistCard(pendingList);
+    return pendingList.isEmpty
+        ? const Center(
+            child: Text(
+            "No Pending Membership Found",
+            style: kcardtext,
+          ))
+        : MemberlistCard(pendingList);
   }
 
   ListView MemberlistCard(List<dynamic> _socialListItems) {

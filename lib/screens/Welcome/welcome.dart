@@ -23,9 +23,19 @@ class WelcomeScreen extends StatelessWidget {
               "assets/images/splash_logo.png",
               height: size.height * .21,
             ),
-            const Text(
-              "Libman",
-              style: ktitleStyle,
+            Flex(
+              direction: Axis.vertical,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text(
+                  "Valakam Public Library",
+                  style: ktitleStyle,
+                ),
+                Text(
+                  "& Reading Room",
+                  style: ktitleStyle,
+                ),
+              ],
             ),
             Visibility(
               visible: true,
@@ -33,8 +43,11 @@ class WelcomeScreen extends StatelessWidget {
                 size: size,
                 label: "Log In",
                 onPress: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Login()));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Login(),
+                    ),
+                  );
                 },
               ),
             ),
