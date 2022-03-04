@@ -5,12 +5,14 @@ import 'package:libman/screens/auth/signup.dart';
 class AuthButton extends StatelessWidget {
   final Size size;
   final String label;
+  final String bottomtext;
   final VoidCallback onPress;
   const AuthButton({
     Key? key,
     required this.size,
     required this.label,
     required this.onPress,
+    required this.bottomtext,
   }) : super(key: key);
 
   @override
@@ -46,14 +48,14 @@ class AuthButton extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Don't have an account?",
+            Text(
+              bottomtext,
               style: TextStyle(fontFamily: "RedHat"),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => SignUp()));
+                    .push(MaterialPageRoute(builder: (context) => SignUp()));
               },
               child: const Text(
                 "Sign Up",

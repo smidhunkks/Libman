@@ -200,7 +200,7 @@ class _AddBookState extends State<AddBook> {
                           );
                         }
                       },
-                      child: Text(
+                      child: const Text(
                         "Add Book",
                         style: TextStyle(color: Colors.white),
                       ),

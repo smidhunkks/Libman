@@ -10,9 +10,12 @@ import 'package:libman/screens/tabs/inventory.dart';
 import 'package:libman/screens/tabs/membership.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key, this.email}) : super(key: key);
+  const Dashboard({
+    Key? key,
+    /*this.email*/
+  }) : super(key: key);
 
-  final String? email;
+  //final String? email;
 
   @override
   _DashboardState createState() => _DashboardState();

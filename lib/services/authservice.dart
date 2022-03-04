@@ -30,14 +30,11 @@ class Authservice {
 
   Future<User?> SignInWithEmailandPassword(
       String email, String password) async {
-    try {
-      final credential = await _firebaseauth.signInWithEmailAndPassword(
-          email: email, password: password);
+    final credential = await _firebaseauth.signInWithEmailAndPassword(
+        email: email, password: password);
+    // print("snap data : ${credential.user}");
 
-      return _userFromFirebase(credential.user);
-    } catch (e) {
-      print(e);
-    }
+    return _userFromFirebase(credential.user);
   }
 
   Future<User?> SignUpWithEmailandPassword(

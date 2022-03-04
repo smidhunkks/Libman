@@ -28,11 +28,11 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 Text(
-                  "Valakam Public Library",
+                  "വാളകം പബ്ലിക് ലൈബ്രറി",
                   style: ktitleStyle,
                 ),
                 Text(
-                  "& Reading Room",
+                  " & റീഡിംഗ് റൂം",
                   style: ktitleStyle,
                 ),
               ],
@@ -40,6 +40,7 @@ class WelcomeScreen extends StatelessWidget {
             Visibility(
               visible: true,
               child: AuthButton(
+                bottomtext: "Don't have an account?",
                 size: size,
                 label: "Log In",
                 onPress: () {

@@ -141,7 +141,7 @@ class Inventory extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => Programs(),
+                                builder: (context) => const Programs(),
                               ),
                             );
                           },

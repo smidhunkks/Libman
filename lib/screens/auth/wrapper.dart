@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:libman/Components/model/user.dart';
+//import 'package:libman/Components/model/user.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
 import 'package:libman/services/authservice.dart';
 import 'package:libman/screens/dashboard/dashboard.dart';
@@ -13,15 +14,16 @@ class Wrapper extends StatelessWidget {
     final authservice = Provider.of<Authservice>(context);
 
     return StreamBuilder<User?>(
-      stream: authservice.user,
+      stream: FirebaseAuth.instance.authStateChanges(),
       builder: (_, AsyncSnapshot snapshot) {
+        print("wrapper stream ${snapshot}");
         try {
           if (snapshot.connectionState == ConnectionState.active) {
             return snapshot.data == null
-                ? const WelcomeScreen()
+                ? WelcomeScreen()
                 : Dashboard(
-                    email: snapshot.data.email,
-                  );
+                    // email: snapshot.data.email,
+                    );
           } else {
             return const Scaffold(
               body: Center(

@@ -22,7 +22,7 @@ class BloodDonorList extends StatelessWidget {
               "Blood Donation",
               style: TextStyle(
                   fontSize: size.width * .07,
-                  fontFamily: "RedHat",
+                  fontFamily: "Manjari",
                   fontWeight: FontWeight.w600,
                   color: Colors.black.withOpacity(.5)),
             ),
@@ -41,14 +41,14 @@ class BloodDonorList extends StatelessWidget {
                     }
                     return snapshot.data!.docs.length == 0
                         ? const Center(
-                            child: Text(
-                            "No Donor found",
-                            // style: kcardlighttext,
-                          ))
+                            child: Text("No Donor found", style: kcardtext
+                                // style: kcardlighttext,
+                                ))
                         : ListView.separated(
                             itemBuilder: (context, index) => ListTile(
-                                  title:
-                                      Text(snapshot.data.docs[index]['name']),
+                                  title: Text(snapshot.data.docs[index]['name'],
+                                      style: kcardtext.copyWith(
+                                          fontWeight: FontWeight.bold)),
                                   leading: CircleAvatar(
                                     backgroundColor: kprimarycolor,
                                     radius: 50,
@@ -56,8 +56,11 @@ class BloodDonorList extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Center(
-                                        child: Text(snapshot.data.docs[index]
-                                            ['bloodgroup']),
+                                        child: Text(
+                                          snapshot.data.docs[index]
+                                              ['bloodgroup'],
+                                          style: kcardtext,
+                                        ),
                                       ),
                                     ),
                                   ),

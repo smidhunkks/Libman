@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
@@ -43,10 +44,24 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Libman",
-                style: ktitleStyle,
+              Flex(
+                direction: Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "വാളകം പബ്ലിക് ലൈബ്രറി",
+                    style: ktitleStyle.copyWith(fontSize: 18),
+                  ),
+                  Text(
+                    " & റീഡിംഗ് റൂം",
+                    style: ktitleStyle.copyWith(fontSize: 18),
+                  ),
+                ],
               ),
+              // const Text(
+              //   "Libman",
+              //   style: ktitleStyle,
+              // ),
               Container(
                 padding: EdgeInsets.only(
                     left: size.width * .06,
@@ -99,14 +114,30 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               AuthButton(
+                bottomtext: "Already have an account?",
                 size: size,
                 label: "Sign Up",
                 onPress: () async {
                   if (password.text == conf_password.text) {
-                    await authservice.SignUpWithEmailandPassword(
-                        email.text, password.text);
+                    try {
+                      await authservice.SignUpWithEmailandPassword(
+                          email.text, password.text);
+                      Navigator.of(context).pop();
+                    } on FirebaseAuthException catch (err) {
+                      final snackbar = SnackBar(
+                        backgroundColor: Colors.redAccent,
+                        content: Text(
+                          " ${err.code}",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        action: SnackBarAction(
+                          label: 'dismiss',
+                          onPressed: () {},
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    }
                   }
-                  Navigator.of(context).pop();
                 },
               )
             ],

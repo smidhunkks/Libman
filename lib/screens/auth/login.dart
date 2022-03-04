@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
@@ -87,11 +88,31 @@ class _LoginState extends State<Login> {
                 ),
               ),
               AuthButton(
+                bottomtext: "Don't have an account?",
                 size: size,
                 label: "Log In",
                 onPress: () async {
-                  await authservice.SignInWithEmailandPassword(
-                      email.text, password.text);
+                  try {
+                    final signinstatus =
+                        await authservice.SignInWithEmailandPassword(
+                            email.text, password.text);
+                  } on FirebaseAuthException catch (err) {
+                    final snackbar = SnackBar(
+                      backgroundColor: Colors.redAccent,
+                      content: Text(
+                        " ${err.code}",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      action: SnackBarAction(
+                        label: 'dismiss',
+                        onPressed: () {},
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    // print("inside login : $e");
+                  }
+
+                  //print("signin status ${signinstatus}");
                   Navigator.of(context).pop();
                   //Dashboard();
                   //Navigator.push(context,
