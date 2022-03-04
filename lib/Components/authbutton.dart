@@ -6,6 +6,7 @@ class AuthButton extends StatelessWidget {
   final Size size;
   final String label;
   final String bottomtext;
+  final String bottombuttonlabel;
   final VoidCallback onPress;
   const AuthButton({
     Key? key,
@@ -13,6 +14,7 @@ class AuthButton extends StatelessWidget {
     required this.label,
     required this.onPress,
     required this.bottomtext,
+    required this.bottombuttonlabel,
   }) : super(key: key);
 
   @override
@@ -57,10 +59,10 @@ class AuthButton extends StatelessWidget {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) => SignUp()));
               },
-              child: const Text(
-                "Sign Up",
+              child: Text(
+                bottombuttonlabel,
                 style: TextStyle(
-                  fontFamily: "RedHat",
+                  fontFamily: "Manjari",
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),

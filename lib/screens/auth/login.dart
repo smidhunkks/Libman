@@ -43,9 +43,19 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Libman",
-                style: ktitleStyle,
+              Flex(
+                direction: Axis.vertical,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "വാളകം പബ്ലിക് ലൈബ്രറി",
+                    style: ktitleStyle.copyWith(fontSize: 20),
+                  ),
+                  Text(
+                    " & റീഡിംഗ് റൂം",
+                    style: ktitleStyle.copyWith(fontSize: 20),
+                  ),
+                ],
               ),
               Container(
                 padding: EdgeInsets.only(
@@ -88,6 +98,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               AuthButton(
+                bottombuttonlabel: "Sign Up",
                 bottomtext: "Don't have an account?",
                 size: size,
                 label: "Log In",

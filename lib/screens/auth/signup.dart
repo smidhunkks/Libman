@@ -50,11 +50,11 @@ class _SignUpState extends State<SignUp> {
                 children: [
                   Text(
                     "വാളകം പബ്ലിക് ലൈബ്രറി",
-                    style: ktitleStyle.copyWith(fontSize: 18),
+                    style: ktitleStyle.copyWith(fontSize: 20),
                   ),
                   Text(
                     " & റീഡിംഗ് റൂം",
-                    style: ktitleStyle.copyWith(fontSize: 18),
+                    style: ktitleStyle.copyWith(fontSize: 20),
                   ),
                 ],
               ),
@@ -115,6 +115,7 @@ class _SignUpState extends State<SignUp> {
               ),
               AuthButton(
                 bottomtext: "Already have an account?",
+                bottombuttonlabel: "Log In",
                 size: size,
                 label: "Sign Up",
                 onPress: () async {
@@ -137,6 +138,19 @@ class _SignUpState extends State<SignUp> {
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackbar);
                     }
+                  } else {
+                    final snackbar = SnackBar(
+                      backgroundColor: Colors.redAccent,
+                      content: Text(
+                        "Password Mismatch",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      action: SnackBarAction(
+                        label: 'dismiss',
+                        onPressed: () {},
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   }
                 },
               )
