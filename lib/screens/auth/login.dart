@@ -66,7 +66,7 @@ class _LoginState extends State<Login> {
                   children: [
                     Align(
                       child: Text(
-                        "LogIn",
+                        "Log In",
                         style: TextStyle(
                             fontSize: size.width * .07,
                             fontFamily: "RedHat",

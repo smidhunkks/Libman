@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/constants.dart';
+import 'package:libman/screens/Welcome/support%20screen.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
 import 'package:libman/screens/drawer/memberapproval.dart';
 import 'package:libman/services/authservice.dart';
@@ -120,7 +121,13 @@ class _DashboardState extends State<Dashboard> {
                       height: 10,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => SupportScreen(),
+                          ),
+                        );
+                      },
                       child: const Text("Support"),
                     )
                   ],
