@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
+import 'package:libman/screens/auth/login.dart';
+import 'package:libman/screens/auth/wrapper.dart';
 
 import 'package:libman/services/authservice.dart';
 
@@ -118,12 +120,23 @@ class _SignUpState extends State<SignUp> {
                 bottombuttonlabel: "Log In",
                 size: size,
                 label: "Sign Up",
+                onbottomlabelpress: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => Login(),
+                    ),
+                  );
+                },
                 onPress: () async {
                   if (password.text == conf_password.text) {
                     try {
                       await authservice.SignUpWithEmailandPassword(
                           email.text, password.text);
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (ctx) => Wrapper(),
+                          ),
+                          (Route<dynamic> route) => false);
                     } on FirebaseAuthException catch (err) {
                       final snackbar = SnackBar(
                         backgroundColor: Colors.redAccent,

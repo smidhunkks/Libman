@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
+import 'package:libman/screens/auth/signup.dart';
+import 'package:libman/screens/auth/wrapper.dart';
 
 import 'package:libman/services/authservice.dart';
 
@@ -98,6 +100,10 @@ class _LoginState extends State<Login> {
                 ),
               ),
               AuthButton(
+                onbottomlabelpress: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => SignUp()));
+                },
                 bottombuttonlabel: "Sign Up",
                 bottomtext: "Don't have an account?",
                 size: size,
@@ -120,17 +126,12 @@ class _LoginState extends State<Login> {
                       ),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                    // print("inside login : $e");
                   }
 
-                  //print("signin status ${signinstatus}");
-                  Navigator.of(context).pop();
-                  //Dashboard();
-                  //Navigator.push(context,
-                  //   MaterialPageRoute(builder: (context) => Dashboard()));
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (ctx) => Wrapper()),
+                      (Route<dynamic> route) => false);
                 },
-                // onpress: Navigator.of(context).push(
-                //     MaterialPageRoute(builder: (context) => WelcomeScreen())),
               )
             ],
           ),

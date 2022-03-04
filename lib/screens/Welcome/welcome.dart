@@ -3,6 +3,7 @@ import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/auth/login.dart';
+import 'package:libman/screens/auth/signup.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -40,6 +41,13 @@ class WelcomeScreen extends StatelessWidget {
             Visibility(
               visible: true,
               child: AuthButton(
+                onbottomlabelpress: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => SignUp(),
+                    ),
+                  );
+                },
                 bottombuttonlabel: "Sign Up",
                 bottomtext: "Don't have an account?",
                 size: size,

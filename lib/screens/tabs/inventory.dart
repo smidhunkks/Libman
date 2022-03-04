@@ -113,28 +113,28 @@ class Inventory extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: StreamBuilder<Object>(
-                  stream: FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(FirebaseAuth.instance.currentUser!.email)
-                      .snapshots(),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    print("stream : ${snapshot.data}");
-                    if (snapshot.hasError) {
-                      return const Text("Something Went Wrong");
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Padding(
-                        padding: EdgeInsets.all(40),
-                        child: CircularProgressIndicator(),
-                      );
-                    }
+            StreamBuilder<Object>(
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser!.email)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  print("stream : ${snapshot.data}");
+                  if (snapshot.hasError) {
+                    return const Text("Something Went Wrong");
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Padding(
+                      padding: EdgeInsets.all(40),
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-                    return Visibility(
-                      visible: snapshot.hasData || snapshot.hasError
-                          ? snapshot.data!['role'] == 'Admin'
-                          : false, // snapshot.data.d['role'] == 'Admin',
+                  return Visibility(
+                    visible: snapshot.hasData || snapshot.hasError
+                        ? snapshot.data!['role'] == 'Admin'
+                        : false, // snapshot.data.d['role'] == 'Admin',
+                    child: Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: ReusableCard(
@@ -162,9 +162,9 @@ class Inventory extends StatelessWidget {
                           ),
                         ),
                       ),
-                    );
-                  }),
-            ),
+                    ),
+                  );
+                }),
           ],
         ),
       ],

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 //Colors
-const kprimarycolor = Color(0Xff6159E5);
+//const kprimarycolor = Color(0Xff6159E5);
+const kprimarycolor = Color.fromARGB(255, 70, 62, 214);
 const kprimarylightcolor = Color(0xff6C63FF);
 const activeCardColor = Colors.white;
 
