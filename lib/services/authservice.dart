@@ -45,7 +45,7 @@ class Authservice {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(email)
-        .set({"email": email, "role": "user"});
+        .set({"email": email, "role": "user", "Uid": credential.user!.uid});
 
     return _userFromFirebase(credential.user);
   }
