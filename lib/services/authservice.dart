@@ -40,10 +40,11 @@ class Authservice {
     final credential = await _firebaseauth.createUserWithEmailAndPassword(
         email: email, password: password);
 
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(email)
-        .set({"email": email, "role": "user", "Uid": credential.user!.uid});
+    await FirebaseFirestore.instance.collection('users').doc(email).set({
+      "email": email,
+      "role": "user",
+      "Uid": credential.user!.uid,
+    });
 
     return _userFromFirebase(credential.user);
   }
