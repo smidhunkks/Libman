@@ -44,6 +44,7 @@ class _BooketailsState extends State<Booketails> {
 
   @override
   Widget build(BuildContext context) {
+    bool isIssued = false;
     return Scaffold(
       body: Background(
         child: Container(
@@ -208,32 +209,44 @@ class _BooketailsState extends State<Booketails> {
                 ),
                 child: TextButton(
                   onPressed: () async {
-                    return await showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text("Confirm Delete."),
-                        content: const Text("Are you sure you want to Delete?"),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text("Cancel")),
-                          ElevatedButton(
-                              onPressed: () async {
-                                await FirebaseFirestore.instance
-                                    .collection("books")
-                                    .doc(widget.Id)
-                                    .delete()
-                                    .then(
-                                        (value) => Navigator.of(context).pop())
-                                    .then(
-                                        (value) => Navigator.of(context).pop());
-                              },
-                              child: const Text("Confirm")),
-                        ],
-                      ),
-                    );
+                    if (status["status"]) {
+                      return await showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text("Confirm Delete."),
+                          content:
+                              const Text("Are you sure you want to Delete?"),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text("Cancel")),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  await FirebaseFirestore.instance
+                                      .collection("books")
+                                      .doc(widget.Id)
+                                      .delete()
+                                      .then((value) =>
+                                          Navigator.of(context).pop())
+                                      .then((value) =>
+                                          Navigator.of(context).pop());
+                                },
+                                child: const Text("Confirm")),
+                          ],
+                        ),
+                      );
+                    } else {
+                      final snackbar = SnackBar(
+                        content: const Text("Book Already in Issue"),
+                        action: SnackBarAction(
+                          label: 'dismiss',
+                          onPressed: () {},
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                    }
                   },
                   child: Text(
                     "Delete",
