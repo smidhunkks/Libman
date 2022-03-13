@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
+import 'package:libman/screens/tabs/membership_fn/filtersearch.dart';
 import 'package:libman/screens/tabs/membership_fn/memberdetails.dart';
 
 class ApprovalList extends StatelessWidget {
@@ -85,30 +87,106 @@ class ApprovalList extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (ctx) => MemberDetails(
-                    action: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: kprimarycolor,
-                        //border: Border.all(width: 2, color: kprimarycolor),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: TextButton(
-                        onPressed: () async {
-                          FirebaseFirestore.instance
-                              .collection('member')
-                              .doc(_socialListItems[index].id)
-                              .update({"isVerified": true}).then(
-                                  (value) => Navigator.of(context).pop());
-                        },
-                        child: Text(
-                          "Approve",
-                          style: kcardtext.copyWith(
-                            color: Colors.white,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ),
+                    action: StreamBuilder<Object>(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(FirebaseAuth.instance.currentUser!.email)
+                            .snapshots(),
+                        builder: (context, AsyncSnapshot snapshot) {
+                          // print("stream : ${snapshot.data}");
+                          if (snapshot.hasError) {
+                            return const Text("Something Went Wrong");
+                          }
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Padding(
+                              padding: EdgeInsets.all(40),
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          return snapshot.hasData &&
+                                  snapshot.data!['role'] == 'Admin'
+                              ? Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: kprimarycolor,
+                                    //border: Border.all(width: 2, color: kprimarycolor),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () async {
+                                      try {
+                                        await FirebaseFirestore.instance
+                                            .collection('member')
+                                            .doc(_socialListItems[index].id)
+                                            .update({"isVerified": true}).then(
+                                                (value) {
+                                          final snackbar = SnackBar(
+                                            content: const Text(
+                                                "Membership Approved"),
+                                            action: SnackBarAction(
+                                              label: 'dismiss',
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          ScaffoldMessenger.of(ctx)
+                                              .showSnackBar(snackbar);
+                                          Navigator.of(ctx).pop();
+                                        });
+                                      } catch (err) {
+                                        print(err);
+                                      }
+                                    },
+                                    child: Text(
+                                      "Approve",
+                                      style: kcardtext.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container();
+                        }),
+
+                    // action: Container(
+                    //   width: double.infinity,
+                    //   decoration: BoxDecoration(
+                    //     color: kprimarycolor,
+                    //     //border: Border.all(width: 2, color: kprimarycolor),
+                    //     borderRadius: BorderRadius.circular(20),
+                    //   ),
+                    //   child: TextButton(
+                    //     onPressed: () async {
+                    //       try {
+                    //         await FirebaseFirestore.instance
+                    //             .collection('member')
+                    //             .doc(_socialListItems[index].id)
+                    //             .update({"isVerified": true}).then((value) {
+                    //           final snackbar = SnackBar(
+                    //             content: const Text("Membership Approved"),
+                    //             action: SnackBarAction(
+                    //               label: 'dismiss',
+                    //               onPressed: () {},
+                    //             ),
+                    //           );
+                    //           ScaffoldMessenger.of(ctx).showSnackBar(snackbar);
+                    //           Navigator.of(ctx).pop();
+                    //         });
+                    //       } catch (err) {
+                    //         print(err);
+                    //       }
+                    //     },
+                    //     child: Text(
+                    //       "Approve",
+                    //       style: kcardtext.copyWith(
+                    //         color: Colors.white,
+                    //         fontSize: 17,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     memberData: _socialListItems[index],
                   ),
                 ),

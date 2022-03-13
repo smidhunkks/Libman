@@ -30,45 +30,45 @@ class MemberDetails extends StatelessWidget {
                     "Member details",
                     style: kscreentitle.copyWith(color: Colors.grey),
                   ),
-                  IconButton(
-                    onPressed: () async {
-                      // final issuehistory = await FirebaseFirestore.instance
-                      //     .collection('issue-history')
-                      //     .where('bookId', isEqualTo: widget.Id)
-                      //     .get();
-                      // if (issuehistory.docs.isNotEmpty) {
-                      //   Navigator.of(context).push(
-                      //     MaterialPageRoute(
-                      //       builder: (ctx) => IssueHistory(
-                      //         Id: widget.Id,
-                      //         activeIssue: status,
-                      //         issuehistory: issuehistory.docs.toList(),
-                      //         bookName: widget.bookName,
-                      //       ),
-                      //     ),
-                      //   );
-                      // } else {
-                      //   final snackbar = SnackBar(
-                      //     backgroundColor: Colors.redAccent,
-                      //     content: const Text(
-                      //       "No issue hsitory found",
-                      //       style: TextStyle(color: Colors.white),
-                      //     ),
-                      //     action: SnackBarAction(
-                      //       textColor: Colors.white,
-                      //       label: 'dismiss',
-                      //       onPressed: () {},
-                      //     ),
-                      //   );
-                      //   ScaffoldMessenger.of(context).showSnackBar(snackbar);
-                      // }
-                    },
-                    icon: const Icon(
-                      Icons.history,
-                      size: 30,
-                    ),
-                    tooltip: "Issue History",
-                  )
+                  // IconButton(
+                  //   onPressed: () async {
+                  //     // final issuehistory = await FirebaseFirestore.instance
+                  //     //     .collection('issue-history')
+                  //     //     .where('bookId', isEqualTo: widget.Id)
+                  //     //     .get();
+                  //     // if (issuehistory.docs.isNotEmpty) {
+                  //     //   Navigator.of(context).push(
+                  //     //     MaterialPageRoute(
+                  //     //       builder: (ctx) => IssueHistory(
+                  //     //         Id: widget.Id,
+                  //     //         activeIssue: status,
+                  //     //         issuehistory: issuehistory.docs.toList(),
+                  //     //         bookName: widget.bookName,
+                  //     //       ),
+                  //     //     ),
+                  //     //   );
+                  //     // } else {
+                  //     //   final snackbar = SnackBar(
+                  //     //     backgroundColor: Colors.redAccent,
+                  //     //     content: const Text(
+                  //     //       "No issue hsitory found",
+                  //     //       style: TextStyle(color: Colors.white),
+                  //     //     ),
+                  //     //     action: SnackBarAction(
+                  //     //       textColor: Colors.white,
+                  //     //       label: 'dismiss',
+                  //     //       onPressed: () {},
+                  //     //     ),
+                  //     //   );
+                  //     //   ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  //     // }
+                  //   },
+                  //   icon: const Icon(
+                  //     Icons.history,
+                  //     size: 30,
+                  //   ),
+                  //   tooltip: "Issue History",
+                  // )
                 ],
               ),
               const SizedBox(

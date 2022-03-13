@@ -163,10 +163,10 @@ class _HomeScreenState extends State<FilterSearch> {
         ? ListView.builder(
             itemCount: _socialListItems.length,
             itemBuilder: (BuildContext context, int index) {
-              return MemberlistCard(index, _socialListItems);
-              // return _socialListItems[index]['isVerified']
-              //     ? MemberlistCard(index, _socialListItems)
-              //     : Container(); //Uncomment this code to display verified members only
+              // return MemberlistCard(index, _socialListItems);
+              return _socialListItems[index]['isVerified']
+                  ? MemberlistCard(index, _socialListItems)
+                  : Container(); //Uncomment this code to display verified members only
             })
         : const Center(
             child: Text("No Members Found"),
