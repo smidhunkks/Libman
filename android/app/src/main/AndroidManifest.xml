@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.libman">
    <application
-        android:label="libman"
+        android:label="Valakom Library"
         android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
         
 

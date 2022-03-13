@@ -102,10 +102,30 @@ class _IssuebookState extends State<Issuebook> {
 
                             //print("issue count ${tempissuecount.docs.length}");
                             if (memdetail.exists) {
-                              setState(() {
-                                name.text = memdetail['name'];
-                                issue_counter = tempissuecount.docs.length;
-                              });
+                              if (memdetail[
+                                  "isVerified"]) //membership approval check
+                              {
+                                setState(
+                                  () {
+                                    name.text = memdetail['name'];
+                                    issue_counter = tempissuecount.docs.length;
+                                  },
+                                );
+                              } else if (!memdetail["isVerified"]) {
+                                setState(() {
+                                  name.text = "";
+                                });
+                                final snackbar = SnackBar(
+                                  content:
+                                      const Text("Membership Approval Pending"),
+                                  action: SnackBarAction(
+                                    label: 'dismiss',
+                                    onPressed: () {},
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackbar);
+                              }
                             } else {
                               setState(() {
                                 issue_counter = 0;
