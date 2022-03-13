@@ -36,6 +36,10 @@ class WelcomeScreen extends StatelessWidget {
                   " & റീഡിംഗ് റൂം",
                   style: ktitleStyle,
                 ),
+                Text(
+                  "Reg No : 593",
+                  style: ktitleStyle,
+                ),
               ],
             ),
             Visibility(

@@ -27,7 +27,7 @@ class SupportScreen extends StatelessWidget {
             Flex(
               direction: Axis.vertical,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
                   "വാളകം പബ്ലിക് ലൈബ്രറി",
                   style: ktitleStyle,
@@ -36,11 +36,15 @@ class SupportScreen extends StatelessWidget {
                   " & റീഡിംഗ് റൂം",
                   style: ktitleStyle,
                 ),
+                Text(
+                  "Reg No : 593",
+                  style: ktitleStyle.copyWith(fontSize: 20),
+                ),
               ],
             ),
             Container(
               width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               decoration: BoxDecoration(
                   color: kprimarycolor, borderRadius: BorderRadius.circular(8)),
               child: TextButton(

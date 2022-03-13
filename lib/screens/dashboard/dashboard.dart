@@ -50,7 +50,10 @@ class _DashboardState extends State<Dashboard> {
               onPressed: () async {
                 await authservice.Signout();
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (ctx) => const WelcomeScreen()));
+                  MaterialPageRoute(
+                    builder: (ctx) => const WelcomeScreen(),
+                  ),
+                );
               },
               icon: const Icon(
                 Icons.power_settings_new_outlined,
