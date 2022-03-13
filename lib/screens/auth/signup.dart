@@ -87,8 +87,9 @@ class _SignUpState extends State<SignUp> {
                     TextField(
                       controller: email,
                       decoration: const InputDecoration(
-                          hintText: "Email",
-                          prefixIcon: Icon(Icons.email_outlined)),
+                        hintText: "Email",
+                        prefixIcon: Icon(Icons.email_outlined),
+                      ),
                     ),
                     SizedBox(
                       height: size.height * .01,

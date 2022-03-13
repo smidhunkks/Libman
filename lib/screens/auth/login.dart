@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:libman/Components/authbutton.dart';
 import 'package:libman/Components/background.dart';
 import 'package:libman/constants.dart';
+import 'package:libman/screens/auth/forgotpassword.dart';
 import 'package:libman/screens/auth/signup.dart';
 import 'package:libman/screens/auth/wrapper.dart';
 
@@ -61,9 +62,10 @@ class _LoginState extends State<Login> {
               ),
               Container(
                 padding: EdgeInsets.only(
-                    left: size.width * .06,
-                    right: size.width * .06,
-                    top: size.height * .1),
+                  left: size.width * .06,
+                  right: size.width * .06,
+                  top: size.height * .1,
+                ),
                 child: Column(
                   children: [
                     Align(
@@ -97,6 +99,25 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  padding: EdgeInsets.only(
+                    left: size.width * .06,
+                    right: size.width * .06,
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => ForgotPassWord(),
+                        ),
+                      );
+                    },
+                    child: Text("Forgot password?"),
+                  ),
                 ),
               ),
               AuthButton(
