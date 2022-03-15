@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:libman/constants.dart';
@@ -131,22 +132,52 @@ class _DashboardState extends State<Dashboard> {
                     const SizedBox(
                       height: 10,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (ctx) => RoleManagement(),
+                    StreamBuilder<Object>(
+                      stream: FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(FirebaseAuth.instance.currentUser!.email)
+                          .snapshots(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text("Something Went Wrong");
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Padding(
+                            padding: EdgeInsets.all(40),
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        return Visibility(
+                          visible: snapshot.hasData || snapshot.hasError
+                              ? snapshot.data!['role'] == 'Sudo'
+                              : false,
+                          child: Column(
+                            // mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (ctx) => RoleManagement(),
+                                    ),
+                                  );
+                                },
+                                child: const Text("User Management"),
+                              ),
+                              const Divider(
+                                color: Colors.black54,
+                                endIndent: 20,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
                           ),
                         );
                       },
-                      child: const Text("User Management"),
-                    ),
-                    const Divider(
-                      color: Colors.black54,
-                      endIndent: 20,
-                    ),
-                    const SizedBox(
-                      height: 10,
                     ),
                     GestureDetector(
                       onTap: () {
