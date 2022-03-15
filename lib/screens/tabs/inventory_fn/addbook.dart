@@ -20,11 +20,13 @@ TextEditingController price = TextEditingController();
 TextEditingController shelfno = TextEditingController();
 
 class _AddBookState extends State<AddBook> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Background(
         child: SafeArea(
           child: Padding(
@@ -158,6 +160,9 @@ class _AddBookState extends State<AddBook> {
                     child: TextButton(
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
+                          setState(() {
+                            isLoading = true;
+                          });
                           BookService()
                               .addBook(
                             Book(
@@ -171,6 +176,9 @@ class _AddBookState extends State<AddBook> {
                           )
                               .then(
                             (value) {
+                              setState(() {
+                                isLoading = false;
+                              });
                               if (value == true) {
                                 id.clear();
                                 bookName.clear();
@@ -200,10 +208,30 @@ class _AddBookState extends State<AddBook> {
                           );
                         }
                       },
-                      child: const Text(
-                        "Add Book",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      child: isLoading
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+
+                              // as elevated button gets clicked we will see text"Loading..."
+                              // on the screen with circular progress indicator white in color.
+                              //as loading gets stopped "Submit" will be displayed
+                              children: const [
+                                Text(
+                                  'Saving',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              ],
+                            )
+                          : const Text(
+                              "Add Book",
+                              style: TextStyle(color: Colors.white),
+                            ),
                     ),
                   )
                 ],

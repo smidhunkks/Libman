@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:libman/constants.dart';
 import 'package:libman/screens/Welcome/support%20screen.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
+import 'package:libman/screens/drawer/libstats.dart';
 import 'package:libman/screens/drawer/memberapproval.dart';
 import 'package:libman/services/authservice.dart';
 import 'package:provider/provider.dart';
@@ -113,7 +114,13 @@ class _DashboardState extends State<Dashboard> {
                       height: 10,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => LibraryStats(),
+                          ),
+                        );
+                      },
                       child: const Text("Library Stats"),
                     ),
                     const Divider(
