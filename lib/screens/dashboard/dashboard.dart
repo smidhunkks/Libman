@@ -5,6 +5,7 @@ import 'package:libman/screens/Welcome/support%20screen.dart';
 import 'package:libman/screens/Welcome/welcome.dart';
 import 'package:libman/screens/drawer/libstats.dart';
 import 'package:libman/screens/drawer/memberapproval.dart';
+import 'package:libman/screens/drawer/usermanagement.dart';
 import 'package:libman/services/authservice.dart';
 import 'package:provider/provider.dart';
 
@@ -122,6 +123,23 @@ class _DashboardState extends State<Dashboard> {
                         );
                       },
                       child: const Text("Library Stats"),
+                    ),
+                    const Divider(
+                      color: Colors.black54,
+                      endIndent: 20,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ctx) => RoleManagement(),
+                          ),
+                        );
+                      },
+                      child: const Text("User Management"),
                     ),
                     const Divider(
                       color: Colors.black54,

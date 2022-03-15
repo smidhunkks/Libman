@@ -44,7 +44,7 @@ class ApprovalList extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           );
                         }
-                        print("Pending Approval ${snapshot.data!.docs.length}");
+                        // print("Pending Approval ${snapshot.data!.docs.length}");
                         return snapshot.data!.docs.length == 0
                             ? const Center(
                                 child: Text(
@@ -173,7 +173,8 @@ class ApprovalList extends StatelessWidget {
                         }
 
                         return snapshot.hasData &&
-                                snapshot.data!['role'] == 'Admin'
+                                (snapshot.data!['role'] == 'Admin' ||
+                                    snapshot.data!['role'] == 'Sudo')
                             ? Container(
                                 width: double.infinity,
                                 decoration: BoxDecoration(

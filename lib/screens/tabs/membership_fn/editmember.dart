@@ -314,7 +314,7 @@ class _EditMemberState extends State<EditMember> {
                   TextButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        print("mwone set");
+                        //print("mwone set");
                         UserService()
                             .updateMember(
                           Member(
@@ -351,7 +351,7 @@ class _EditMemberState extends State<EditMember> {
                         width: double.infinity,
                         child: const Center(
                             child: Text(
-                          "Add member",
+                          "Add/Update member",
                           style: TextStyle(color: Colors.white),
                         ))),
                   )

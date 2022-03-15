@@ -119,7 +119,7 @@ class Inventory extends StatelessWidget {
                     .doc(FirebaseAuth.instance.currentUser!.email)
                     .snapshots(),
                 builder: (context, AsyncSnapshot snapshot) {
-                  print("stream : ${snapshot.data}");
+                  //print("stream : ${snapshot.data}");
                   if (snapshot.hasError) {
                     return const Text("Something Went Wrong");
                   }
@@ -132,7 +132,8 @@ class Inventory extends StatelessWidget {
 
                   return Visibility(
                     visible: snapshot.hasData || snapshot.hasError
-                        ? snapshot.data!['role'] == 'Admin'
+                        ? snapshot.data!['role'] == 'Admin' ||
+                            snapshot.data!['role'] == 'Sudo'
                         : false, // snapshot.data.d['role'] == 'Admin',
                     child: Expanded(
                       child: Padding(
