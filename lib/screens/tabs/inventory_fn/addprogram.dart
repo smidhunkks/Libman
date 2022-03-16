@@ -23,6 +23,8 @@ class AddProgram extends StatefulWidget {
   State<AddProgram> createState() => _AddProgramState();
 }
 
+bool isLoading = false;
+
 class _AddProgramState extends State<AddProgram> {
   TextEditingController programname = TextEditingController();
   TextEditingController programcategory = TextEditingController();
@@ -162,6 +164,10 @@ class _AddProgramState extends State<AddProgram> {
                     child: TextButton(
                       onPressed: () async {
                         if (_formkey.currentState!.validate()) {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          print("Loading : $isLoading");
                           if (isEdit) {
                             FirebaseFirestore.instance
                                 .collection('programs')
@@ -190,11 +196,19 @@ class _AddProgramState extends State<AddProgram> {
                             );
                           }
                         }
+                        setState(() {
+                          isLoading = false;
+                        });
                       },
-                      child: Text(
-                        isEdit ? "Update program" : "Add Program",
-                        style: const TextStyle(color: Colors.white),
-                      ),
+                      child: isLoading
+                          ? Text(
+                              isEdit ? "Updating program" : "Adding Program",
+                              style: const TextStyle(color: Colors.white),
+                            )
+                          : Text(
+                              isEdit ? "Update program" : "Add Program",
+                              style: const TextStyle(color: Colors.white),
+                            ),
                     ),
                   )
                 ],

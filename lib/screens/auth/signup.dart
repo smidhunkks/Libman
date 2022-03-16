@@ -15,6 +15,8 @@ class SignUp extends StatefulWidget {
   _SignUpState createState() => _SignUpState();
 }
 
+bool isLoading = false;
+
 class _SignUpState extends State<SignUp> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -120,7 +122,7 @@ class _SignUpState extends State<SignUp> {
                 bottomtext: "Already have an account?",
                 bottombuttonlabel: "Log In",
                 size: size,
-                label: "Sign Up",
+                label: isLoading ? "Signing Up..." : "Sign Up",
                 onbottomlabelpress: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
@@ -131,6 +133,9 @@ class _SignUpState extends State<SignUp> {
                 onPress: () async {
                   if (password.text == conf_password.text) {
                     try {
+                      setState(() {
+                        isLoading = true;
+                      });
                       await authservice.SignUpWithEmailandPassword(
                           email.text, password.text);
                       Navigator.of(context).pushAndRemoveUntil(
@@ -166,6 +171,9 @@ class _SignUpState extends State<SignUp> {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   }
+                  setState(() {
+                    isLoading = false;
+                  });
                 },
               )
             ],

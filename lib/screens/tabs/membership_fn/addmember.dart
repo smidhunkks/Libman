@@ -18,6 +18,8 @@ class _AddMemberState extends State<AddMember> {
   int selectedbloodgp = 0;
   int selectedcategory = 0;
 
+  bool isLoading = false;
+
   dynamic _selectedDate = DateTime.now();
   dynamic _joiningDate = DateTime.now();
 
@@ -274,8 +276,11 @@ class _AddMemberState extends State<AddMember> {
                   ),
                   TextButton(
                     onPressed: () async {
+                      setState(() {
+                        isLoading = true;
+                      });
                       if (_formKey.currentState!.validate()) {
-                        print("mwone set");
+                        // print("mwone set");
                         UserService()
                             .addMember(
                           Member(
@@ -302,6 +307,9 @@ class _AddMemberState extends State<AddMember> {
                           Navigator.of(context).pop();
                         });
                       }
+                      setState(() {
+                        isLoading = false;
+                      });
                     },
                     child: Container(
                         padding:
@@ -310,11 +318,17 @@ class _AddMemberState extends State<AddMember> {
                             color: kprimarylightcolor,
                             borderRadius: BorderRadius.circular(8)),
                         width: double.infinity,
-                        child: const Center(
-                            child: Text(
-                          "Add member",
-                          style: TextStyle(color: Colors.white),
-                        ))),
+                        child: Center(
+                          child: isLoading
+                              ? const Text(
+                                  "Adding Member...",
+                                  style: TextStyle(color: Colors.white),
+                                )
+                              : const Text(
+                                  "Add member",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                        )),
                   )
                 ],
               ),

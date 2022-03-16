@@ -11,6 +11,8 @@ import 'package:libman/services/authservice.dart';
 
 import 'package:provider/provider.dart';
 
+bool isLoading = false;
+
 class Login extends StatefulWidget {
   @override
   _LoginState createState() => _LoginState();
@@ -128,12 +130,21 @@ class _LoginState extends State<Login> {
                 bottombuttonlabel: "Sign Up",
                 bottomtext: "Don't have an account?",
                 size: size,
-                label: "Log In",
+                label: isLoading ? "Loggin In..." : "Log In",
                 onPress: () async {
                   try {
+                    setState(() {
+                      isLoading = true;
+                    });
                     final signinstatus =
                         await authservice.SignInWithEmailandPassword(
                             email.text, password.text);
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (ctx) => Wrapper(),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
                   } on FirebaseAuthException catch (err) {
                     final snackbar = SnackBar(
                       backgroundColor: Colors.redAccent,
@@ -148,10 +159,9 @@ class _LoginState extends State<Login> {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   }
-
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (ctx) => Wrapper()),
-                      (Route<dynamic> route) => false);
+                  setState(() {
+                    isLoading = false;
+                  });
                 },
               )
             ],

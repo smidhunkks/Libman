@@ -45,6 +45,8 @@ class _EditMemberState extends State<EditMember> {
   dynamic _selectedDate = DateTime.now();
   dynamic _joiningDate = DateTime.now();
 
+  bool isLoading = false;
+
   TextEditingController _dateController = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
@@ -208,9 +210,11 @@ class _EditMemberState extends State<EditMember> {
                         child: InkWell(
                           onTap: () async {
                             final tempJoin = await _selectDate(context);
-                            setState(() {
-                              _joiningDate = tempJoin;
-                            });
+                            setState(
+                              () {
+                                _joiningDate = tempJoin;
+                              },
+                            );
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,9 +250,11 @@ class _EditMemberState extends State<EditMember> {
                       InkWell(
                         onTap: () async {
                           final tempDob = await _selectDate(context);
-                          setState(() {
-                            _selectedDate = tempDob;
-                          });
+                          setState(
+                            () {
+                              _selectedDate = tempDob;
+                            },
+                          );
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,15 +281,18 @@ class _EditMemberState extends State<EditMember> {
                           DropdownButton(
                             value: selectedbloodgp,
                             items: List.generate(
-                                bloodgroup.length,
-                                (index) => DropdownMenuItem(
-                                      child: Text(bloodgroup[index]),
-                                      value: index,
-                                    )),
+                              bloodgroup.length,
+                              (index) => DropdownMenuItem(
+                                child: Text(bloodgroup[index]),
+                                value: index,
+                              ),
+                            ),
                             onChanged: (int? value) {
-                              setState(() {
-                                selectedbloodgp = value!;
-                              });
+                              setState(
+                                () {
+                                  selectedbloodgp = value!;
+                                },
+                              );
                             },
                           ),
                         ],
@@ -295,16 +304,19 @@ class _EditMemberState extends State<EditMember> {
                             hint: const Text("Category"),
                             value: selectedcategory,
                             items: List.generate(
-                                category.length,
-                                (index) => DropdownMenuItem(
-                                      child: Text(category[index]),
-                                      value: index,
-                                    )),
+                              category.length,
+                              (index) => DropdownMenuItem(
+                                child: Text(category[index]),
+                                value: index,
+                              ),
+                            ),
                             onChanged: (int? value) {
                               print(value);
-                              setState(() {
-                                selectedcategory = value!;
-                              });
+                              setState(
+                                () {
+                                  selectedcategory = value!;
+                                },
+                              );
                             },
                           ),
                         ],
@@ -313,47 +325,66 @@ class _EditMemberState extends State<EditMember> {
                   ),
                   TextButton(
                     onPressed: () async {
+                      setState(
+                        () {
+                          isLoading = true;
+                        },
+                      );
                       if (_formKey.currentState!.validate()) {
                         //print("mwone set");
+
                         UserService()
                             .updateMember(
                           Member(
-                              name.text,
-                              int.parse(phone.text),
-                              address.text,
-                              int.parse(pin.text),
-                              int.parse(ward.text),
-                              place.text,
-                              _selectedDate,
-                              bloodgroup[selectedbloodgp],
-                              category[selectedcategory],
-                              _joiningDate,
-                              widget.id!,
-                              false,
-                              _joiningDate),
+                            name.text,
+                            int.parse(phone.text),
+                            address.text,
+                            int.parse(pin.text),
+                            int.parse(ward.text),
+                            place.text,
+                            _selectedDate,
+                            bloodgroup[selectedbloodgp],
+                            category[selectedcategory],
+                            _joiningDate,
+                            widget.id!,
+                            false,
+                            _joiningDate,
+                          ),
                         )
-                            .then((value) {
-                          name.clear();
-                          phone.clear();
-                          address.clear();
-                          ward.clear();
-                          place.clear();
-                          Navigator.of(context).pop();
-                        });
+                            .then(
+                          (value) {
+                            name.clear();
+                            phone.clear();
+                            address.clear();
+                            ward.clear();
+                            place.clear();
+                            Navigator.of(context).pop();
+                          },
+                        );
                       }
+                      setState(() {
+                        isLoading = false;
+                      });
                     },
                     child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: size.height * .02),
-                        decoration: BoxDecoration(
-                            color: kprimarylightcolor,
-                            borderRadius: BorderRadius.circular(8)),
-                        width: double.infinity,
-                        child: const Center(
-                            child: Text(
-                          "Add/Update member",
-                          style: TextStyle(color: Colors.white),
-                        ))),
+                      padding:
+                          EdgeInsets.symmetric(vertical: size.height * .02),
+                      decoration: BoxDecoration(
+                          color: kprimarylightcolor,
+                          borderRadius: BorderRadius.circular(8)),
+                      width: double.infinity,
+                      child: Center(
+                        child: isLoading
+                            ? const Text(
+                                "Adding",
+                                style: TextStyle(color: Colors.white),
+                              )
+                            : const Text(
+                                "Add/Update member",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                      ),
+                    ),
                   )
                 ],
               ),
