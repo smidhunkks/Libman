@@ -82,7 +82,7 @@ class _BooketailsState extends State<Booketails> {
                         final snackbar = SnackBar(
                           backgroundColor: Colors.redAccent,
                           content: const Text(
-                            "No issue hsitory found",
+                            "No issue history found",
                             style: TextStyle(color: Colors.white),
                           ),
                           action: SnackBarAction(

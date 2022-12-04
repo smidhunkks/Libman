@@ -117,6 +117,7 @@ class _HomeScreenState extends State<FilterSearch> {
                         if (snapshot.hasError) {
                           return const Text("Something Went Wrong");
                         }
+
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Padding(
@@ -179,6 +180,70 @@ class _HomeScreenState extends State<FilterSearch> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (ctx) => MemberDetails(
+              deleteaction: IconButton(
+                onPressed: () async {
+                  return await showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text("Confirm Delete."),
+                      content: const Text("Are you sure you want to Delete?"),
+                      actions: [
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("Cancel")),
+                        ElevatedButton(
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('member')
+                                  .doc(_socialListItems[index].id)
+                                  .delete()
+                                  .then((value) => Navigator.of(context).pop())
+                                  .then((value) => Navigator.of(context).pop());
+                            },
+                            child: const Text("Confirm")),
+                      ],
+                    ),
+                  );
+
+                  // final issuehistory = await FirebaseFirestore.instance
+                  //     .collection('issue-history')
+                  //     .where('bookId', isEqualTo: widget.Id)
+                  //     .get();
+                  // if (issuehistory.docs.isNotEmpty) {
+                  //   Navigator.of(context).push(
+                  //     MaterialPageRoute(
+                  //       builder: (ctx) => IssueHistory(
+                  //         Id: widget.Id,
+                  //         activeIssue: status,
+                  //         issuehistory: issuehistory.docs.toList(),
+                  //         bookName: widget.bookName,
+                  //       ),
+                  //     ),
+                  //   );
+                  // } else {
+                  //   final snackbar = SnackBar(
+                  //     backgroundColor: Colors.redAccent,
+                  //     content: const Text(
+                  //       "No issue hsitory found",
+                  //       style: TextStyle(color: Colors.white),
+                  //     ),
+                  //     action: SnackBarAction(
+                  //       textColor: Colors.white,
+                  //       label: 'dismiss',
+                  //       onPressed: () {},
+                  //     ),
+                  //   );
+                  //   ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  // }
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  size: 30,
+                ),
+                tooltip: "Delete",
+              ),
               memberData: _socialListItems[index],
               action: togglevalue
                   ? Container(
